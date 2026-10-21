@@ -1,0 +1,26 @@
+# AlpiCars
+
+> AlpiCars es una agencia que importa coches de alta gama y de ocasión desde Suiza y Alemania a España. Busca el coche, lo inspecciona en origen, negocia en alemán, lo trae conduciendo hasta la puerta del cliente con seguro a todo riesgo y lo entrega matriculado en España.
+
+## Servicios y precios (por vehículo)
+
+- Asesoramiento telemático: 230 €. Búsqueda en portales de Suiza y Alemania, análisis de historial y kilometraje y estudio de costes. Sin inspección presencial ni transporte.
+- Revisión presencial: 650 € + extras. Inspección en Suiza o Alemania con diagnosis OBD, medición de pintura, prueba en carretera e informe con foto y vídeo. Coche extra en la zona: 99 € (20 km), 149 € (40 km), 229 € (100 km).
+- Llave en mano: 2.490 € + gastos. Búsqueda, inspección, negociación, transporte conduciendo, aduana (DUA), homologación, ITV, matriculación y entrega en casa. No incluye el precio del coche ni las tasas oficiales.
+- Empresas y flotas: a consultar. Importación de unidades o lotes con IVA deducible en origen y matriculación a nombre de la empresa.
+
+## Datos clave
+
+- Mercados de origen: Suiza y Alemania.
+- Entrega: toda la península; Baleares, Canarias, Ceuta y Melilla con gastos extra.
+- Pagos por fases: señal, pago del coche al vendedor tras la revisión y liquidación final con el coche en España.
+- Garantía europea en todos los coches.
+- Idiomas del equipo: español y alemán.
+
+## Páginas
+
+- [Inicio](/): servicios, proceso, calculadora de ahorro, modelos más solicitados y preguntas frecuentes.
+- [Servicios y precios](/#servicios)
+- [Calculadora de ahorro](/#calculadora)
+- [Preguntas frecuentes](/#faq)
+- [Pedir presupuesto](/#presupuesto)
