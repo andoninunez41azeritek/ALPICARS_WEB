@@ -32,24 +32,9 @@ export default function Motion() {
     const mo = new MutationObserver(watch);
     mo.observe(document.body, { childList: true, subtree: true });
 
-    // Ligero desplazamiento de la foto principal al hacer scroll
-    const hero = document.querySelector(".hero-img");
-    let raf = 0;
-    const onScroll = () => {
-      if (raf) return;
-      raf = requestAnimationFrame(() => {
-        raf = 0;
-        const y = Math.min(window.scrollY, window.innerHeight);
-        if (hero) hero.style.transform = `translateY(${(y * 0.12).toFixed(1)}px) scale(1.06)`;
-      });
-    };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    onScroll();
-
     return () => {
       io.disconnect();
       mo.disconnect();
-      window.removeEventListener("scroll", onScroll);
     };
   }, []);
 

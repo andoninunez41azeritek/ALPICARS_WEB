@@ -83,6 +83,7 @@ export default function Header() {
   const { t } = useSite();
   const [loginOpen, setLoginOpen] = useState(false);
   const [compact, setCompact] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setCompact(window.scrollY > window.innerHeight * 0.85);
@@ -90,6 +91,20 @@ export default function Header() {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  // La barra fija avisa al resto de la página (por ejemplo, el contador de km en el móvil)
+  useEffect(() => {
+    document.documentElement.classList.toggle("is-compact", compact);
+  }, [compact]);
+
+  useEffect(() => {
+    if (!menuOpen) return;
+    const onKey = (e) => e.key === "Escape" && setMenuOpen(false);
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [menuOpen]);
+
+  const closeMenu = () => setMenuOpen(false);
 
   return (
     <>
@@ -99,6 +114,19 @@ export default function Header() {
             <img src="/logo-horizontal-white.png" alt="AlpiCars" width="945" height="172" />
           </a>
           <p className="hdr-slogan">{config.slogan}</p>
+          <button
+            type="button"
+            className="ctl menu-btn"
+            aria-expanded={menuOpen}
+            aria-controls="menu-movil"
+            onClick={() => setMenuOpen((v) => !v)}
+          >
+            <span className={`menu-icon${menuOpen ? " is-open" : ""}`} aria-hidden="true">
+              <i />
+              <i />
+            </span>
+            {menuOpen ? t.header.menuClose : t.header.menu}
+          </button>
           <div className="hdr-tools">
             <LanguageMenu />
             <CurrencySwitch />
@@ -124,10 +152,26 @@ export default function Header() {
             {t.header.cta}
           </a>
         </nav>
+        {menuOpen && (
+          <nav className="menu-panel" id="menu-movil" aria-label={t.header.menu}>
+            <ul>
+              {t.nav.map((n) => (
+                <li key={n.href}>
+                  <a href={n.href} onClick={closeMenu}>
+                    {n.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+            <a className="btn btn-accent btn-block" href="#presupuesto" onClick={closeMenu}>
+              {t.header.cta}
+            </a>
+          </nav>
+        )}
       </header>
 
       <div className={`sticky-bar${compact ? " is-on" : ""}`} aria-hidden={!compact}>
-        <a href="#inicio" tabIndex={compact ? 0 : -1} aria-label="AlpiCars, inicio">
+        <a href="#inicio" className="sb-logo" tabIndex={compact ? 0 : -1} aria-label="AlpiCars, inicio">
           <img src="/logo-mark-white.png" alt="" width="406" height="234" />
         </a>
         <ul>

@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import map from "../lib/mapData";
 import photos from "../content/photos";
 import { useSite } from "./SiteProvider";
@@ -16,12 +17,12 @@ export default function About() {
       <div className="panel">
       <div className="about-head">
         <h2 id="about-title" className="reveal">{a.title}</h2>
-        <p className="lead reveal">{a.lead}</p>
+        <p className="lead reveal" style={{ "--d": "60ms" }}>{a.lead}</p>
       </div>
 
       <div className="about-board">
-        <figure className="about-photo reveal">
-          <img src={photos.about.src} alt={photos.about.alt} width="1600" height="1000" loading="lazy" />
+        <figure className="about-photo reveal" style={{ "--d": "120ms" }}>
+          <Image src={photos.basilea.src} alt={photos.basilea.alt} sizes="(max-width: 760px) 100vw, 460px" />
           <figcaption>{a.photoNote}</figcaption>
         </figure>
 

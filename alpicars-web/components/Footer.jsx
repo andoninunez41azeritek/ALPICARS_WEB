@@ -1,6 +1,7 @@
 "use client";
 
 import config from "../content/config";
+import photos from "../content/photos";
 import { useSite } from "./SiteProvider";
 
 const LETTERS = [
@@ -25,6 +26,18 @@ export default function Footer() {
       </div>
 
       <div className="ft-grid">
+        <div className="ft-contact">
+          <h2>{f.contact}</h2>
+          <p className="ft-slogan">{config.slogan}</p>
+          <p>
+            <a href={`mailto:${config.email}`}>{config.email}</a>
+          </p>
+          <p>
+            <a href={wa} target="_blank" rel="noopener noreferrer">
+              WhatsApp
+            </a>
+          </p>
+        </div>
         <ul className="ft-links">
           {t.nav.map((n) => (
             <li key={n.href}>
@@ -32,11 +45,11 @@ export default function Footer() {
             </li>
           ))}
           <li>
-            <a href="#servicios">Servicios y precios</a>
+            <a href="#servicios">{f.services}</a>
           </li>
           <li>
             <a href={config.shopUrl} target="_blank" rel="noopener noreferrer">
-              Tienda
+              {f.shop}
             </a>
           </li>
         </ul>
@@ -47,28 +60,32 @@ export default function Footer() {
             </li>
           ))}
         </ul>
-        <div className="ft-contact">
-          <h2>{f.contact}</h2>
-          <p>
-            <a href={`mailto:${config.email}`}>{config.email}</a>
-          </p>
-          <p>
-            <a href={wa} target="_blank" rel="noopener noreferrer">
-              WhatsApp
-            </a>
-          </p>
-          <p>{config.slogan}</p>
-        </div>
       </div>
 
       <div className="ft-bottom">
         <p>
-          © {year} AlpiCars. {f.rights} {f.credits}
+          © {year} AlpiCars. {f.rights}
         </p>
         <a className="btn btn-light btn-small" href="#inicio">
           {f.top}
         </a>
       </div>
+      <p className="ft-credits">
+        {f.credits}{" "}
+        {Object.entries(photos).map(([k, p], i, all) => (
+          <span key={k}>
+            <a href={p.page} target="_blank" rel="noopener noreferrer">
+              {f.photoTitles[k]}
+            </a>{" "}
+            ({p.by},{" "}
+            <a href={p.licenseUrl} target="_blank" rel="noopener noreferrer license">
+              {p.license}
+            </a>
+            ){i < all.length - 1 ? "; " : ". "}
+          </span>
+        ))}
+        {f.mapCredit}
+      </p>
     </footer>
   );
 }

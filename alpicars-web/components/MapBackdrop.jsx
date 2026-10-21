@@ -19,8 +19,9 @@ const ARRIVE_AT = "#presupuesto";
 const fmt = (n) => new Intl.NumberFormat("es-ES").format(n).replace(/^(\d)(\d{3})$/, "$1.$2");
 
 export default function MapBackdrop() {
-  const { dest } = useSite();
+  const { dest, t } = useSite();
   const route = map.routes[dest];
+  const r = t.route;
   const svgRef = useRef(null);
   const measureRef = useRef(null);
   const trailRef = useRef(null);
@@ -86,7 +87,7 @@ export default function MapBackdrop() {
       if (hudKmRef.current) hudKmRef.current.textContent = `${fmt(Math.round(drive * route.km))} / ${fmt(route.km)} km`;
       if (hudStateRef.current) {
         hudStateRef.current.textContent =
-          drive <= 0.001 ? "Listo para salir de Basilea" : drive >= 0.995 ? `Entregado en ${route.label}` : `En camino a ${route.label}`;
+          drive <= 0.001 ? r.hudReady : drive >= 0.995 ? `${r.hudArrived} ${route.label}` : `${r.hudOnWay} ${route.label}`;
       }
     };
     frame.current = draw;
@@ -101,7 +102,7 @@ export default function MapBackdrop() {
       window.removeEventListener("resize", onScroll);
       if (raf) cancelAnimationFrame(raf);
     };
-  }, [route]);
+  }, [route, r]);
 
   const others = Object.entries(map.routes).filter(([k]) => k !== dest);
 
@@ -166,7 +167,7 @@ export default function MapBackdrop() {
     </div>
 
       <div className="hud" aria-hidden="true">
-        <span className="hud-state" ref={hudStateRef}>Listo para salir de Basilea</span>
+        <span className="hud-state" ref={hudStateRef}>{r.hudReady}</span>
         <span className="hud-km" ref={hudKmRef}>0 / {fmt(route.km)} km</span>
       </div>
     </>

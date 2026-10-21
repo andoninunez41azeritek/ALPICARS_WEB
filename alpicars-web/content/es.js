@@ -16,14 +16,21 @@ const es = {
     currencyLabel: "Moneda",
     languageLabel: "Idioma",
     languageSoon: "Próximamente en este idioma. De momento verás la web en español.",
+    menu: "Menú",
+    menuClose: "Cerrar menú",
   },
 
   hero: {
-    title: "Tu coche de Suiza y Alemania, matriculado en España",
-    lead: "Lo buscamos, lo revisamos en origen y te lo llevamos conduciendo hasta tu puerta. Con presupuesto cerrado desde el primer día.",
+    title: "Tu coche de Suiza y Alemania",
+    lead: "Lo buscamos, lo revisamos en origen y te lo entregamos matriculado en España, conduciendo hasta tu puerta.",
+    from: "Presupuesto cerrado desde",
     cta: "Pide presupuesto gratis",
     secondary: "Calcula tu ahorro",
-    scroll: "Baja y acompaña al coche hasta España",
+    points: [
+      "Vemos el coche en persona antes de que pagues",
+      "Lo trae un conductor nuestro, con seguro a todo riesgo",
+      "ITV y matrícula española incluidas en Llave en mano",
+    ],
   },
 
   board: {
@@ -47,8 +54,12 @@ const es = {
     title: "De Alemania y Suiza a tu puerta",
     lead:
       "No dependemos de agencias de transporte: un conductor de nuestro equipo trae tu coche rodando, con seguro a todo riesgo durante todo el trayecto.",
+    photoNote: "Autopista en Suiza. Nuestros conductores traen cada coche rodando hasta España.",
     pick: "¿Dónde te lo entregamos?",
     distance: "por carretera desde Basilea, donde se juntan todas nuestras rutas",
+    hudReady: "Listo para salir de Basilea",
+    hudOnWay: "En camino a",
+    hudArrived: "Entregado en",
     steps: [
       {
         title: "Búsqueda y asesoramiento",
@@ -83,8 +94,7 @@ const es = {
       "Tener equipo propio en Suiza y dominar el alemán marca la diferencia: acudimos a ver los coches en persona y negociamos directamente con concesionarios y particulares suizos y alemanes.",
       "Comprar un coche en el extranjero puede generar incertidumbre. Por eso asumimos el proceso entero, desde la verificación en origen hasta la ITV en España, y lo convertimos en una experiencia transparente y segura.",
     ],
-    photoNote:
-      "Inspeccionamos cada coche en persona antes de que pagues nada.",
+    photoNote: "El Rin en Basilea, la frontera donde se juntan todas nuestras rutas antes de bajar a España.",
     facts: [
       { label: "Base", value: "Suiza" },
       { label: "Mercados", value: "Suiza y Alemania" },
@@ -154,12 +164,17 @@ const es = {
     ],
     onRequest: "A consultar",
     choose: "Pedir este servicio",
+    tableCorner: "Qué incluye",
+    forWhom: "Para quién",
+    notes: "A tener en cuenta",
+    recTag: "Nos ocupamos de todo",
   },
 
   calc: {
-    title: "¿Cuánto te ahorras importando tu coche?",
+    title: "¿Cuánto te ahorras importando?",
     lead: "Compara el precio del coche en España con lo que te cuesta traerlo desde Alemania o Suiza con nuestro servicio Llave en mano.",
     origin: "¿Desde dónde?",
+    origins: { de: "Alemania", ch: "Suiza" },
     priceEs: "Precio del mismo coche en España",
     priceOrigin: "Precio en origen",
     priceOriginHintCH: "Sin IVA suizo (se recupera al exportar)",
@@ -168,8 +183,8 @@ const es = {
     co2: "Emisiones de CO₂",
     eur1: "Fabricado en la UE o en Suiza (certificado EUR.1, sin arancel)",
     dest: "Entrega en",
-    resultSave: "Te ahorras aproximadamente",
-    resultNoSave: "En este caso no compensa importar",
+    resultSave: "de ahorro aproximado frente a comprarlo en España.",
+    resultNoSave: "más que en España: en este caso no compensa importar.",
     resultNoSaveText: "Te lo diríamos igual antes de empezar. Prueba con otro modelo o pide que lo revisemos.",
     breakdown: "Cómo sale la cuenta",
     rows: {
@@ -192,9 +207,11 @@ const es = {
     tabs: { de: "Desde Alemania", ch: "Desde Suiza" },
     pros: "A favor",
     cons: "En qué nos fijamos",
+    ask: "Quiero uno de estos",
     de: [
       {
         name: "Volkswagen Golf y Tiguan",
+        photo: "golf",
         pros: [
           "Reventa muy fácil en España por su altísima demanda.",
           "Oferta enorme en Alemania, con acabados R-Line, GTI y R.",
@@ -204,6 +221,7 @@ const es = {
       },
       {
         name: "BMW Serie 3 Touring, X3 y X5",
+        photo: "bmw",
         pros: [
           "Las versiones Touring y xDrive tienen mucha demanda en España y poca oferta.",
           "Diésel de 6 cilindros (330d, X5 30d) muy valorados por su fiabilidad.",
@@ -215,6 +233,7 @@ const es = {
       },
       {
         name: "Audi A4, A6 Avant y Q5",
+        photo: "audi",
         pros: [
           "La tracción quattro y el acabado S-Line mantienen muy bien su valor en España.",
           "Interiores que envejecen excepcionalmente bien.",
@@ -226,6 +245,7 @@ const es = {
       },
       {
         name: "Mercedes Clase C, E y GLC AMG Line",
+        photo: "mercedes",
         pros: [
           "Gran valor percibido y buena depreciación inicial en Alemania.",
           "Las versiones híbridas enchufables llegan con etiqueta CERO en España.",
@@ -239,6 +259,7 @@ const es = {
     ch: [
       {
         name: "Porsche 911, Macan y Cayenne",
+        photo: "porsche",
         pros: [
           "Estado impecable: en Suiza los kilometrajes son bajos y las revisiones, en concesionario oficial.",
           "Mucha más calidad por el precio que el stock de ocasión en España.",
@@ -248,6 +269,7 @@ const es = {
       },
       {
         name: "BMW M y Audi RS",
+        photo: "rs",
         pros: [
           "Configuraciones con todos los extras, casi imposibles de encontrar en España.",
           "Unidades muy cuidadas, guardadas en garaje y bien mantenidas.",
@@ -256,6 +278,7 @@ const es = {
       },
       {
         name: "Mercedes-AMG y Range Rover Sport",
+        photo: "rangeRover",
         pros: [
           "Tracción total y equipamiento de invierno suizo de serie.",
           "Muy buscados por clientes que quieren un coche exclusivo.",
@@ -270,6 +293,9 @@ const es = {
 
   faq: {
     title: "Preguntas frecuentes",
+    lead: "Lo que más nos preguntan antes de importar un coche desde Suiza o Alemania.",
+    ask: "¿No encuentras tu pregunta?",
+    askCta: "Pregúntanos por WhatsApp",
     items: [
       {
         q: "¿Qué incluye el presupuesto de AlpiCars?",
@@ -315,8 +341,9 @@ const es = {
   },
 
   lead: {
-    title: "¿Listo para tu próximo coche?",
-    text: "Cuéntanos qué buscas y te enviamos un presupuesto cerrado y sin compromiso.",
+    title: "Pide tu presupuesto cerrado",
+    text: "Cuéntanos qué coche buscas y te enviamos el precio final, con el coche matriculado en tu puerta. Sin compromiso.",
+    noService: "Aún no lo sé",
     fields: {
       name: "Nombre",
       contact: "Teléfono o email",
@@ -369,7 +396,22 @@ const es = {
     ],
     rights: "Todos los derechos reservados.",
     top: "Volver arriba",
-    credits: "Fotografías de paisaje: Unsplash (vía Lorem Picsum). Mapa: Natural Earth.",
+    services: "Servicios y precios",
+    shop: "Tienda",
+    credits: "Fotografías de Wikimedia Commons, con licencia libre:",
+    mapCredit: "Mapa: Natural Earth.",
+    photoTitles: {
+      basilea: "El Rin en Basilea",
+      autobahn: "Autopista en Suiza",
+      detalle: "Mercedes-Benz Clase C Cabrio",
+      golf: "Volkswagen Golf R",
+      bmw: "BMW X5",
+      audi: "Audi A6 Avant",
+      mercedes: "Mercedes-Benz Clase C",
+      porsche: "Porsche 911",
+      rs: "Audi RS6 Avant",
+      rangeRover: "Range Rover Sport",
+    },
   },
 };
 

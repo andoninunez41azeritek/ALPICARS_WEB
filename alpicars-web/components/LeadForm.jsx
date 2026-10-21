@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import config from "../content/config";
-import photos from "../content/photos";
 import { useSite } from "./SiteProvider";
 import { ArrowIcon, WhatsAppIcon } from "./Icons";
 
@@ -42,20 +41,13 @@ export default function LeadForm() {
   const wa = `https://wa.me/${config.whatsappNumber}?text=${encodeURIComponent(config.whatsappText)}`;
 
   return (
-    <section className="cta-row" id="presupuesto" aria-labelledby="lead-title">
-      <div className="cta-flank cta-flank-photo" aria-hidden="true">
-        <img src={photos.road.src} alt="" width="900" height="900" loading="lazy" />
-      </div>
+    <section className="cta" id="presupuesto" aria-labelledby="lead-title">
       <div className="cta-main">
         <div className="cta-copy">
           <h2 id="lead-title" className="reveal">{l.title}</h2>
-          <p className="reveal">{l.text}</p>
-          <a className="wa-btn wa-big reveal" href={wa} target="_blank" rel="noopener noreferrer">
-            <WhatsAppIcon />
-            {l.whatsapp}
-          </a>
+          <p className="reveal" style={{ "--d": "60ms" }}>{l.text}</p>
         </div>
-        <form className="form form-dark reveal" onSubmit={onSubmit}>
+        <form className="form form-dark reveal" style={{ "--d": "120ms" }} onSubmit={onSubmit}>
           <label>
             <span>{l.fields.name}</span>
             <input name="name" autoComplete="name" required />
@@ -67,7 +59,7 @@ export default function LeadForm() {
           <label>
             <span>{l.fields.service}</span>
             <select name="service" value={service} onChange={(e) => setService(e.target.value)}>
-              <option value="">Aún no lo sé</option>
+              <option value="">{l.noService}</option>
               {t.services.plans.map((p) => (
                 <option key={p.id} value={p.name}>
                   {p.name}
@@ -79,14 +71,19 @@ export default function LeadForm() {
             <span>{l.fields.car}</span>
             <input name="car" value={car} onChange={(e) => setCar(e.target.value)} placeholder={l.fields.carPlaceholder} />
           </label>
-          <button className="btn btn-light btn-block" type="submit">
-            {l.submit}
-            <ArrowIcon />
-          </button>
+          <div className="form-actions">
+            <button className="btn btn-accent btn-big" type="submit">
+              {l.submit}
+              <ArrowIcon />
+            </button>
+            <a className="wa-btn wa-big" href={wa} target="_blank" rel="noopener noreferrer">
+              <WhatsAppIcon />
+              {l.whatsapp}
+            </a>
+          </div>
           <p className="form-note" role="status">{sent ? l.sent : l.privacy}</p>
         </form>
       </div>
-      <div className="cta-flank cta-flank-color" aria-hidden="true" />
     </section>
   );
 }

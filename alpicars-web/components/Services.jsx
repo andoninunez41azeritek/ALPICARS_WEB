@@ -14,8 +14,8 @@ export default function Services() {
       <div className="services-head">
         <h2 id="services-title" className="reveal">{s.title}</h2>
         <div>
-          <p className="lead reveal">{s.lead}</p>
-          <p className="updated reveal">{s.updated}</p>
+          <p className="lead reveal" style={{ "--d": "60ms" }}>{s.lead}</p>
+          <p className="updated reveal" style={{ "--d": "100ms" }}>{s.updated}</p>
         </div>
       </div>
 
@@ -24,20 +24,20 @@ export default function Services() {
         <table>
           <thead>
             <tr>
-              <th scope="col" className="pt-corner">Qué incluye</th>
+              <th scope="col" className="pt-corner">{s.tableCorner}</th>
               {s.plans.map((p) => (
                 <th key={p.id} scope="col" className={p.recommended ? "is-rec" : undefined}>
                   <span className="pt-name">{p.name}</span>
                   <span className="pt-price">{price(p)}</span>
                   {p.suffix && <span className="pt-suffix">{p.suffix}</span>}
-                  {p.recommended && <span className="pt-rec">Nos ocupamos de todo</span>}
+                  {p.recommended && <span className="pt-rec">{s.recTag}</span>}
                 </th>
               ))}
             </tr>
           </thead>
           <tbody>
             <tr className="pt-desc">
-              <th scope="row">Para quién</th>
+              <th scope="row">{s.forWhom}</th>
               {s.plans.map((p) => (
                 <td key={p.id} className={p.recommended ? "is-rec" : undefined}>{p.text}</td>
               ))}
@@ -53,7 +53,7 @@ export default function Services() {
               </tr>
             ))}
             <tr className="pt-small">
-              <th scope="row">A tener en cuenta</th>
+              <th scope="row">{s.notes}</th>
               {s.plans.map((p) => (
                 <td key={p.id} className={p.recommended ? "is-rec" : undefined}>{p.excludes}</td>
               ))}
@@ -75,8 +75,7 @@ export default function Services() {
       {/* Móvil: un bloque por servicio */}
       <div className="plans-stack">
         {s.plans.map((p) => (
-          <article key={p.id} className={`plan${p.recommended ? " is-rec" : ""} reveal`}>
-            <h3>{p.name}</h3>
+          <article key={p.id} className={`plan${p.recommended ? " is-rec" : ""} reveal`}>            <h3>{p.name}</h3>
             <p className="plan-price">
               {price(p)} {p.suffix && <small>{p.suffix}</small>}
             </p>
@@ -90,7 +89,7 @@ export default function Services() {
               ))}
             </dl>
             <p className="plan-note">{p.excludes}</p>
-            <a href="#presupuesto" className={`btn ${p.recommended ? "btn-light" : "btn-accent"} btn-block`} onClick={choose(p)}>
+            <a href="#presupuesto" className="btn btn-accent btn-block" onClick={choose(p)}>
               {s.choose}
             </a>
           </article>

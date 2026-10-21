@@ -1,6 +1,8 @@
 "use client";
 
+import Image from "next/image";
 import map from "../lib/mapData";
+import photos from "../content/photos";
 import { useSite } from "./SiteProvider";
 
 const fmt = (n) => new Intl.NumberFormat("es-ES").format(n).replace(/^(\d)(\d{3})$/, "$1.$2");
@@ -15,7 +17,12 @@ export default function HowItWorks() {
     <section className="section how" id="como-funciona" aria-labelledby="how-title">
       <div className="panel how-panel">
         <h2 id="how-title" className="reveal">{r.title}</h2>
-        <p className="lead reveal">{r.lead}</p>
+        <p className="lead reveal" style={{ "--d": "60ms" }}>{r.lead}</p>
+
+        <figure className="how-photo reveal" style={{ "--d": "120ms" }}>
+          <Image src={photos.autobahn.src} alt={photos.autobahn.alt} sizes="(max-width: 760px) 100vw, 720px" />
+          <figcaption>{r.photoNote}</figcaption>
+        </figure>
 
         <fieldset className="route-pick reveal">
           <legend>{r.pick}</legend>
@@ -38,7 +45,7 @@ export default function HowItWorks() {
               <h3>{s.title}</h3>
               <p>
                 {s.text}
-                {s.note && <em> {s.note}</em>}
+                {s.note && <strong> {s.note}</strong>}
               </p>
             </li>
           ))}

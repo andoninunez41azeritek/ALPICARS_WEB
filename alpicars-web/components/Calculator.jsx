@@ -69,7 +69,7 @@ export default function Calculator() {
 
   const ask = () => {
     setPresetService("Llave en mano");
-    setPresetCar(`Importar desde ${origin === "ch" ? "Suiza" : "Alemania"} un coche de unos ${formatPrice(r.car)} (en España cuesta ${formatPrice(Number(priceEs) || 0)})`);
+    setPresetCar(`Importar desde ${c.origins[origin]} un coche de unos ${formatPrice(r.car)} (en España cuesta ${formatPrice(Number(priceEs) || 0)})`);
   };
 
   return (
@@ -77,18 +77,15 @@ export default function Calculator() {
       <div className="panel calc-panel">
         <div className="calc-head">
           <h2 id="calc-title" className="reveal">{c.title}</h2>
-          <p className="lead reveal">{c.lead}</p>
+          <p className="lead reveal" style={{ "--d": "60ms" }}>{c.lead}</p>
         </div>
 
         <div className="calc-grid">
-          <form className="form calc-form" onSubmit={(e) => e.preventDefault()}>
+          <form className="form calc-form reveal" style={{ "--d": "120ms" }} onSubmit={(e) => e.preventDefault()}>
             <div className="field">
               <span className="field-label">{c.origin}</span>
               <div className="seg" role="radiogroup" aria-label={c.origin}>
-                {[
-                  ["de", "Alemania"],
-                  ["ch", "Suiza"],
-                ].map(([k, l]) => (
+                {Object.entries(c.origins).map(([k, l]) => (
                   <button key={k} type="button" role="radio" aria-checked={origin === k} onClick={() => setOrigin(k)}>
                     {l}
                   </button>
@@ -152,9 +149,9 @@ export default function Calculator() {
             )}
           </form>
 
-          <div className={`calc-result${r.save > 0 ? " is-save" : " is-loss"}`} aria-live="polite">
-            <p className="calc-kicker">{r.save > 0 ? c.resultSave : c.resultNoSave}</p>
-            <p className="calc-big">{r.save > 0 ? formatPrice(r.save) : formatPrice(Math.abs(r.save)) + " más"}</p>
+          <div className={`calc-result reveal${r.save > 0 ? " is-save" : " is-loss"}`} style={{ "--d": "200ms" }} aria-live="polite">
+            <p className="calc-big">{formatPrice(Math.abs(r.save))}</p>
+            <p className="calc-verdict">{r.save > 0 ? c.resultSave : c.resultNoSave}</p>
             {r.save <= 0 && <p className="calc-sub">{c.resultNoSaveText}</p>}
 
             <h3>{c.breakdown}</h3>
