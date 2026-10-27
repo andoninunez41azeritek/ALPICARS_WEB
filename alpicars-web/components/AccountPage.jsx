@@ -52,9 +52,11 @@ function Account() {
   const [orders, setOrders] = useState(null);
   const [copied, setCopied] = useState(false);
   const [saved, setSaved] = useState("");
+  const [isStaff, setIsStaff] = useState(false);
 
   useEffect(() => {
     if (!session) return;
+    db("rpc/is_staff", { method: "POST", body: {} }).then((s) => setIsStaff(Boolean(s))).catch(() => setIsStaff(false));
     // Informe que el cliente quiso guardar antes de tener cuenta
     (async () => {
       try {
@@ -124,6 +126,14 @@ function Account() {
       <section className="report-hero account-hero">
         <h1>{name ? `Hola, ${name}` : "Tu área de cliente"}</h1>
         <p className="report-lead">Aquí tienes tus ofertas exclusivas, tus informes y el estado de tus solicitudes.</p>
+        {isStaff && (
+          <div className="report-cta-actions">
+            <a className="btn btn-accent" href="/panel">
+              Abrir el panel de AlpiCars
+              <ArrowIcon />
+            </a>
+          </div>
+        )}
       </section>
 
       <section className="panel report-panel">
