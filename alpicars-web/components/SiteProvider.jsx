@@ -3,6 +3,8 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
 import config from "../content/config";
 import es from "../content/es";
+import map from "../lib/mapData";
+import { captureSessionFromUrl, db, getSession, hasSupabase } from "../lib/supabase";
 
 // Cuando existan más traducciones, impórtalas y añádelas aquí: { es, en, de, ... }
 const dictionaries = { es };
@@ -31,9 +33,54 @@ export function SiteProvider({ children }) {
   const [presetService, setPresetService] = useState("");
   const [presetCar, setPresetCar] = useState("");
   const [dest, setDest] = useState("madrid");
+  const [loginOpen, setLoginOpen] = useState(false);
+  const [loginMode, setLoginMode] = useState("login");
+  const [session, setSession] = useState(null);
+  const [profile, setProfile] = useState(null);
+  const [authReady, setAuthReady] = useState(false);
+  const [recovery, setRecovery] = useState(false);
+
+  // Cuenta del cliente: recoge la sesión (también al volver del email o de Google) y carga su perfil
+  const refreshAuth = useCallback(async () => {
+    if (!hasSupabase) {
+      setAuthReady(true);
+      return;
+    }
+    const s = await getSession();
+    setSession(s);
+    if (s) {
+      try {
+        const rows = await db(`profiles?select=*&id=eq.${s.user?.id || ""}`);
+        setProfile(rows?.[0] || null);
+      } catch {
+        setProfile(null);
+      }
+    } else setProfile(null);
+    setAuthReady(true);
+  }, []);
+
+  useEffect(() => {
+    const got = captureSessionFromUrl();
+    if (got?.type === "recovery") setRecovery(true);
+    refreshAuth();
+    window.addEventListener("alpicars-auth", refreshAuth);
+    return () => window.removeEventListener("alpicars-auth", refreshAuth);
+  }, [refreshAuth]);
+
+  const openLogin = useCallback((mode = "login") => {
+    setLoginMode(mode);
+    setLoginOpen(true);
+  }, []);
 
   useEffect(() => {
     setLangState(readStored("alpicars-lang", "es"));
+    // Enlaces como /?destino=barcelona#calculadora (páginas de ciudad) eligen la ciudad de entrega
+    try {
+      const d = new URLSearchParams(window.location.search).get("destino");
+      if (d && map.routes[d]) setDest(d);
+    } catch {
+      /* nada */
+    }
     setCurrencyState(readStored("alpicars-currency", "EUR"));
   }, []);
 
@@ -75,8 +122,20 @@ export function SiteProvider({ children }) {
       setPresetCar,
       dest,
       setDest,
+      loginOpen,
+      setLoginOpen,
+      loginMode,
+      setLoginMode,
+      openLogin,
+      session,
+      user: session?.user || null,
+      profile,
+      authReady,
+      refreshAuth,
+      recovery,
+      setRecovery,
     }),
-    [lang, setLang, currency, setCurrency, formatPrice, quizOpen, presetService, presetCar, dest]
+    [lang, setLang, currency, setCurrency, formatPrice, quizOpen, presetService, presetCar, dest, loginOpen, loginMode, openLogin, session, profile, authReady, refreshAuth, recovery]
   );
 
   return <SiteContext.Provider value={value}>{children}</SiteContext.Provider>;

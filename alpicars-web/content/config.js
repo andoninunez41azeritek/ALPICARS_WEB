@@ -4,7 +4,7 @@
 const config = {
   brand: "AlpiCars",
 
-  // PENDIENTE: dominio definitivo (se usa en Google, el mapa del sitio y los datos estructurados)
+  // Dominio de AlpiCars (GoDaddy). Se usa en Google, el mapa del sitio, los datos estructurados y los emails.
   siteUrl: "https://alpicars.com",
 
   // PENDIENTE: perfiles oficiales (Instagram, LinkedIn, YouTube, Google Business...). Ayudan al SEO y al GEO.
@@ -18,8 +18,8 @@ const config = {
   // PENDIENTE: email donde llegan las solicitudes de presupuesto
   email: "info@alpicars.com",
 
-  // PENDIENTE: enlace real de la tienda Shopify
-  shopUrl: "https://alpicars.myshopify.com",
+  // Tienda propia (app/tienda). Si algún día se pasa a Shopify, cambia aquí el enlace.
+  shopUrl: "/tienda",
 
   // Cambio fijo para mostrar precios en francos suizos.
   // PENDIENTE: decidir con AlpiCars si es un cambio fijo o se actualiza a diario.
@@ -29,8 +29,19 @@ const config = {
   calculator: {
     serviceFee: 2490, // servicio Llave en mano
     travelPerKm: 0.3, // combustible, peajes y vuelta del conductor (€/km)
-    fees: 450, // ITV de importación, ficha técnica y tasas DGT
+    dgtFee: 97.8, // tasa DGT de matriculación 2026 (oficial)
+    itv: 150, // PENDIENTE: ITV de importación (varía según la estación y la comunidad)
+    plates: 30, // PENDIENTE: juego de placas
+    docs: 120, // PENDIENTE: ficha técnica reducida / certificado de conformidad (COC)
   },
+
+  // Botón "Continuar con Google" en el acceso. Activarlo solo después de configurar Google en
+  // Supabase → Authentication → Sign In / Providers → Google.
+  googleLogin: false,
+
+  // Programa de referidos. PENDIENTE (AlpiCars): definir el premio y escribirlo aquí,
+  // por ejemplo: "Si alguien contrata con tu enlace, te regalamos ...". Vacío = texto general.
+  referral: { reward: "" },
 
   languages: [
     { code: "es", label: "Español", short: "ES" },

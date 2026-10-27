@@ -1,38 +1,13 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import config from "../content/config";
 import map from "../lib/mapData";
+import { AGES, CO2, calculate, toQuery } from "../lib/calc";
 import { useSite } from "./SiteProvider";
 import { ArrowIcon } from "./Icons";
+import { track } from "../lib/track";
 
-// Calculadora de ahorro al importar.
-// Cálculo orientativo:
-//  - Alemania (UE): el precio ya incluye IVA alemán, no se paga IVA otra vez en coches usados.
-//  - Suiza (fuera de la UE): arancel del 10 % si el coche no tiene origen UE/Suiza (EUR.1)
-//    + IVA de importación del 21 % sobre coche + arancel + viaje.
-//  - Impuesto de matriculación (IEDMT) por tramos de CO2 sobre el valor del coche
-//    depreciado según la antigüedad (tablas de Hacienda para vehículos usados).
-
-const AGES = [
-  { label: "Menos de 1 año", coef: 1 },
-  { label: "1 año", coef: 0.84 },
-  { label: "2 años", coef: 0.67 },
-  { label: "3 años", coef: 0.56 },
-  { label: "4 años", coef: 0.47 },
-  { label: "5 años", coef: 0.39 },
-  { label: "6 años", coef: 0.34 },
-  { label: "7 años", coef: 0.28 },
-  { label: "8 años", coef: 0.24 },
-  { label: "9 años", coef: 0.19 },
-  { label: "10 años o más", coef: 0.17 },
-];
-const CO2 = [
-  { label: "Hasta 120 g/km (eléctricos, híbridos enchufables y muchos híbridos)", rate: 0 },
-  { label: "De 121 a 159 g/km", rate: 0.0475 },
-  { label: "De 160 a 199 g/km", rate: 0.0975 },
-  { label: "200 g/km o más", rate: 0.1475 },
-];
+// Calculadora de ahorro al importar. El cálculo está en lib/calc.js (lo comparte con el informe PDF).
 
 export default function Calculator() {
   const { t, formatPrice, dest, setDest, setPresetService, setPresetCar } = useSite();
@@ -43,33 +18,18 @@ export default function Calculator() {
   const [age, setAge] = useState(3);
   const [co2, setCo2] = useState(1);
   const [eur1, setEur1] = useState(true);
+  const [isNew, setIsNew] = useState(false);
+  const [tableValue, setTableValue] = useState("");
 
-  const r = useMemo(() => {
-    const km = map.routes[dest].km;
-    const travel = Math.round(km * config.calculator.travelPerKm);
-    const car = Number(priceOrigin) || 0;
-    const duty = origin === "ch" && !eur1 ? Math.round(car * 0.1) : 0;
-    const vat = origin === "ch" ? Math.round((car + duty + travel) * 0.21) : 0;
-    const reg = Math.round(car * AGES[age].coef * CO2[co2].rate);
-    const fees = config.calculator.fees;
-    const service = config.calculator.serviceFee;
-    const total = car + duty + vat + reg + fees + travel + service;
-    const save = (Number(priceEs) || 0) - total;
-    return { car, duty, vat, reg, fees, travel, service, total, save };
-  }, [origin, priceEs, priceOrigin, age, co2, eur1, dest]);
-
-  const rows = [
-    ["car", r.car],
-    ...(origin === "ch" ? [["duty", r.duty], ["vat", r.vat]] : []),
-    ["reg", r.reg],
-    ["fees", r.fees],
-    ["travel", r.travel],
-    ["service", r.service],
-  ];
+  const input = { origin, priceEs, priceOrigin, age, co2, eur1, dest, isNew, tableValue: Number(tableValue) || 0 };
+  const r = useMemo(() => calculate(input), [origin, priceEs, priceOrigin, age, co2, eur1, dest, isNew, tableValue]); // eslint-disable-line react-hooks/exhaustive-deps
+  const reportHref = `/calculadora/informe?${toQuery(input)}`;
+  const rows = r.rows;
+  const pct = (x) => `${(x * 100).toLocaleString("es-ES", { maximumFractionDigits: 2 })} %`;
 
   const ask = () => {
     setPresetService("Llave en mano");
-    setPresetCar(`Importar desde ${c.origins[origin]} un coche de unos ${formatPrice(r.car)} (en España cuesta ${formatPrice(Number(priceEs) || 0)})`);
+    setPresetCar(`Importar desde ${origin === "ch" ? "Suiza" : "Alemania"} un coche de unos ${formatPrice(r.car)} (en España cuesta ${formatPrice(Number(priceEs) || 0)})`);
   };
 
   return (
@@ -77,20 +37,38 @@ export default function Calculator() {
       <div className="panel calc-panel">
         <div className="calc-head">
           <h2 id="calc-title" className="reveal">{c.title}</h2>
-          <p className="lead reveal" style={{ "--d": "60ms" }}>{c.lead}</p>
+          <p className="lead reveal">{c.lead}</p>
         </div>
 
         <div className="calc-grid">
-          <form className="form calc-form reveal" style={{ "--d": "120ms" }} onSubmit={(e) => e.preventDefault()}>
+          <form className="form calc-form" onSubmit={(e) => e.preventDefault()}>
             <div className="field">
               <span className="field-label">{c.origin}</span>
               <div className="seg" role="radiogroup" aria-label={c.origin}>
-                {Object.entries(c.origins).map(([k, l]) => (
+                {[
+                  ["de", "Alemania"],
+                  ["ch", "Suiza"],
+                ].map(([k, l]) => (
                   <button key={k} type="button" role="radio" aria-checked={origin === k} onClick={() => setOrigin(k)}>
                     {l}
                   </button>
                 ))}
               </div>
+            </div>
+
+            <div className="field">
+              <span className="field-label">{c.state}</span>
+              <div className="seg" role="radiogroup" aria-label={c.state}>
+                {[
+                  [false, c.states.used],
+                  [true, c.states.new],
+                ].map(([k, l]) => (
+                  <button key={l} type="button" role="radio" aria-checked={isNew === k} onClick={() => setIsNew(k)}>
+                    {l}
+                  </button>
+                ))}
+              </div>
+              {isNew && <small className="field-hint">{c.stateHint}</small>}
             </div>
 
             <label>
@@ -102,7 +80,7 @@ export default function Calculator() {
             </label>
             <label>
               <span>
-                {c.priceOrigin} <small>{origin === "ch" ? c.priceOriginHintCH : c.priceOriginHintDE}</small>
+                {c.priceOrigin} <small>{origin === "ch" ? c.priceOriginHintCH : isNew ? c.priceOriginHintNew : c.priceOriginHintDE}</small>
               </span>
               <span className="money">
                 <input type="number" inputMode="numeric" min="0" step="500" value={priceOrigin} onChange={(e) => setPriceOrigin(e.target.value)} />
@@ -141,6 +119,20 @@ export default function Calculator() {
                 ))}
               </select>
             </label>
+            {!isNew && (
+              <label>
+                <span>
+                  {c.tableValue} <small>{c.tableValueHint}</small>
+                </span>
+                <span className="money">
+                  <input type="number" inputMode="numeric" min="0" step="500" placeholder="—" value={tableValue} onChange={(e) => setTableValue(e.target.value)} />
+                  <i>€</i>
+                </span>
+                <a className="field-link" href="https://www.boe.es/diario_boe/txt.php?id=BOE-A-2025-26357" target="_blank" rel="noopener noreferrer">
+                  {c.tableValueLink}
+                </a>
+              </label>
+            )}
             {origin === "ch" && (
               <label className="check">
                 <input type="checkbox" checked={eur1} onChange={(e) => setEur1(e.target.checked)} />
@@ -149,16 +141,24 @@ export default function Calculator() {
             )}
           </form>
 
-          <div className={`calc-result reveal${r.save > 0 ? " is-save" : " is-loss"}`} style={{ "--d": "200ms" }} aria-live="polite">
-            <p className="calc-big">{formatPrice(Math.abs(r.save))}</p>
-            <p className="calc-verdict">{r.save > 0 ? c.resultSave : c.resultNoSave}</p>
+          <div className={`calc-result${r.save > 0 ? " is-save" : " is-loss"}`} aria-live="polite">
+            <p className="calc-kicker">{r.save > 0 ? c.resultSave : c.resultNoSave}</p>
+            <p className="calc-big">{r.save > 0 ? formatPrice(r.save) : formatPrice(Math.abs(r.save)) + " más"}</p>
             {r.save <= 0 && <p className="calc-sub">{c.resultNoSaveText}</p>}
 
             <h3>{c.breakdown}</h3>
             <dl className="calc-rows">
               {rows.map(([k, v]) => (
                 <div key={k}>
-                  <dt>{c.rows[k]}</dt>
+                  <dt>
+                    {c.rows[k]}
+                    {k === "reg" && r.rate > 0 && (
+                      <small className="calc-detail">
+                        {c.regDetail.replace("{base}", formatPrice(r.regBase)).replace("{rate}", pct(r.rate)).replace("{region}", r.regionLabel)}
+                        {r.estimatedValue && ` · ${c.estimated}`}
+                      </small>
+                    )}
+                  </dt>
                   <dd>{formatPrice(v)}</dd>
                 </div>
               ))}
@@ -170,6 +170,9 @@ export default function Calculator() {
             <a href="#presupuesto" className="btn btn-accent btn-block" onClick={ask}>
               {c.cta}
               <ArrowIcon />
+            </a>
+            <a href={reportHref} className="btn btn-ghost btn-block calc-report" onClick={() => track("calc_report", { save: Math.round(r.save) })}>
+              {c.report}
             </a>
             <p className="calc-note">{c.note}</p>
           </div>

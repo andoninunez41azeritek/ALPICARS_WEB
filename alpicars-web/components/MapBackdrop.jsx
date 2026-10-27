@@ -66,7 +66,7 @@ export default function MapBackdrop() {
       const h = (w * vh) / vw;
       const follow = smooth(clamp(y / (vh * 1.1)));
       // en escritorio el coche va en el lado derecho (el contenido ocupa la izquierda)
-      const side = narrow ? 0 : w * 0.24;
+      const side = narrow ? 0 : w * (vw >= 1300 ? 0.36 : 0.28);
       const tx = pt.x - side;
       const ty = pt.y + (narrow ? h * 0.1 : h * 0.02);
       const sx = START.x - side;

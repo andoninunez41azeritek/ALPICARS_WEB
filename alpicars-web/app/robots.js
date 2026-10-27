@@ -4,7 +4,7 @@ import config from "../content/config";
 export default function robots() {
   return {
     rules: [
-      { userAgent: "*", allow: "/" },
+      { userAgent: "*", allow: "/", disallow: ["/panel", "/cuenta", "/api/", "/tienda/gracias", "/seguimiento"] },
       { userAgent: ["OAI-SearchBot", "ChatGPT-User", "Claude-SearchBot", "Claude-User", "PerplexityBot", "Google-Extended", "Applebot"], allow: "/" },
     ],
     sitemap: `${config.siteUrl}/sitemap.xml`,

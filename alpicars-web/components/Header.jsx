@@ -80,8 +80,7 @@ function CurrencySwitch() {
 }
 
 export default function Header() {
-  const { t } = useSite();
-  const [loginOpen, setLoginOpen] = useState(false);
+  const { t, user, openLogin } = useSite();
   const [compact, setCompact] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -110,10 +109,10 @@ export default function Header() {
     <>
       <header className="site-header">
         <div className="hdr-top">
-          <a href="#inicio" className="hdr-logo" aria-label="AlpiCars, inicio">
+          <a href="/" className="hdr-logo" aria-label="AlpiCars, inicio">
             <img src="/logo-horizontal-white.png" alt="AlpiCars" width="945" height="172" />
           </a>
-          <p className="hdr-slogan">{config.slogan}</p>
+          <span className="hdr-spacer" />
           <button
             type="button"
             className="ctl menu-btn"
@@ -134,17 +133,24 @@ export default function Header() {
               <WhatsAppIcon />
               <span>{t.header.whatsapp}</span>
             </a>
-            <button type="button" className="ctl login-btn" onClick={() => setLoginOpen(true)}>
-              <UserIcon />
-              <span>{t.header.login}</span>
-            </button>
+            {user ? (
+              <a className="ctl login-btn" href="/cuenta">
+                <UserIcon />
+                <span>{t.header.account}</span>
+              </a>
+            ) : (
+              <button type="button" className="ctl login-btn" onClick={() => openLogin("login")}>
+                <UserIcon />
+                <span>{t.header.login}</span>
+              </button>
+            )}
           </div>
         </div>
         <nav className="hdr-nav" aria-label="Principal">
           <ul>
             {t.nav.map((n) => (
               <li key={n.href}>
-                <a href={n.href}>{n.label}</a>
+                <a href={`/${n.href}`}>{n.label}</a>
               </li>
             ))}
           </ul>
@@ -157,7 +163,7 @@ export default function Header() {
             <ul>
               {t.nav.map((n) => (
                 <li key={n.href}>
-                  <a href={n.href} onClick={closeMenu}>
+                  <a href={`/${n.href}`} onClick={closeMenu}>
                     {n.label}
                   </a>
                 </li>
@@ -171,13 +177,13 @@ export default function Header() {
       </header>
 
       <div className={`sticky-bar${compact ? " is-on" : ""}`} aria-hidden={!compact}>
-        <a href="#inicio" className="sb-logo" tabIndex={compact ? 0 : -1} aria-label="AlpiCars, inicio">
+        <a href="/" className="sb-logo" tabIndex={compact ? 0 : -1} aria-label="AlpiCars, inicio">
           <img src="/logo-mark-white.png" alt="" width="406" height="234" />
         </a>
         <ul>
           {t.nav.map((n) => (
             <li key={n.href}>
-              <a href={n.href} tabIndex={compact ? 0 : -1}>
+              <a href={`/${n.href}`} tabIndex={compact ? 0 : -1}>
                 {n.label}
               </a>
             </li>
@@ -191,7 +197,7 @@ export default function Header() {
         </a>
       </div>
 
-      <LoginDialog open={loginOpen} onClose={() => setLoginOpen(false)} />
+      <LoginDialog />
     </>
   );
 }

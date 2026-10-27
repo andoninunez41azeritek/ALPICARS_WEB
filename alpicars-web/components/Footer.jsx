@@ -4,10 +4,58 @@ import config from "../content/config";
 import photos from "../content/photos";
 import { useSite } from "./SiteProvider";
 
-const LETTERS = [
-  ["A", 78], ["L", 64], ["P", 88], ["I", 70],
-  ["C", 100], ["A", 82], ["R", 92], ["S", 74],
+// Los Alpes formados por las letras de AlpiCars: cada letra es una montaña con su cumbre nevada.
+const W = 1600;
+const H = 420;
+const HALF = 150; // media anchura de cada montaña
+const PEAKS = [
+  ["A", 120], ["L", 170], ["P", 70], ["I", 150],
+  ["C", 40], ["A", 115], ["R", 85], ["S", 140],
 ];
+
+function snowcap(cx, top) {
+  const f = 0.24;
+  const y = top + (H - top) * f;
+  const dx = HALF * f;
+  return [
+    [cx, top],
+    [cx + dx, y],
+    [cx + dx * 0.45, y - 10],
+    [cx + dx * 0.1, y + 7],
+    [cx - dx * 0.35, y - 9],
+    [cx - dx, y],
+  ]
+    .map((p) => p.join(","))
+    .join(" ");
+}
+
+function Alps() {
+  const step = (W - 2 * HALF) / (PEAKS.length - 1);
+  const back = PEAKS.map((_, i) => {
+    const cx = HALF + step * i + step / 2;
+    const top = 60 + ((i * 53) % 90);
+    return `${cx - HALF * 1.2},${H} ${cx},${top} ${cx + HALF * 1.2},${H}`;
+  });
+  return (
+    <svg className="alps-svg" viewBox={`0 0 ${W} ${H}`} role="img" aria-label="AlpiCars">
+      {back.slice(0, -1).map((pts, i) => (
+        <polygon key={`b${i}`} points={pts} className="alps-back" />
+      ))}
+      {PEAKS.map(([letter, top], i) => {
+        const cx = HALF + step * i;
+        return (
+          <g key={i} className={`alps-peak ${i < 4 ? "alps-navy" : "alps-red"}`} style={{ "--d": `${i * 70}ms` }}>
+            <polygon points={`${cx - HALF},${H} ${cx},${top} ${cx + HALF},${H}`} className="alps-rock" />
+            <polygon points={snowcap(cx, top)} className="alps-snow" />
+            <text x={cx} y={H - 26} className="alps-letter">
+              {letter}
+            </text>
+          </g>
+        );
+      })}
+    </svg>
+  );
+}
 
 export default function Footer() {
   const { t } = useSite();
@@ -17,12 +65,8 @@ export default function Footer() {
 
   return (
     <footer className="site-footer">
-      <div className="blockmark" aria-label="AlpiCars">
-        {LETTERS.map(([l, h], i) => (
-          <span key={i} className={i < 4 ? "bm-navy" : "bm-red"} style={{ "--h": `${h}%`, "--d": `${i * 60}ms` }} aria-hidden="true">
-            {l}
-          </span>
-        ))}
+      <div className="alps">
+        <Alps />
       </div>
 
       <div className="ft-grid">
@@ -41,11 +85,17 @@ export default function Footer() {
         <ul className="ft-links">
           {t.nav.map((n) => (
             <li key={n.href}>
-              <a href={n.href}>{n.label}</a>
+              <a href={`/${n.href}`}>{n.label}</a>
             </li>
           ))}
           <li>
-            <a href="#servicios">{f.services}</a>
+            <a href="/#servicios">{f.services}</a>
+          </li>
+          <li>
+            <a href="/guias">{f.guides}</a>
+          </li>
+          <li>
+            <a href="/importar-coche">{f.cities}</a>
           </li>
           <li>
             <a href={config.shopUrl} target="_blank" rel="noopener noreferrer">

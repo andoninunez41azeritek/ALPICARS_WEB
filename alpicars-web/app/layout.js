@@ -14,7 +14,7 @@ export const metadata = {
     template: "%s | AlpiCars",
   },
   description:
-    "Importamos tu coche desde Suiza y Alemania: búsqueda, revisión en origen, transporte conduciendo hasta tu casa y matriculación en España. Presupuesto cerrado desde 230 €.",
+    "Importamos tu coche de Suiza y Alemania: lo buscamos, lo revisamos en origen y te lo entregamos matriculado en España. Presupuesto cerrado desde 230 €.",
   keywords: [
     "importar coche de Alemania",
     "importar coche de Suiza",
@@ -31,9 +31,9 @@ export const metadata = {
     siteName: "AlpiCars",
     locale: "es_ES",
     type: "website",
-    images: [{ url: "/logo.png", width: 615, height: 353, alt: "AlpiCars" }],
+    images: [{ url: "/og.png", width: 1200, height: 630, alt: "AlpiCars · Ingeniería alemana, precisión suiza, garaje español" }],
   },
-  twitter: { card: "summary_large_image", title: "AlpiCars · Importación de coches desde Suiza y Alemania" },
+  twitter: { card: "summary_large_image", title: "AlpiCars · Importación de coches desde Suiza y Alemania", images: ["/og.png"] },
   robots: { index: true, follow: true, googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1 } },
   icons: { icon: "/logo-mark.png", apple: "/logo-mark.png" },
 };
@@ -54,9 +54,21 @@ const jsonLd = {
       slogan: config.slogan,
       description: es.about.lead,
       email: config.email,
-      areaServed: [{ "@type": "Country", name: "España" }],
       knowsLanguage: ["es", "de", "en"],
       sameAs: config.sameAs,
+      foundingLocation: { "@type": "Country", name: "Suiza" },
+      areaServed: [
+        { "@type": "Country", name: "España" },
+        ...["Madrid", "Barcelona", "Bilbao", "Valencia", "Sevilla", "Málaga"].map((name) => ({ "@type": "City", name })),
+      ],
+      knowsAbout: [
+        "Importación de coches desde Alemania",
+        "Importación de coches desde Suiza",
+        "Impuesto de matriculación de coches importados",
+        "Inspección de coches de ocasión",
+        "Matriculación de vehículos importados en España",
+      ],
+      contactPoint: { "@type": "ContactPoint", contactType: "customer service", email: config.email, availableLanguage: ["es", "de"] },
     },
     {
       "@type": "WebSite",

@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import config from "../content/config";
 import { useSite } from "./SiteProvider";
 import { ArrowIcon, WhatsAppIcon } from "./Icons";
+import { origin, originLines, track } from "../lib/track";
+import { saveLead } from "../lib/supabase";
 
 // Formulario de presupuesto.
 // De momento abre el correo del visitante con la solicitud rellenada (funciona sin servidor).
@@ -24,18 +26,40 @@ export default function LeadForm() {
     if (presetCar) setCar(presetCar);
   }, [presetCar]);
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
     const data = new FormData(e.currentTarget);
+    const o = origin();
+    // 1) Se guarda en la base de datos (panel del equipo en /panel)
+    const saved = await saveLead({
+      kind: "presupuesto",
+      name: String(data.get("name") || "").slice(0, 120),
+      contact: String(data.get("contact") || "").slice(0, 160),
+      service: String(data.get("service") || "").slice(0, 80) || null,
+      car: String(data.get("car") || "").slice(0, 300) || null,
+      source: "Formulario de presupuesto",
+      origin: o.origen,
+      ref: o.recomendado_por || null,
+      page: window.location.href.slice(0, 500),
+    });
+    if (saved) {
+      track("lead_submit", { service: data.get("service") || "sin decidir" });
+      setSent("db");
+      return;
+    }
+    // 2) Si la base de datos no está disponible, se abre el correo con la solicitud rellenada
     const body = [
       `Nombre: ${data.get("name")}`,
       `Contacto: ${data.get("contact")}`,
       `Servicio: ${data.get("service") || "Sin decidir"}`,
       `Coche que busco: ${data.get("car") || "-"}`,
+      "",
+      ...originLines(),
     ].join("\n");
+    track("lead_submit", { service: data.get("service") || "sin decidir" });
     const subject = `Solicitud de presupuesto - ${data.get("name")}`;
     window.location.href = `mailto:${config.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    setSent(true);
+    setSent("mail");
   };
 
   const wa = `https://wa.me/${config.whatsappNumber}?text=${encodeURIComponent(config.whatsappText)}`;
@@ -81,7 +105,7 @@ export default function LeadForm() {
               {l.whatsapp}
             </a>
           </div>
-          <p className="form-note" role="status">{sent ? l.sent : l.privacy}</p>
+          <p className="form-note" role="status">{sent === "db" ? l.sentDb : sent ? l.sent : l.privacy}</p>
         </form>
       </div>
     </section>

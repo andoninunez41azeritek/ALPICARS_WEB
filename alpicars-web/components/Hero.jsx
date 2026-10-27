@@ -1,5 +1,6 @@
 "use client";
 
+import config from "../content/config";
 import { useSite } from "./SiteProvider";
 import { ArrowIcon } from "./Icons";
 
@@ -11,7 +12,9 @@ export default function Hero() {
   return (
     <section className="hero" id="inicio" aria-labelledby="hero-title">
       <div className="hero-inner">
-        <h1 id="hero-title" className="reveal">{h.title}</h1>
+        <img className="hero-mark reveal" src="/logo-mark-white.png" alt="" width="406" height="234" />
+        <h1 id="hero-title" className="hero-h1 reveal">{h.title}</h1>
+        <p className="hero-slogan reveal">{config.slogan}</p>
         <p className="hero-lead reveal" style={{ "--d": "80ms" }}>
           {h.lead}
         </p>

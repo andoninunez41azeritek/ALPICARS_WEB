@@ -11,11 +11,13 @@ import Services from "./Services";
 import Calculator from "./Calculator";
 import Models from "./Models";
 import Faq from "./Faq";
+import SeoLinks from "./SeoLinks";
 import LeadForm from "./LeadForm";
 import Footer from "./Footer";
 import CarQuiz from "./CarQuiz";
 import Motion from "./Motion";
 import FloatingWhatsApp from "./FloatingWhatsApp";
+import TestNudge from "./TestNudge";
 
 export default function HomePage() {
   return (
@@ -34,11 +36,13 @@ export default function HomePage() {
         <Calculator />
         <Models />
         <Faq />
+        <SeoLinks />
         <LeadForm />
       </main>
       <Footer />
       <FloatingWhatsApp />
       <CarQuiz />
+      <TestNudge />
       <Motion />
     </SiteProvider>
   );

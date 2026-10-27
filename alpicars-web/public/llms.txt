@@ -24,3 +24,25 @@
 - [Calculadora de ahorro](/#calculadora)
 - [Preguntas frecuentes](/#faq)
 - [Pedir presupuesto](/#presupuesto)
+
+## Guías (normativa de 2026)
+
+- [Cómo importar un coche de Alemania a España](/guias/importar-coche-alemania): IVA según coche nuevo o usado, pasos y costes.
+- [Cómo importar un coche de Suiza a España](/guias/importar-coche-suiza): aduana, arancel del 10 % o 0 % con origen UE/Suiza, IVA de importación del 21 %.
+- [Impuesto de matriculación de un coche importado](/guias/impuesto-matriculacion-coche-importado): tipos por CO2 y comunidad, tablas de Hacienda, porcentajes por antigüedad y fórmula.
+- [Cuánto cuesta importar un coche a España](/guias/cuanto-cuesta-importar-un-coche): todos los gastos con un ejemplo.
+- [Riesgos al comprar un coche en Alemania o Suiza](/guias/riesgos-comprar-coche-alemania): kilometraje, daños ocultos, IVA y estafas, con lista de comprobaciones.
+- [Comprar un coche en Suiza y traerlo a España](/guias/comprar-coche-en-suiza): por qué Suiza, portales, términos de los anuncios, qué revisar e impuestos.
+- [Dónde buscar un coche en Alemania y en Suiza](/guias/donde-buscar-coche-alemania-suiza): portales, términos alemanes de los anuncios y concesionario o particular.
+
+## Entrega por ciudad
+
+- [Madrid](/importar-coche/madrid), [Barcelona](/importar-coche/barcelona), [Bilbao](/importar-coche/bilbao), [Valencia](/importar-coche/valencia), [Sevilla](/importar-coche/sevilla), [Málaga](/importar-coche/malaga): distancia desde Basilea, impuesto de matriculación de cada comunidad y ejemplo de coste.
+
+## Cifras clave 2026
+
+- Impuesto de matriculación (general): 0 % hasta 120 g/km de CO2; 4,75 % de 121 a 159; 9,75 % de 160 a 199; 14,75 % desde 200 (16 % en Cataluña, C. Valenciana, Asturias y Baleares).
+- Coche usado importado: base = valor de tablas de Hacienda x % de antigüedad / (1 + 0,21 + tipo).
+- Tasa DGT de matriculación: 97,80 EUR.
+- Desde Suiza: arancel 10 % (0 % con origen preferencial UE/Suiza) e IVA de importación 21 %.
+- Desde Alemania: coche usado sin IVA en España; coche nuevo (6 meses o menos, o 6.000 km o menos) paga 21 % de IVA en España.
