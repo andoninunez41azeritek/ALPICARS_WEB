@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import config from "../content/config";
-import products, { categories, shop } from "../content/products";
+import products, { categories, shop, resolveLine, getVariant } from "../content/products";
 import { ArrowIcon } from "./Icons";
 import { rememberOrigin, track } from "../lib/track";
 import { orderCode } from "../lib/orderCode";
@@ -26,14 +26,27 @@ const Plus = () => <Icon d="M12 5v14M5 12h14" />;
 const eur = (n) => `${n.toLocaleString("es-ES", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} €`;
 const CART_KEY = "alpicars-cart";
 
+// Cada línea del carrito: { id, sku, qty }. "sku" es la opción elegida (color, modelo...); vacío si no tiene.
+const lineKey = (it) => `${it.id}|${it.sku || ""}`;
+
 function readCart() {
   try {
     const raw = JSON.parse(localStorage.getItem(CART_KEY) || "[]");
-    return Array.isArray(raw) ? raw.filter((it) => products.some((p) => p.id === it.id)) : [];
+    if (!Array.isArray(raw)) return [];
+    return raw
+      .map((it) => {
+        const p = products.find((x) => x.id === it.id);
+        if (!p) return null;
+        const sku = p.variants ? (getVariant(p, it.sku) || p.variants[0]).sku : "";
+        return { id: p.id, sku, qty: Math.min(10, Math.max(1, Number(it.qty) || 1)) };
+      })
+      .filter(Boolean);
   } catch {
     return [];
   }
 }
+
+const priceText = (p) => (p.priceFrom < p.priceTo ? `Desde ${eur(p.priceFrom)}` : eur(p.priceFrom));
 function saveCart(cart) {
   try {
     localStorage.setItem(CART_KEY, JSON.stringify(cart));
@@ -90,12 +103,59 @@ function ProductImage({ p, eager = false }) {
 }
 
 // Ficha de un producto: galería, puntos clave, compra y productos relacionados
+// Selector de una opción: muestras de color, foto o botón de texto
+function OptionPicker({ o, value, onChange }) {
+  const current = o.values.find((x) => x.id === value);
+  return (
+    <fieldset className="shop-opt">
+      <legend>
+        {o.name}: <b>{current?.label}</b>
+      </legend>
+      <div className="shop-opt-values">
+        {o.values.map((x) => (
+          <button
+            key={x.id}
+            type="button"
+            className={`shop-opt-btn${x.image ? " has-img" : x.swatch ? " has-swatch" : ""}`}
+            aria-pressed={x.id === value}
+            aria-label={x.label}
+            title={x.label}
+            onClick={() => onChange(x.id)}
+          >
+            {x.image ? (
+              <img src={x.image} alt="" width="64" height="64" loading="lazy" />
+            ) : x.swatch ? (
+              <span className="shop-swatch" style={{ background: x.swatch }} />
+            ) : (
+              x.label
+            )}
+          </button>
+        ))}
+      </div>
+    </fieldset>
+  );
+}
+
 function ProductDetail({ p, onAdd, onBuy }) {
   const [shot, setShot] = useState(0);
-  const pics = p.images?.length ? p.images : [];
+  const [sel, setSel] = useState(() => (p.variants ? { ...p.variants[0].sel } : {}));
+  // Variante de la combinación elegida; si no existe, la primera que tenga la última opción tocada
+  const variant = p.variants ? p.variants.find((x) => p.options.every((o) => x.sel[o.name] === sel[o.name])) || null : null;
+  const price = variant ? variant.price : p.price;
+  const choose = (name, id) => {
+    const next = { ...sel, [name]: id };
+    const ok = p.variants.find((x) => p.options.every((o) => x.sel[o.name] === next[o.name]));
+    setSel(ok ? next : { ...(p.variants.find((x) => x.sel[name] === id) || p.variants[0]).sel });
+    const val = p.options.find((o) => o.name === name)?.values.find((x) => x.id === id);
+    if (val?.image) setShot(-1);
+  };
+  // Foto de la opción elegida (si tiene) delante de la galería
+  const optImage = p.options?.map((o) => o.values.find((x) => x.id === sel[o.name])?.image).find(Boolean);
+  const pics = [...(optImage && !p.images.includes(optImage) ? [optImage] : []), ...(p.images || [])];
+  const shown = shot === -1 ? 0 : Math.min(shot, pics.length - 1);
   const related = products.filter((x) => x.category === p.category && x.id !== p.id).slice(0, 4);
   const cat = categories.find((c) => c.id === p.category);
-  const shareText = `Mira esto de la tienda de AlpiCars: ${p.name} (${eur(p.price)})`;
+  const shareText = `Mira esto de la tienda de AlpiCars: ${p.name} (${priceText(p).toLowerCase()})`;
   const shareUrl = () => `${window.location.origin}/tienda/${p.id}?utm_source=whatsapp&utm_medium=share`;
   const share = async () => {
     track("share_click", { channel: "product", id: p.id });
@@ -118,12 +178,12 @@ function ProductDetail({ p, onAdd, onBuy }) {
       <article className="shop-product">
         <div className="shop-gallery">
           <div className="shop-gallery-main">
-            {pics.length ? <img src={pics[shot]} alt={p.name} width="800" height="800" /> : <ProductImage p={p} />}
+            {pics.length ? <img src={pics[shown]} alt={p.name} width="800" height="800" /> : <ProductImage p={p} />}
           </div>
           {pics.length > 1 && (
             <div className="shop-thumbs" role="list">
               {pics.map((src, i) => (
-                <button key={src} type="button" role="listitem" aria-label={`Foto ${i + 1}`} aria-pressed={shot === i} onClick={() => setShot(i)}>
+                <button key={src} type="button" role="listitem" aria-label={`Foto ${i + 1}`} aria-pressed={shown === i} onClick={() => setShot(i)}>
                   <img src={src} alt="" width="160" height="160" loading="lazy" />
                 </button>
               ))}
@@ -133,14 +193,17 @@ function ProductDetail({ p, onAdd, onBuy }) {
 
         <div className="shop-info">
           <h1>{p.name}</h1>
-          <p className="shop-price">{eur(p.price)}</p>
+          <p className="shop-price">{eur(price)}</p>
           <p className="shop-lead">{p.short}</p>
+          {p.options?.map((o) => (
+            <OptionPicker key={o.name} o={o} value={sel[o.name]} onChange={(id) => choose(o.name, id)} />
+          ))}
           <div className="shop-buy">
-            <button type="button" className="btn btn-accent" onClick={() => onBuy(p.id)}>
+            <button type="button" className="btn btn-accent" onClick={() => onBuy(p.id, variant?.sku)}>
               Comprar ahora
               <ArrowIcon />
             </button>
-            <button type="button" className="btn btn-ghost" onClick={() => onAdd(p.id)}>
+            <button type="button" className="btn btn-ghost" onClick={() => onAdd(p.id, variant?.sku)}>
               Añadir al carrito
             </button>
           </div>
@@ -193,11 +256,18 @@ function ProductCard({ p, onAdd }) {
           <a href={href}>{p.name}</a>
         </h2>
         <p>{p.short}</p>
+        {p.options && <p className="shop-card-opts">{p.options.map((o) => `${o.values.length} ${o.name.toLowerCase()}`).join(" · ")}</p>}
         <div className="shop-card-foot">
-          <strong>{eur(p.price)}</strong>
-          <button type="button" className="btn btn-accent btn-small" onClick={() => onAdd(p.id)} aria-label={`Añadir ${p.name} al carrito`}>
-            Añadir
-          </button>
+          <strong>{priceText(p)}</strong>
+          {p.variants && p.variants.length > 1 ? (
+            <a className="btn btn-accent btn-small" href={href} aria-label={`Elegir opciones de ${p.name}`}>
+              Elegir
+            </a>
+          ) : (
+            <button type="button" className="btn btn-accent btn-small" onClick={() => onAdd(p.id)} aria-label={`Añadir ${p.name} al carrito`}>
+              Añadir
+            </button>
+          )}
         </div>
       </div>
     </li>
@@ -233,25 +303,37 @@ export default function ShopPage({ productId = null }) {
     setCart(next);
     saveCart(next);
   };
-  const add = (id) => {
-    const found = cart.find((it) => it.id === id);
-    update(found ? cart.map((it) => (it.id === id ? { ...it, qty: Math.min(10, it.qty + 1) } : it)) : [...cart, { id, qty: 1 }]);
+  const withSku = (id, sku) => {
+    const p = products.find((x) => x.id === id);
+    return { id, sku: p?.variants ? (getVariant(p, sku) || p.variants[0]).sku : "" };
+  };
+  const add = (id, sku) => {
+    const item = withSku(id, sku);
+    const key = lineKey(item);
+    const found = cart.find((it) => lineKey(it) === key);
+    update(found ? cart.map((it) => (lineKey(it) === key ? { ...it, qty: Math.min(10, it.qty + 1) } : it)) : [...cart, { ...item, qty: 1 }]);
     setStep("cart");
     setOpen(true);
-    track("shop_add", { id });
+    track("shop_add", { id, sku: item.sku });
   };
   // "Comprar ahora": añade (si no está) y abre directamente los datos de envío
-  const buyNow = (id) => {
-    if (!cart.some((it) => it.id === id)) update([...cart, { id, qty: 1 }]);
+  const buyNow = (id, sku) => {
+    const item = withSku(id, sku);
+    if (!cart.some((it) => lineKey(it) === lineKey(item))) update([...cart, { ...item, qty: 1 }]);
     setStep("datos");
     setOpen(true);
-    track("shop_buy_now", { id });
+    track("shop_buy_now", { id, sku: item.sku });
   };
-  const setQty = (id, qty) => update(qty <= 0 ? cart.filter((it) => it.id !== id) : cart.map((it) => (it.id === id ? { ...it, qty: Math.min(10, qty) } : it)));
+  const setQty = (key, qty) => update(qty <= 0 ? cart.filter((it) => lineKey(it) !== key) : cart.map((it) => (lineKey(it) === key ? { ...it, qty: Math.min(10, qty) } : it)));
 
-  const lines = cart.map((it) => ({ ...it, p: products.find((p) => p.id === it.id) })).filter((l) => l.p);
+  const lines = cart
+    .map((it) => {
+      const r = resolveLine(it.id, it.sku);
+      return r && { ...it, key: lineKey(it), p: r.p, price: r.price, label: r.label, image: (r.p.options || []).map((o) => o.values.find((x) => x.id === r.variant?.sel[o.name])?.image).find(Boolean) || r.p.image };
+    })
+    .filter(Boolean);
   const count = lines.reduce((s, l) => s + l.qty, 0);
-  const subtotal = lines.reduce((s, l) => s + l.p.price * l.qty, 0);
+  const subtotal = lines.reduce((s, l) => s + l.price * l.qty, 0);
   const shipping = subtotal === 0 || subtotal >= shop.freeShippingFrom ? 0 : shop.shipping;
   const total = subtotal + shipping;
   const missingForFree = Math.max(0, shop.freeShippingFrom - subtotal);
@@ -329,21 +411,24 @@ export default function ShopPage({ productId = null }) {
               <>
                 <ul className="shop-lines">
                   {lines.map((l) => (
-                    <li key={l.id}>
+                    <li key={l.key}>
                       <span className="shop-line-name">
-                        {l.p.image && <img src={l.p.image} alt="" width="48" height="48" />}
-                        {l.p.name}
+                        {l.image && <img src={l.image} alt="" width="48" height="48" />}
+                        <span>
+                          {l.p.name}
+                          {l.label && <small>{l.label}</small>}
+                        </span>
                       </span>
                       <span className="shop-qty">
-                        <button type="button" onClick={() => setQty(l.id, l.qty - 1)} aria-label="Quitar uno">
+                        <button type="button" onClick={() => setQty(l.key, l.qty - 1)} aria-label="Quitar uno">
                           <Minus />
                         </button>
                         <span>{l.qty}</span>
-                        <button type="button" onClick={() => setQty(l.id, l.qty + 1)} aria-label="Añadir uno">
+                        <button type="button" onClick={() => setQty(l.key, l.qty + 1)} aria-label="Añadir uno">
                           <Plus />
                         </button>
                       </span>
-                      <span className="shop-line-price">{eur(l.p.price * l.qty)}</span>
+                      <span className="shop-line-price">{eur(l.price * l.qty)}</span>
                     </li>
                   ))}
                 </ul>

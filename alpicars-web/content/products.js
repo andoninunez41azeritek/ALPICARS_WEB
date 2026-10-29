@@ -6,20 +6,26 @@
 //   images    fotos en /public/tienda (la primera es la portada). Sacadas de los anuncios del proveedor (29/10/2026).
 //   features  puntos clave que se ven en la ficha del producto
 //   supplier  anuncio de AliExpress donde se compra
-//   variant   qué opción hay que elegir en AliExpress al hacer el pedido (sale en el panel y en el email del pedido)
+//   price / variant   precio y opción a elegir en AliExpress, para productos sin opciones
+//   choice    UNA opción para el cliente (color, modelo...). Cada valor lleva su precio y la opción de AliExpress.
+//   options + variants   VARIAS opciones combinadas (p. ej. tamaño y pack): una variante por combinación.
 //
-// Textos escritos a partir de los anuncios. PENDIENTE (AlpiCars): confirmar las variantes marcadas y revisar los textos
-// cuando tengáis el producto en la mano.
+// La opción de AliExpress ("supplier" de cada valor/variante) sale en el panel y en el email de cada pedido.
+//
+// PENDIENTE (AlpiCars):
+//  - Revisar los precios de las opciones nuevas (packs, modelos, 2 baterías): son una propuesta de Azeritek
+//    con un margen parecido al de los precios originales.
+//  - Confirmar los textos cuando tengáis los productos en la mano.
 
 const img = (id, ns) => ns.map((n) => `/tienda/${id}-${n}.webp`);
+const v = (name) => `/tienda/v-${name}.webp`;
 
-const products = [
+const raw = [
   // Detailing
   {
     id: "pistola-agua-presion",
     category: "detailing",
     name: "Pistola de agua a presión inalámbrica",
-    price: 59.99,
     short: "Lava el coche donde quieras: funciona con batería y coge el agua de un cubo.",
     text: "Hidrolavadora a batería para lavar la carrocería, las llantas y los bajos sin depender de un enchufe ni de un túnel de lavado. Con su manguera aspira el agua de un cubo o una garrafa, así que puedes usarla en el garaje, en la calle o en el campo.",
     features: [
@@ -31,30 +37,40 @@ const products = [
     ],
     images: img("pistola-agua-presion", [1, 2, 3, 4]),
     supplier: "https://es.aliexpress.com/item/1005011812168005.html",
-    variant: "Kit con 2 baterías y cargador (el de la foto) · PENDIENTE confirmar",
+    choice: {
+      name: "Batería",
+      values: [
+        { id: "1-bateria", label: "1 batería", price: 59.99, supplier: "1 battery(5 sec)", image: v("pistola-1bat") },
+        { id: "2-baterias", label: "2 baterías", price: 69.99, supplier: "2 battery(5 sec)", image: v("pistola-2bat") },
+      ],
+    },
   },
   {
     id: "kit-detailing-20",
     category: "detailing",
-    name: "Kit de detailing de 20 piezas",
-    price: 34.99,
+    name: "Kit de detailing",
     short: "Cepillos, manopla y paños para dejar el coche impecable por dentro y por fuera.",
-    text: "Juego de 20 piezas para limpiar cada rincón del coche: cepillos finos para las rejillas del aire y los huecos de los asientos, cepillo para llantas, manopla de lavado, esponjas y paños de microfibra.",
+    text: "Juego completo para limpiar cada rincón del coche: cepillos finos para las rejillas del aire y los huecos de los asientos, cepillo para llantas, manopla de lavado, esponjas y paños de microfibra.",
     features: [
-      "20 piezas para el interior y el exterior",
+      "Para el interior y el exterior",
       "Cepillos de detalle para rejillas, botones y costuras",
       "Cepillo de llantas con mango largo",
       "Manopla de lavado y paños de microfibra",
     ],
     images: img("kit-detailing-20", [1, 2, 4]),
     supplier: "https://es.aliexpress.com/item/1005012878751653.html",
-    variant: "20 piezas (no la de 16)",
+    choice: {
+      name: "Piezas",
+      values: [
+        { id: "20", label: "20 piezas", price: 34.99, supplier: "20PCSBB", image: "/tienda/kit-detailing-20-1.webp" },
+        { id: "16", label: "16 piezas", price: 29.99, supplier: "16pcsAA", image: v("kit-16") },
+      ],
+    },
   },
   {
     id: "aspiradora",
     category: "detailing",
     name: "Aspiradora inalámbrica para coche",
-    price: 49.99,
     short: "Compacta y potente (26.000 Pa) para alfombrillas, asientos y maletero.",
     text: "Aspiradora de mano sin cable pensada para el coche. Es pequeña, se carga por USB-C y trae boquillas para llegar a los huecos entre los asientos. También sopla, para sacar el polvo de las rejillas y del teclado.",
     features: [
@@ -65,31 +81,54 @@ const products = [
     ],
     images: img("aspiradora", [1, 2, 3, 4]),
     supplier: "https://es.aliexpress.com/item/1005010126985836.html",
-    variant: "Color plateado (el de la foto) · PENDIENTE confirmar",
+    choice: {
+      name: "Color",
+      values: [
+        // PENDIENTE: confirmar que "Purple" es la gris con detalles morados de las fotos
+        { id: "gris", label: "Gris y morado", price: 49.99, supplier: "Purple", swatch: "linear-gradient(135deg,#8a8f99 50%,#7b4fd6 50%)" },
+        { id: "amarillo", label: "Amarillo", price: 49.99, supplier: "Yellow", swatch: "#f2c230" },
+      ],
+    },
   },
   {
-    id: "toallas-30x40",
+    id: "toallas-microfibra",
     category: "detailing",
-    name: "Toallas de microfibra 30 × 40 (3 unidades)",
-    price: 14.99,
+    name: "Toallas de microfibra para el coche",
     short: "Gruesas y de doble capa: secan y pulen sin dejar marcas ni rayar.",
-    text: "Tres toallas de microfibra de 30 × 40 cm, gruesas y de doble capa. Absorben mucha agua y no sueltan pelusa, ideales para secar, pulir y limpiar cristales e interiores.",
-    features: ["3 toallas de 30 × 40 cm", "Microfibra gruesa de doble capa", "Muy absorbentes y sin pelusa"],
+    text: "Toallas de microfibra gruesas y de doble capa. Absorben mucha agua y no sueltan pelusa: las pequeñas para cristales, interiores y pulir; las grandes para secar la carrocería en menos pasadas.",
+    features: ["Microfibra gruesa de doble capa", "Muy absorbentes y sin pelusa", "3 tamaños: 30 × 30, 30 × 40 y 30 × 60 cm", "Packs de 3, 5 o 10 unidades"],
     images: img("toallas", [3, 2, 4]),
     supplier: "https://es.aliexpress.com/item/1005006620527681.html",
-    variant: "3pcs 30x40cm",
-  },
-  {
-    id: "toallas-30x60",
-    category: "detailing",
-    name: "Toallas de microfibra 30 × 60 (3 unidades)",
-    price: 19.99,
-    short: "Tamaño grande para secar la carrocería en menos pasadas.",
-    text: "Tres toallas de microfibra de 30 × 60 cm, más grandes, para secar la carrocería completa después del lavado sin dejar marcas de agua.",
-    features: ["3 toallas de 30 × 60 cm", "Microfibra gruesa de doble capa", "Secan el coche entero en menos pasadas"],
-    images: img("toallas", [4, 3, 2]),
-    supplier: "https://es.aliexpress.com/item/1005006620527681.html",
-    variant: "3pcs 30x60cm",
+    options: [
+      {
+        name: "Tamaño",
+        values: [
+          { id: "30x40", label: "30 × 40 cm" },
+          { id: "30x60", label: "30 × 60 cm" },
+          { id: "30x30", label: "30 × 30 cm" },
+        ],
+      },
+      {
+        name: "Unidades",
+        values: [
+          { id: "3", label: "3 toallas" },
+          { id: "5", label: "5 toallas" },
+          { id: "10", label: "10 toallas" },
+        ],
+      },
+    ],
+    variants: [
+      // Las dos primeras son las del documento de AlpiCars (14,99 € y 19,99 €); el resto, propuesta
+      { sku: "30x40-3", sel: { Tamaño: "30x40", Unidades: "3" }, price: 14.99, supplier: "3pcs 30x40cm" },
+      { sku: "30x60-3", sel: { Tamaño: "30x60", Unidades: "3" }, price: 19.99, supplier: "3pcs 30x60cm" },
+      { sku: "30x30-3", sel: { Tamaño: "30x30", Unidades: "3" }, price: 12.99, supplier: "3pcs 30x30cm" },
+      { sku: "30x40-5", sel: { Tamaño: "30x40", Unidades: "5" }, price: 19.99, supplier: "5pcs 30x40cm" },
+      { sku: "30x60-5", sel: { Tamaño: "30x60", Unidades: "5" }, price: 24.99, supplier: "5pcs 30x60cm" },
+      { sku: "30x30-5", sel: { Tamaño: "30x30", Unidades: "5" }, price: 16.99, supplier: "5pcs 30x30cm" },
+      { sku: "30x40-10", sel: { Tamaño: "30x40", Unidades: "10" }, price: 32.99, supplier: "10pcs 30x40cm" },
+      { sku: "30x60-10", sel: { Tamaño: "30x60", Unidades: "10" }, price: 39.99, supplier: "10pcs 30x60cm" },
+      { sku: "30x30-10", sel: { Tamaño: "30x30", Unidades: "10" }, price: 24.99, supplier: "10pcs 30x30cm" },
+    ],
   },
   {
     id: "pulidor-faros",
@@ -110,82 +149,164 @@ const products = [
   {
     id: "limpiador-interiores",
     category: "detailing",
-    name: "Limpiador de interiores (300 ml)",
-    price: 29.99,
+    name: "Limpiador de interiores",
     short: "Limpia tapicería, cuero, techo y salpicadero sin necesidad de agua.",
     text: "Espray limpiador multiusos para el interior del coche. Se aplica, se frota con un paño y se retira: quita manchas de la tapicería de tela, el cuero, el techo y los plásticos sin tener que aclarar con agua.",
-    features: ["300 ml", "Para tela, cuero, techo y plásticos", "No necesita agua para aclarar", "Quita manchas y suciedad del día a día"],
+    features: ["Para tela, cuero, techo y plásticos", "No necesita agua para aclarar", "Quita manchas y suciedad del día a día"],
     images: img("limpiador-interiores", [1, 2, 3, 4]),
     supplier: "https://de.aliexpress.com/item/1005008040606742.html",
-    variant: "S21-300ML",
+    choice: {
+      name: "Formato",
+      values: [
+        { id: "300ml", label: "1 bote de 300 ml", price: 29.99, supplier: "S21-300ML" },
+        { id: "4x50ml", label: "4 botes de 50 ml", price: 29.99, supplier: "50MLx4pcs" },
+      ],
+    },
   },
   // Accesorios
   {
     id: "llavero-seguridad",
     category: "accesorios",
     name: "Llavero de seguridad con cortacinturón y martillo",
-    price: 24.99,
     short: "Corta el cinturón y rompe la ventanilla en caso de emergencia.",
     text: "Llavero de emergencia que va siempre con las llaves del coche: un martillo rompecristales para salir por la ventanilla, una cuchilla protegida para cortar el cinturón y un silbato para pedir ayuda.",
     features: ["Martillo rompecristales", "Cuchilla protegida para cortar el cinturón", "Silbato de emergencia", "Pequeño y ligero: va en el llavero"],
     images: img("llavero-seguridad", [1, 2, 3, 4]),
     supplier: "https://de.aliexpress.com/item/1005006696359316.html",
-    variant: "Color a elegir (azul, rojo, naranja o amarillo) · PENDIENTE decidir",
+    choice: {
+      name: "Color",
+      values: [
+        ["rojo", "Rojo", "Red", "#d42a2a"],
+        ["negro", "Negro", "Black", "#1b1b1b"],
+        ["azul", "Azul", "Blue", "#1f4fd6"],
+        ["naranja", "Naranja", "Orange", "#f07a1a"],
+        ["amarillo", "Amarillo", "Yellow", "#f2c230"],
+        ["verde", "Verde", "Green", "#2fb04a"],
+        ["rosa", "Rosa", "Pink", "#f2a6c0"],
+        ["morado", "Morado", "Purple", "#7b3fc4"],
+      ].map(([id, label, supplier, swatch]) => ({ id, label, price: 24.99, supplier, swatch, image: v(`llavero-${id}`) })),
+    },
   },
   {
     id: "adaptador-usb-bluetooth",
     category: "accesorios",
     name: "Adaptador Bluetooth y USB para el coche",
-    price: 18.99,
-    short: "Música y llamadas por Bluetooth y carga rápida del móvil en cualquier coche.",
-    text: "Se enchufa en la toma de mechero y conecta el móvil por Bluetooth 5.0: pon tu música en la radio del coche (por FM) y habla por manos libres. Además carga el móvil rápido por USB y USB-C.",
+    short: "Música y llamadas por Bluetooth y carga del móvil en cualquier coche.",
+    text: "Se enchufa en la toma de mechero y conecta el móvil por Bluetooth 5.0: pon tu música en la radio del coche (por FM) y habla por manos libres. Además carga el móvil por USB; los modelos de carga rápida lo cargan en mucho menos tiempo.",
     features: [
       "Bluetooth 5.0: música y llamadas manos libres",
       "Funciona en cualquier coche con radio FM",
-      "Carga rápida de 22,5 W por USB y 20 W por USB-C",
-      "Pantalla con la frecuencia y la tensión de la batería",
+      "Carga el móvil por USB (rápida en los modelos C22, C17 y C16)",
+      "Pantalla con la frecuencia de radio",
     ],
     images: img("adaptador-usb-bluetooth", [1, 2, 3, 4]),
     supplier: "https://es.aliexpress.com/item/1005005060630213.html",
-    variant: "Modelo de la foto (negro, con luces de colores) · PENDIENTE confirmar",
+    choice: {
+      name: "Modelo",
+      values: [
+        { id: "c22", label: "C22 · carga rápida 22,5 W + USB-C 20 W", price: 22.99, supplier: "C22", image: v("transmisor-c22") },
+        { id: "c16", label: "C16 · supercarga 22,5 W", price: 22.99, supplier: "C16-Black", image: v("transmisor-c16") },
+        { id: "c17", label: "C17 · carga rápida USB-C 20 W y QC 3.0", price: 24.99, supplier: "C17-Black", image: v("transmisor-c17") },
+        { id: "c26", label: "C26 · estándar", price: 18.99, supplier: "C26-Black", image: v("transmisor-c26") },
+        { id: "c24", label: "C24 · estándar", price: 18.99, supplier: "C24-Black", image: v("transmisor-c24") },
+      ],
+    },
   },
   {
     id: "luz-interior",
     category: "accesorios",
-    name: "Luces LED de ambiente para el interior (2 unidades)",
-    price: 34.99,
-    short: "Dos luces sin cables de 8 colores con mando a distancia.",
-    text: "Dos luces LED inalámbricas y recargables para dar un ambiente más cuidado al habitáculo por la noche. Se pegan donde quieras, sin cables ni instalación, y se cambian de color con el mando.",
-    features: ["2 luces LED inalámbricas", "8 colores y varios modos", "Recargables, sin cables ni instalación", "Mando a distancia incluido"],
+    name: "Luces LED de ambiente para el interior",
+    short: "Luces sin cables de 8 colores con mando a distancia.",
+    text: "Luces LED inalámbricas y recargables para dar un ambiente más cuidado al habitáculo por la noche. Se pegan donde quieras, sin cables ni instalación, y se cambian de color con el mando.",
+    features: ["Luces LED inalámbricas", "8 colores y varios modos", "Recargables, sin cables ni instalación", "Mando a distancia incluido"],
     images: img("luz-interior", [1, 2, 3, 4]),
     supplier: "https://de.aliexpress.com/item/1005008716612671.html",
-    variant: "2PCS · RGB",
+    choice: {
+      name: "Unidades",
+      values: [
+        { id: "2", label: "2 luces", price: 34.99, supplier: "2PCS · RGB" },
+        { id: "4", label: "4 luces", price: 54.99, supplier: "4PCS · RGB" },
+        { id: "6", label: "6 luces", price: 64.99, supplier: "6PCS · RGB" },
+        { id: "8", label: "8 luces", price: 79.99, supplier: "8pcs · RGB" },
+      ],
+    },
   },
   {
     id: "quita-aranazos",
     category: "accesorios",
     name: "Quita-arañazos para la pintura",
-    price: 47.99,
     short: "Elimina o disimula los arañazos superficiales en pocos minutos.",
     text: "Crema pulidora con esponja aplicadora para quitar los arañazos superficiales y las marcas de la pintura, como las de las uñas junto a las manillas o los roces leves. Se aplica a mano en tres pasos.",
     features: ["Para arañazos superficiales y roces leves", "Esponja aplicadora incluida", "Se aplica a mano en 3 pasos"],
     images: img("quita-aranazos", [1, 2, 3, 4]),
     supplier: "https://es.aliexpress.com/item/1005013065446716.html",
-    variant: "1pc",
+    choice: {
+      name: "Unidades",
+      values: [
+        { id: "1", label: "1 bote", price: 47.99, supplier: "1pc" },
+        { id: "3", label: "3 botes", price: 89.99, supplier: "3pcs" },
+        { id: "5", label: "5 botes", price: 129.99, supplier: "5pcs" },
+      ],
+    },
   },
   {
     id: "pantalla-frontal",
     category: "accesorios",
     name: "Pantalla frontal de velocidad (HUD)",
-    price: 36.99,
     short: "La velocidad a la vista, sin apartar los ojos de la carretera.",
     text: "Pantalla para el salpicadero que muestra la velocidad en km/h, medida por GPS. Se enchufa por USB y funciona en cualquier coche, sin conexiones ni instalación. El brillo se ajusta solo de día y de noche.",
     features: ["Velocidad en km/h medida por GPS", "Compatible con todos los coches", "Enchufar y listo, por USB", "Brillo automático de día y de noche"],
     images: img("pantalla-frontal", [1, 2, 3]),
     supplier: "https://es.aliexpress.com/item/1005008164160774.html",
-    variant: "Versión KM/H (¡no la MPH, que es la que sale marcada!)",
+    choice: {
+      name: "Color de los números",
+      values: [
+        // Siempre la versión KM H (la MPH es para EE. UU. y Reino Unido)
+        { id: "blanco", label: "Blanco", price: 36.99, supplier: "White Light KM H", swatch: "#f4f6f9", image: v("hud-blanco") },
+        { id: "verde", label: "Verde", price: 36.99, supplier: "Green Light KM H", swatch: "#2fd36a", image: v("hud-verde") },
+      ],
+    },
   },
-].map((p) => ({ ...p, image: p.images[0] }));
+];
+
+// Convierte "choice" en options + variants para que todo funcione igual
+function normalize(p) {
+  let { options, variants } = p;
+  if (p.choice) {
+    options = [{ name: p.choice.name, values: p.choice.values.map(({ id, label, swatch, image }) => ({ id, label, swatch, image })) }];
+    variants = p.choice.values.map((x) => ({ sku: x.id, sel: { [p.choice.name]: x.id }, price: x.price, supplier: x.supplier }));
+  }
+  const prices = variants ? variants.map((x) => x.price) : [p.price];
+  const out = { ...p, options: options || null, variants: variants || null, image: p.images[0] };
+  delete out.choice;
+  out.price = variants ? variants[0].price : p.price; // precio de la opción que sale marcada
+  out.priceFrom = Math.min(...prices);
+  out.priceTo = Math.max(...prices);
+  return out;
+}
+
+const products = raw.map(normalize);
+
+// Variante elegida (o null si el producto no tiene opciones / la variante no existe)
+export function getVariant(p, sku) {
+  if (!p?.variants) return null;
+  return p.variants.find((x) => x.sku === sku) || null;
+}
+
+// Texto de la opción elegida, p. ej. "30 × 40 cm · 5 toallas"
+export function variantLabel(p, variant) {
+  if (!p?.options || !variant) return "";
+  return p.options.map((o) => o.values.find((x) => x.id === variant.sel[o.name])?.label).filter(Boolean).join(" · ");
+}
+
+// Precio, nombre completo y opción de AliExpress de una línea del carrito (lo usan la tienda, el pago y el webhook)
+export function resolveLine(id, sku) {
+  const p = products.find((x) => x.id === id);
+  if (!p) return null;
+  if (!p.variants) return { p, variant: null, price: p.price, label: "", supplierVariant: p.variant || "" };
+  const variant = getVariant(p, sku) || p.variants[0];
+  return { p, variant, price: variant.price, label: variantLabel(p, variant), supplierVariant: variant.supplier || "" };
+}
 
 export const categories = [
   { id: "detailing", label: "Detailing y limpieza" },

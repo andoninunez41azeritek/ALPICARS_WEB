@@ -4,7 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import ReportShell from "./ReportShell";
 import { useSite } from "./SiteProvider";
 import { db } from "../lib/supabase";
-import products from "../content/products";
+import products, { variantLabel } from "../content/products";
 import { ORDER_STATUS, trackingUrl } from "../lib/orderCode";
 
 // Panel del equipo de AlpiCars: solicitudes que llegan desde la web y ofertas para los clientes registrados.
@@ -342,8 +342,17 @@ function Panel() {
           {products.map((p) => (
             <li key={p.id}>
               <span>{p.name}</span>
-              <span className="report-small">{p.price.toLocaleString("es-ES", { minimumFractionDigits: 2 })} €</span>
+              <span className="report-small">
+                {p.priceFrom < p.priceTo
+                  ? `${p.priceFrom.toLocaleString("es-ES", { minimumFractionDigits: 2 })} – ${p.priceTo.toLocaleString("es-ES", { minimumFractionDigits: 2 })} €`
+                  : `${p.price.toLocaleString("es-ES", { minimumFractionDigits: 2 })} €`}
+              </span>
               {p.variant && <span className="report-small">Elegir: {p.variant}</span>}
+              {p.variants && (
+                <span className="report-small admin-variants">
+                  {p.variants.map((x) => `${variantLabel(p, x)} → ${x.supplier}`).join(" · ")}
+                </span>
+              )}
               {p.supplier ? (
                 <a href={p.supplier} target="_blank" rel="noopener noreferrer">Abrir en AliExpress</a>
               ) : (

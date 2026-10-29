@@ -9,7 +9,7 @@
 //  Las dos solo en el servidor (.env.local y Vercel), nunca con NEXT_PUBLIC_.
 
 import crypto from "node:crypto";
-import products from "../../../../content/products";
+import { resolveLine } from "../../../../content/products";
 import { orderCode } from "../../../../lib/orderCode";
 
 export const runtime = "nodejs";
@@ -40,9 +40,19 @@ export async function POST(req) {
   const items = String(m.items || "")
     .split(",")
     .map((x) => x.split(":"))
-    .map(([id, qty]) => ({ p: products.find((p) => p.id === id), qty: Number(qty) || 1 }))
-    .filter((x) => x.p)
-    .map(({ p, qty }) => ({ id: p.id, name: p.name, qty, price: p.price, supplier: p.supplier || "", variant: p.variant || "" }));
+    // Formato "id:opción:cantidad" (o "id:cantidad" en productos sin opciones)
+    .map((parts) => (parts.length >= 3 ? { id: parts[0], sku: parts[1], qty: parts[2] } : { id: parts[0], sku: "", qty: parts[1] }))
+    .map((x) => ({ r: resolveLine(x.id, x.sku), qty: Number(x.qty) || 1 }))
+    .filter((x) => x.r)
+    .map(({ r, qty }) => ({
+      id: r.p.id,
+      sku: r.variant?.sku || "",
+      name: r.label ? `${r.p.name} (${r.label})` : r.p.name,
+      qty,
+      price: r.price,
+      supplier: r.p.supplier || "",
+      variant: r.supplierVariant,
+    }));
   const subtotal = items.reduce((t, i) => t + i.price * i.qty, 0);
   const total = (s.amount_total || 0) / 100;
 

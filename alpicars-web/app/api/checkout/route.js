@@ -6,7 +6,7 @@
 // Para activarlo: crear la cuenta de Stripe de AlpiCars y poner la clave secreta en .env.local:
 //   STRIPE_SECRET_KEY=sk_test_...   (pruebas)   ·   sk_live_...   (cobros reales, cuando AlpiCars esté dada de alta)
 
-import products, { shop } from "../../../content/products";
+import products, { shop, getVariant, resolveLine } from "../../../content/products";
 
 const cents = (eur) => Math.round(eur * 100);
 
@@ -23,10 +23,16 @@ export async function POST(req) {
     return Response.json({ error: "bad_request" }, { status: 400 });
   }
 
-  // Productos: solo los que existen, cantidades de 1 a 10
-  const items = (Array.isArray(body.items) ? body.items : [])
-    .map((it) => ({ p: products.find((x) => x.id === it.id), qty: Math.min(10, Math.max(1, Math.floor(Number(it.qty) || 0))) }))
-    .filter((it) => it.p);
+  // Productos: solo los que existen, con una opción válida si tienen opciones, y cantidades de 1 a 10.
+  // El precio sale de content/products.js (de la opción elegida), nunca del navegador.
+  const items = (Array.isArray(body.items) ? body.items.slice(0, 30) : [])
+    .map((it) => {
+      const p = products.find((x) => x.id === it.id);
+      if (!p || (p.variants && !getVariant(p, it.sku))) return null;
+      const r = resolveLine(p.id, it.sku);
+      return { p, sku: r.variant?.sku || "", price: r.price, label: r.label, qty: Math.min(10, Math.max(1, Math.floor(Number(it.qty) || 0))) };
+    })
+    .filter(Boolean);
   if (!items.length) return Response.json({ error: "empty" }, { status: 400 });
 
   // Datos del cliente (obligatorios)
@@ -47,10 +53,11 @@ export async function POST(req) {
     return Response.json({ error: "customer", missing }, { status: 400 });
   }
 
-  const subtotal = items.reduce((s, it) => s + it.p.price * it.qty, 0);
+  const subtotal = items.reduce((s, it) => s + it.price * it.qty, 0);
   const shipping = subtotal >= shop.freeShippingFrom ? 0 : shop.shipping;
   const origin = req.headers.get("origin") || new URL(req.url).origin;
-  const summary = items.map((it) => `${it.qty} x ${it.p.name}`).join("; ").slice(0, 480);
+  const fullName = (it) => (it.label ? `${it.p.name} (${it.label})` : it.p.name);
+  const summary = items.map((it) => `${it.qty} x ${fullName(it)}`).join("; ").slice(0, 480);
 
   const f = new URLSearchParams();
   f.set("mode", "payment");
@@ -61,8 +68,8 @@ export async function POST(req) {
   items.forEach((it, i) => {
     f.set(`line_items[${i}][quantity]`, String(it.qty));
     f.set(`line_items[${i}][price_data][currency]`, "eur");
-    f.set(`line_items[${i}][price_data][unit_amount]`, String(cents(it.p.price)));
-    f.set(`line_items[${i}][price_data][product_data][name]`, it.p.name);
+    f.set(`line_items[${i}][price_data][unit_amount]`, String(cents(it.price)));
+    f.set(`line_items[${i}][price_data][product_data][name]`, fullName(it).slice(0, 250));
   });
   f.set("shipping_options[0][shipping_rate_data][type]", "fixed_amount");
   f.set("shipping_options[0][shipping_rate_data][display_name]", shipping === 0 ? "Envío gratuito" : "Envío a domicilio");
@@ -76,7 +83,7 @@ export async function POST(req) {
     direccion: `${customer.address}, ${customer.zip} ${customer.city} (${customer.province})`,
   };
   // Productos y cantidades para crear el pedido desde el webhook (id:cantidad,...)
-  meta.items = items.map((it) => `${it.p.id}:${it.qty}`).join(",").slice(0, 490);
+  meta.items = items.map((it) => (it.sku ? `${it.p.id}:${it.sku}:${it.qty}` : `${it.p.id}:${it.qty}`)).join(",").slice(0, 490);
   meta.email = customer.email;
   for (const [k, v] of Object.entries(meta)) {
     f.set(`metadata[${k}]`, v);

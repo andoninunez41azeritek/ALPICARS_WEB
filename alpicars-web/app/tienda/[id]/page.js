@@ -40,14 +40,15 @@ export default async function Page({ params }) {
           "@type": "Offer",
           url,
           priceCurrency: "EUR",
-          price: p.price.toFixed(2),
+          price: p.priceFrom.toFixed(2),
+          ...(p.priceFrom < p.priceTo ? { priceSpecification: { "@type": "PriceSpecification", minPrice: p.priceFrom.toFixed(2), maxPrice: p.priceTo.toFixed(2), priceCurrency: "EUR" } } : {}),
           availability: "https://schema.org/InStock",
           itemCondition: "https://schema.org/NewCondition",
           seller: { "@id": `${config.siteUrl}/#organizacion` },
           shippingDetails: {
             "@type": "OfferShippingDetails",
             shippingDestination: { "@type": "DefinedRegion", addressCountry: "ES" },
-            shippingRate: { "@type": "MonetaryAmount", value: (p.price >= shop.freeShippingFrom ? 0 : shop.shipping).toFixed(2), currency: "EUR" },
+            shippingRate: { "@type": "MonetaryAmount", value: (p.priceFrom >= shop.freeShippingFrom ? 0 : shop.shipping).toFixed(2), currency: "EUR" },
             deliveryTime: {
               "@type": "ShippingDeliveryTime",
               handlingTime: { "@type": "QuantitativeValue", minValue: 0, maxValue: 2, unitCode: "DAY" },
