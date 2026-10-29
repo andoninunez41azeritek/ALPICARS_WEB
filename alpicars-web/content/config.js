@@ -15,8 +15,23 @@ const config = {
   whatsappNumber: "34600000000",
   whatsappText: "Hola AlpiCars, me gustaría información para importar un coche.",
 
-  // PENDIENTE: email donde llegan las solicitudes de presupuesto
-  email: "info@alpicars.com",
+  // Email de contacto público (el del aviso legal de AlpiCars)
+  email: "contact@alpicars.com",
+
+  // Titulares de la web (aviso legal y privacidad)
+  company: {
+    owners: ["Mohamed El hachimi", "Peio Berasategui"],
+    city: "Zúrich, Suiza",
+    // PENDIENTE (AlpiCars): teléfono suizo de contacto, p. ej. "+41 44 123 45 67". Vacío = no se muestra.
+    phone: "",
+  },
+
+  // Medición. Vacío = desactivado. Solo se cargan si el visitante acepta esas cookies en el aviso.
+  // PENDIENTE (AlpiCars/Azeritek): crear Google Analytics 4 y el píxel de Meta si se quieren usar.
+  analytics: {
+    ga4: "", // ID de Google Analytics 4, p. ej. "G-XXXXXXXXXX"
+    metaPixel: "", // ID del píxel de Meta, p. ej. "123456789012345"
+  },
 
   // Tienda propia (app/tienda). Si algún día se pasa a Shopify, cambia aquí el enlace.
   shopUrl: "/tienda",

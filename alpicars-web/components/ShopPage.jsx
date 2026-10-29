@@ -6,6 +6,8 @@ import products, { categories, shop } from "../content/products";
 import { ArrowIcon } from "./Icons";
 import { rememberOrigin, track } from "../lib/track";
 import { orderCode } from "../lib/orderCode";
+import { LegalBody } from "./LegalDoc";
+import { tiendaCondiciones } from "../content/legal";
 
 // Tienda AlpiCars: productos de detailing y accesorios.
 // Va aparte de la web principal (con su propia cabecera) para no mezclarla con el servicio de importación.
@@ -297,10 +299,8 @@ export function ShopThanks() {
 export function ShopTerms() {
   return (
     <ShopShell>
-      <section className="shop-hero shop-terms">
-        <h1>Condiciones de venta, envíos y devoluciones</h1>
-        {/* PENDIENTE (AlpiCars): texto legal definitivo, con los datos fiscales de la empresa, antes de vender */}
-        <p>Texto pendiente de AlpiCars. Debe incluir: datos de la empresa, precios con IVA, plazos y gastos de envío, derecho de desistimiento de 14 días, garantía de 3 años de los productos y cómo hacer una devolución.</p>
+      <section className="shop-terms">
+        <LegalBody doc={tiendaCondiciones(shop, eur)} />
       </section>
     </ShopShell>
   );

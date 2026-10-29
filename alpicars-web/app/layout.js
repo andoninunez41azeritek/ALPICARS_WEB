@@ -2,6 +2,7 @@ import { Libre_Franklin } from "next/font/google";
 import config from "../content/config";
 import es from "../content/es";
 import "./globals.css";
+import CookieBanner from "../components/CookieBanner";
 
 const franklin = Libre_Franklin({ subsets: ["latin"], weight: ["400", "500", "700"], variable: "--font-franklin", display: "swap" });
 
@@ -97,6 +98,7 @@ export default function RootLayout({ children }) {
     <html lang="es" className={franklin.variable}>
       <body>
         {children}
+        <CookieBanner />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       </body>
     </html>

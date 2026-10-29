@@ -1,14 +1,13 @@
-// PENDIENTE: texto legal definitivo de AlpiCars (obligatorio antes de publicar la web)
-export const metadata = { title: "Aviso legal · AlpiCars", robots: { index: false } };
+import LegalDoc from "../../components/LegalDoc";
+import { avisoLegal } from "../../content/legal";
+
+// Texto en content/legal.js
+export const metadata = {
+  title: "Aviso legal",
+  description: "Titulares, contacto y condiciones de uso de la web de AlpiCars.",
+  robots: { index: false, follow: true },
+};
 
 export default function Page() {
-  return (
-    <main className="section legal">
-      <h1>Aviso legal</h1>
-      <p className="lead">Texto pendiente de AlpiCars.</p>
-      <p style={{ marginTop: 32 }}>
-        <a className="btn btn-dark" href="/">Volver a la web</a>
-      </p>
-    </main>
-  );
+  return <LegalDoc doc={avisoLegal} />;
 }

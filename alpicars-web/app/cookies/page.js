@@ -1,14 +1,13 @@
-// PENDIENTE: texto legal definitivo de AlpiCars (obligatorio antes de publicar la web)
-export const metadata = { title: "Política de cookies · AlpiCars", robots: { index: false } };
+import LegalDoc from "../../components/LegalDoc";
+import { cookies } from "../../content/legal";
+
+// Texto en content/legal.js
+export const metadata = {
+  title: "Política de cookies",
+  description: "Qué cookies usa la web de AlpiCars y cómo configurarlas.",
+  robots: { index: false, follow: true },
+};
 
 export default function Page() {
-  return (
-    <main className="section legal">
-      <h1>Política de cookies</h1>
-      <p className="lead">Texto pendiente de AlpiCars.</p>
-      <p style={{ marginTop: 32 }}>
-        <a className="btn btn-dark" href="/">Volver a la web</a>
-      </p>
-    </main>
-  );
+  return <LegalDoc doc={cookies} />;
 }

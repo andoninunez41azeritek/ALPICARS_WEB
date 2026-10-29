@@ -3,6 +3,7 @@
 import config from "../content/config";
 import photos from "../content/photos";
 import { useSite } from "./SiteProvider";
+import { openCookieSettings } from "./CookieBanner";
 
 // Los Alpes formados por las letras de AlpiCars: cada letra es una montaña con su cumbre nevada.
 const W = 1600;
@@ -109,6 +110,11 @@ export default function Footer() {
               <a href={n.href}>{n.label}</a>
             </li>
           ))}
+          <li>
+            <button type="button" className="ft-link-btn" onClick={openCookieSettings}>
+              {f.cookieSettings || "Configurar cookies"}
+            </button>
+          </li>
         </ul>
       </div>
 
