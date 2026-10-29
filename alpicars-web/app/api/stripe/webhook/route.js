@@ -42,7 +42,7 @@ export async function POST(req) {
     .map((x) => x.split(":"))
     .map(([id, qty]) => ({ p: products.find((p) => p.id === id), qty: Number(qty) || 1 }))
     .filter((x) => x.p)
-    .map(({ p, qty }) => ({ id: p.id, name: p.name, qty, price: p.price, supplier: p.supplier || "" }));
+    .map(({ p, qty }) => ({ id: p.id, name: p.name, qty, price: p.price, supplier: p.supplier || "", variant: p.variant || "" }));
   const subtotal = items.reduce((t, i) => t + i.price * i.qty, 0);
   const total = (s.amount_total || 0) / 100;
 

@@ -74,16 +74,138 @@ export function ShopShell({ children, cartCount = 0, onCart }) {
   );
 }
 
-function ProductImage({ p }) {
-  if (p.image) return <img src={p.image} alt={p.name} width="600" height="600" loading="lazy" />;
+function ProductImage({ p, eager = false }) {
+  if (!p.image)
+    return (
+      <div className="shop-ph" aria-hidden="true">
+        <span>{p.name.charAt(0)}</span>
+      </div>
+    );
   return (
-    <div className="shop-ph" aria-hidden="true">
-      <span>{p.name.charAt(0)}</span>
-    </div>
+    <span className="shop-pic">
+      <img src={p.image} alt={p.name} width="800" height="800" loading={eager ? "eager" : "lazy"} />
+      {p.images?.[1] && <img className="shop-pic-alt" src={p.images[1]} alt="" width="800" height="800" loading="lazy" aria-hidden="true" />}
+    </span>
   );
 }
 
-export default function ShopPage() {
+// Ficha de un producto: galería, puntos clave, compra y productos relacionados
+function ProductDetail({ p, onAdd, onBuy }) {
+  const [shot, setShot] = useState(0);
+  const pics = p.images?.length ? p.images : [];
+  const related = products.filter((x) => x.category === p.category && x.id !== p.id).slice(0, 4);
+  const cat = categories.find((c) => c.id === p.category);
+  const shareText = `Mira esto de la tienda de AlpiCars: ${p.name} (${eur(p.price)})`;
+  const shareUrl = () => `${window.location.origin}/tienda/${p.id}?utm_source=whatsapp&utm_medium=share`;
+  const share = async () => {
+    track("share_click", { channel: "product", id: p.id });
+    if (navigator.share) {
+      try {
+        await navigator.share({ title: p.name, text: shareText, url: shareUrl() });
+        return;
+      } catch {
+        /* cancelado: probamos WhatsApp */
+      }
+    }
+    window.open(`https://wa.me/?text=${encodeURIComponent(`${shareText} ${shareUrl()}`)}`, "_blank", "noopener");
+  };
+
+  return (
+    <>
+      <nav className="guide-crumbs shop-crumbs" aria-label="Migas de pan">
+        <a href="/tienda">Tienda</a> / <span>{cat?.label}</span>
+      </nav>
+      <article className="shop-product">
+        <div className="shop-gallery">
+          <div className="shop-gallery-main">
+            {pics.length ? <img src={pics[shot]} alt={p.name} width="800" height="800" /> : <ProductImage p={p} />}
+          </div>
+          {pics.length > 1 && (
+            <div className="shop-thumbs" role="list">
+              {pics.map((src, i) => (
+                <button key={src} type="button" role="listitem" aria-label={`Foto ${i + 1}`} aria-pressed={shot === i} onClick={() => setShot(i)}>
+                  <img src={src} alt="" width="160" height="160" loading="lazy" />
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+
+        <div className="shop-info">
+          <h1>{p.name}</h1>
+          <p className="shop-price">{eur(p.price)}</p>
+          <p className="shop-lead">{p.short}</p>
+          <div className="shop-buy">
+            <button type="button" className="btn btn-accent" onClick={() => onBuy(p.id)}>
+              Comprar ahora
+              <ArrowIcon />
+            </button>
+            <button type="button" className="btn btn-ghost" onClick={() => onAdd(p.id)}>
+              Añadir al carrito
+            </button>
+          </div>
+          <ul className="shop-perks">
+            <li>{shop.freeShippingFrom ? `Envío gratis a partir de ${eur(shop.freeShippingFrom)} (si no, ${eur(shop.shipping)})` : `Envío: ${eur(shop.shipping)}`}</li>
+            <li>{shop.deliveryTime}, con número de seguimiento</li>
+            <li>Devolución en 14 días y garantía de 3 años</li>
+            <li>Pago seguro con tarjeta, Apple Pay o Google Pay</li>
+          </ul>
+          {p.features?.length > 0 && (
+            <>
+              <h2>Lo que tienes que saber</h2>
+              <ul className="shop-features">
+                {p.features.map((f) => (
+                  <li key={f}>{f}</li>
+                ))}
+              </ul>
+            </>
+          )}
+          <p className="shop-text">{p.text}</p>
+          <button type="button" className="share-btn shop-share" onClick={share}>
+            Compartir este producto
+          </button>
+        </div>
+      </article>
+
+      {related.length > 0 && (
+        <section className="shop-related">
+          <h2>También te puede interesar</h2>
+          <ul className="shop-grid">
+            {related.map((r) => (
+              <ProductCard key={r.id} p={r} onAdd={onAdd} />
+            ))}
+          </ul>
+        </section>
+      )}
+    </>
+  );
+}
+
+function ProductCard({ p, onAdd }) {
+  const href = `/tienda/${p.id}`;
+  return (
+    <li className="shop-card">
+      <a href={href} className="shop-card-pic" tabIndex={-1} aria-hidden="true">
+        <ProductImage p={p} />
+      </a>
+      <div className="shop-card-body">
+        <h2>
+          <a href={href}>{p.name}</a>
+        </h2>
+        <p>{p.short}</p>
+        <div className="shop-card-foot">
+          <strong>{eur(p.price)}</strong>
+          <button type="button" className="btn btn-accent btn-small" onClick={() => onAdd(p.id)} aria-label={`Añadir ${p.name} al carrito`}>
+            Añadir
+          </button>
+        </div>
+      </div>
+    </li>
+  );
+}
+
+export default function ShopPage({ productId = null }) {
+  const product = productId ? products.find((p) => p.id === productId) : null;
   const [cart, setCart] = useState([]);
   const [cat, setCat] = useState("all");
   const [open, setOpen] = useState(false);
@@ -117,6 +239,13 @@ export default function ShopPage() {
     setStep("cart");
     setOpen(true);
     track("shop_add", { id });
+  };
+  // "Comprar ahora": añade (si no está) y abre directamente los datos de envío
+  const buyNow = (id) => {
+    if (!cart.some((it) => it.id === id)) update([...cart, { id, qty: 1 }]);
+    setStep("datos");
+    setOpen(true);
+    track("shop_buy_now", { id });
   };
   const setQty = (id, qty) => update(qty <= 0 ? cart.filter((it) => it.id !== id) : cart.map((it) => (it.id === id ? { ...it, qty: Math.min(10, qty) } : it)));
 
@@ -158,6 +287,10 @@ export default function ShopPage() {
 
   return (
     <ShopShell cartCount={count} onCart={() => setOpen(true)}>
+      {product ? (
+        <ProductDetail p={product} onAdd={add} onBuy={buyNow} />
+      ) : (
+      <>
       <section className="shop-hero">
         <h1>Cuida tu coche como el primer día</h1>
         <p>Productos de detailing y accesorios seleccionados por AlpiCars, con envío a toda España.</p>
@@ -174,21 +307,11 @@ export default function ShopPage() {
 
       <ul className="shop-grid">
         {list.map((p) => (
-          <li key={p.id} className="shop-card">
-            <ProductImage p={p} />
-            <div className="shop-card-body">
-              <h2>{p.name}</h2>
-              <p>{p.short}</p>
-              <div className="shop-card-foot">
-                <strong>{eur(p.price)}</strong>
-                <button type="button" className="btn btn-accent btn-small" onClick={() => add(p.id)}>
-                  Añadir
-                </button>
-              </div>
-            </div>
-          </li>
+          <ProductCard key={p.id} p={p} onAdd={add} />
         ))}
       </ul>
+      </>
+      )}
 
       {open && (
         <div className="shop-drawer-bg" onClick={() => setOpen(false)}>
@@ -207,7 +330,10 @@ export default function ShopPage() {
                 <ul className="shop-lines">
                   {lines.map((l) => (
                     <li key={l.id}>
-                      <span className="shop-line-name">{l.p.name}</span>
+                      <span className="shop-line-name">
+                        {l.p.image && <img src={l.p.image} alt="" width="48" height="48" />}
+                        {l.p.name}
+                      </span>
                       <span className="shop-qty">
                         <button type="button" onClick={() => setQty(l.id, l.qty - 1)} aria-label="Quitar uno">
                           <Minus />

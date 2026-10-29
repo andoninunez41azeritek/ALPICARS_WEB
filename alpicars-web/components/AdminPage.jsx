@@ -61,6 +61,7 @@ function OrderRow({ o, onSaved }) {
                     AliExpress
                   </a>
                 )}
+                {i.variant && <span className="report-small"> · Elegir: {i.variant}</span>}
               </li>
             ))}
           </ul>
@@ -342,6 +343,7 @@ function Panel() {
             <li key={p.id}>
               <span>{p.name}</span>
               <span className="report-small">{p.price.toLocaleString("es-ES", { minimumFractionDigits: 2 })} €</span>
+              {p.variant && <span className="report-small">Elegir: {p.variant}</span>}
               {p.supplier ? (
                 <a href={p.supplier} target="_blank" rel="noopener noreferrer">Abrir en AliExpress</a>
               ) : (
