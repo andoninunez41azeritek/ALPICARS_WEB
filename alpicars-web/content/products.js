@@ -80,7 +80,7 @@ const raw = [
       "Sin cable, con carga por USB-C",
       "Pequeña y ligera, fácil de guardar en el coche",
     ],
-    images: pro("aspiradora", ["aspiradora-2"]),
+    images: pro("aspiradora", []),
     supplier: "https://es.aliexpress.com/item/1005010126985836.html",
     choice: {
       name: "Color",
@@ -257,7 +257,7 @@ const raw = [
     short: "La velocidad a la vista, sin apartar los ojos de la carretera.",
     text: "Pantalla para el salpicadero que muestra la velocidad en km/h, medida por GPS. Se enchufa por USB y funciona en cualquier coche, sin conexiones ni instalación. El brillo se ajusta solo de día y de noche.",
     features: ["Velocidad en km/h medida por GPS", "Compatible con todos los coches", "Enchufar y listo, por USB", "Brillo automático de día y de noche"],
-    images: pro("pantalla-frontal", ["pantalla-frontal-3"]),
+    images: pro("pantalla-frontal", []),
     supplier: "https://es.aliexpress.com/item/1005008164160774.html",
     choice: {
       name: "Color de los números",

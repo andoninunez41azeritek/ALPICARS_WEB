@@ -260,7 +260,26 @@ function ProductCard({ p, onAdd }) {
           <a href={href}>{p.name}</a>
         </h2>
         <p>{p.short}</p>
-        {p.options && <p className="shop-card-opts">{p.options.map((o) => `${o.values.length} ${OPT_PLURAL[o.name] || "opciones"}`).join(" · ")}</p>}
+        {p.options && (
+          <p className="shop-card-opts">
+            {p.options.map((o, i) => {
+              const colors = o.values.filter((x) => x.swatch);
+              return (
+                <span key={o.name}>
+                  {i > 0 && " · "}
+                  {colors.length > 1 && (
+                    <span className="shop-card-dots" aria-hidden="true">
+                      {colors.slice(0, 8).map((x) => (
+                        <i key={x.id} style={{ background: x.swatch }} title={x.label} />
+                      ))}
+                    </span>
+                  )}
+                  {o.values.length} {OPT_PLURAL[o.name] || "opciones"}
+                </span>
+              );
+            })}
+          </p>
+        )}
         <div className="shop-card-foot">
           <strong>{priceText(p)}</strong>
           {p.variants && p.variants.length > 1 ? (

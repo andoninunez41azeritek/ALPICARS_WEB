@@ -5102,3 +5102,16 @@ a {
 .admin-variants {
   flex-basis: 100%;
 }
+.shop-card-dots {
+  display: inline-flex;
+  gap: 4px;
+  margin-right: 8px;
+  vertical-align: -2px;
+}
+.shop-card-dots i {
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  display: inline-block;
+}
