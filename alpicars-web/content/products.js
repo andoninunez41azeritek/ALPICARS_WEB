@@ -3,7 +3,7 @@
 // El precio que cobra la web sale SIEMPRE de este archivo (en el servidor), nunca de lo que envíe el navegador.
 //
 // Cada producto:
-//   images    fotos en /public/tienda (la primera es la portada). Sacadas de los anuncios del proveedor (29/10/2026).
+//   images    fotos en /public/tienda: portada de estudio, ficha con ventajas y fotos de uso del proveedor
 //   features  puntos clave que se ven en la ficha del producto
 //   supplier  anuncio de AliExpress donde se compra
 //   price / variant   precio y opción a elegir en AliExpress, para productos sin opciones
@@ -17,7 +17,8 @@
 //    con un margen parecido al de los precios originales.
 //  - Confirmar los textos cuando tengáis los productos en la mano.
 
-const img = (id, ns) => ns.map((n) => `/tienda/${id}-${n}.webp`);
+// Portada de estudio + ficha con las ventajas (editadas por Azeritek) + fotos de uso del proveedor
+const pro = (id, extra) => [`/tienda/${id}-portada.webp`, `/tienda/${id}-ficha.webp`, ...extra.map((n) => `/tienda/${n}.webp`)];
 const v = (name) => `/tienda/v-${name}.webp`;
 
 const raw = [
@@ -35,7 +36,7 @@ const raw = [
       "Botella para espuma incluida",
       "También sirve para bicis, terrazas y muebles de jardín",
     ],
-    images: img("pistola-agua-presion", [1, 2, 3, 4]),
+    images: pro("pistola-agua-presion", ["pistola-agua-presion-2", "pistola-agua-presion-3"]),
     supplier: "https://es.aliexpress.com/item/1005011812168005.html",
     choice: {
       name: "Batería",
@@ -57,12 +58,12 @@ const raw = [
       "Cepillo de llantas con mango largo",
       "Manopla de lavado y paños de microfibra",
     ],
-    images: img("kit-detailing-20", [1, 2, 4]),
+    images: pro("kit-detailing-20", ["kit-detailing-20-2"]),
     supplier: "https://es.aliexpress.com/item/1005012878751653.html",
     choice: {
       name: "Piezas",
       values: [
-        { id: "20", label: "20 piezas", price: 34.99, supplier: "20PCSBB", image: "/tienda/kit-detailing-20-1.webp" },
+        { id: "20", label: "20 piezas", price: 34.99, supplier: "20PCSBB", image: "/tienda/kit-detailing-20-portada.webp" },
         { id: "16", label: "16 piezas", price: 29.99, supplier: "16pcsAA", image: v("kit-16") },
       ],
     },
@@ -79,7 +80,7 @@ const raw = [
       "Sin cable, con carga por USB-C",
       "Pequeña y ligera, fácil de guardar en el coche",
     ],
-    images: img("aspiradora", [1, 2, 3, 4]),
+    images: pro("aspiradora", ["aspiradora-2"]),
     supplier: "https://es.aliexpress.com/item/1005010126985836.html",
     choice: {
       name: "Color",
@@ -97,7 +98,7 @@ const raw = [
     short: "Gruesas y de doble capa: secan y pulen sin dejar marcas ni rayar.",
     text: "Toallas de microfibra gruesas y de doble capa. Absorben mucha agua y no sueltan pelusa: las pequeñas para cristales, interiores y pulir; las grandes para secar la carrocería en menos pasadas.",
     features: ["Microfibra gruesa de doble capa", "Muy absorbentes y sin pelusa", "3 tamaños: 30 × 30, 30 × 40 y 30 × 60 cm", "Packs de 3, 5 o 10 unidades"],
-    images: img("toallas", [3, 2, 4]),
+    images: pro("toallas-microfibra", ["toallas-3"]),
     supplier: "https://es.aliexpress.com/item/1005006620527681.html",
     options: [
       {
@@ -142,7 +143,7 @@ const raw = [
       "Incluye lijas, líquido restaurador y vaporizador",
       "Para faros amarillentos, mates o con arañazos finos",
     ],
-    images: img("pulidor-faros", [2, 3, 4]),
+    images: pro("pulidor-faros", ["pulidor-faros-2", "pulidor-faros-3"]),
     supplier: "https://de.aliexpress.com/item/1005005560124384.html",
     variant: "Upgraded Version",
   },
@@ -153,7 +154,7 @@ const raw = [
     short: "Limpia tapicería, cuero, techo y salpicadero sin necesidad de agua.",
     text: "Espray limpiador multiusos para el interior del coche. Se aplica, se frota con un paño y se retira: quita manchas de la tapicería de tela, el cuero, el techo y los plásticos sin tener que aclarar con agua.",
     features: ["Para tela, cuero, techo y plásticos", "No necesita agua para aclarar", "Quita manchas y suciedad del día a día"],
-    images: img("limpiador-interiores", [1, 2, 3, 4]),
+    images: pro("limpiador-interiores", ["limpiador-interiores-2"]),
     supplier: "https://de.aliexpress.com/item/1005008040606742.html",
     choice: {
       name: "Formato",
@@ -171,7 +172,7 @@ const raw = [
     short: "Corta el cinturón y rompe la ventanilla en caso de emergencia.",
     text: "Llavero de emergencia que va siempre con las llaves del coche: un martillo rompecristales para salir por la ventanilla, una cuchilla protegida para cortar el cinturón y un silbato para pedir ayuda.",
     features: ["Martillo rompecristales", "Cuchilla protegida para cortar el cinturón", "Silbato de emergencia", "Pequeño y ligero: va en el llavero"],
-    images: img("llavero-seguridad", [1, 2, 3, 4]),
+    images: pro("llavero-seguridad", []),
     supplier: "https://de.aliexpress.com/item/1005006696359316.html",
     choice: {
       name: "Color",
@@ -199,7 +200,7 @@ const raw = [
       "Carga el móvil por USB (rápida en los modelos C22, C17 y C16)",
       "Pantalla con la frecuencia de radio",
     ],
-    images: img("adaptador-usb-bluetooth", [1, 2, 3, 4]),
+    images: pro("adaptador-usb-bluetooth", []),
     supplier: "https://es.aliexpress.com/item/1005005060630213.html",
     choice: {
       name: "Modelo",
@@ -219,7 +220,7 @@ const raw = [
     short: "Luces sin cables de 8 colores con mando a distancia.",
     text: "Luces LED inalámbricas y recargables para dar un ambiente más cuidado al habitáculo por la noche. Se pegan donde quieras, sin cables ni instalación, y se cambian de color con el mando.",
     features: ["Luces LED inalámbricas", "8 colores y varios modos", "Recargables, sin cables ni instalación", "Mando a distancia incluido"],
-    images: img("luz-interior", [1, 2, 3, 4]),
+    images: pro("luz-interior", ["luz-interior-1"]),
     supplier: "https://de.aliexpress.com/item/1005008716612671.html",
     choice: {
       name: "Unidades",
@@ -238,7 +239,7 @@ const raw = [
     short: "Elimina o disimula los arañazos superficiales en pocos minutos.",
     text: "Crema pulidora con esponja aplicadora para quitar los arañazos superficiales y las marcas de la pintura, como las de las uñas junto a las manillas o los roces leves. Se aplica a mano en tres pasos.",
     features: ["Para arañazos superficiales y roces leves", "Esponja aplicadora incluida", "Se aplica a mano en 3 pasos"],
-    images: img("quita-aranazos", [1, 2, 3, 4]),
+    images: pro("quita-aranazos", ["quita-aranazos-3", "quita-aranazos-4"]),
     supplier: "https://es.aliexpress.com/item/1005013065446716.html",
     choice: {
       name: "Unidades",
@@ -256,7 +257,7 @@ const raw = [
     short: "La velocidad a la vista, sin apartar los ojos de la carretera.",
     text: "Pantalla para el salpicadero que muestra la velocidad en km/h, medida por GPS. Se enchufa por USB y funciona en cualquier coche, sin conexiones ni instalación. El brillo se ajusta solo de día y de noche.",
     features: ["Velocidad en km/h medida por GPS", "Compatible con todos los coches", "Enchufar y listo, por USB", "Brillo automático de día y de noche"],
-    images: img("pantalla-frontal", [1, 2, 3]),
+    images: pro("pantalla-frontal", ["pantalla-frontal-3"]),
     supplier: "https://es.aliexpress.com/item/1005008164160774.html",
     choice: {
       name: "Color de los números",

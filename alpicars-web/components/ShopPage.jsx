@@ -46,6 +46,8 @@ function readCart() {
   }
 }
 
+// Cómo se nombran las opciones en las tarjetas ("8 colores", "3 tamaños"...)
+const OPT_PLURAL = { Color: "colores", "Color de los números": "colores", Modelo: "modelos", Tamaño: "tamaños", Unidades: "packs", Formato: "formatos", Batería: "versiones", Piezas: "versiones" };
 const priceText = (p) => (p.priceFrom < p.priceTo ? `Desde ${eur(p.priceFrom)}` : eur(p.priceFrom));
 function saveCart(cart) {
   try {
@@ -150,7 +152,9 @@ function ProductDetail({ p, onAdd, onBuy }) {
     if (val?.image) setShot(-1);
   };
   // Foto de la opción elegida (si tiene) delante de la galería
-  const optImage = p.options?.map((o) => o.values.find((x) => x.id === sel[o.name])?.image).find(Boolean);
+  // (solo si el cliente ha cambiado la opción: la marcada por defecto ya sale en la portada)
+  const changed = p.variants && p.options.some((o) => sel[o.name] !== p.variants[0].sel[o.name]);
+  const optImage = changed ? p.options.map((o) => o.values.find((x) => x.id === sel[o.name])?.image).find(Boolean) : null;
   const pics = [...(optImage && !p.images.includes(optImage) ? [optImage] : []), ...(p.images || [])];
   const shown = shot === -1 ? 0 : Math.min(shot, pics.length - 1);
   const related = products.filter((x) => x.category === p.category && x.id !== p.id).slice(0, 4);
@@ -256,7 +260,7 @@ function ProductCard({ p, onAdd }) {
           <a href={href}>{p.name}</a>
         </h2>
         <p>{p.short}</p>
-        {p.options && <p className="shop-card-opts">{p.options.map((o) => `${o.values.length} ${o.name.toLowerCase()}`).join(" · ")}</p>}
+        {p.options && <p className="shop-card-opts">{p.options.map((o) => `${o.values.length} ${OPT_PLURAL[o.name] || "opciones"}`).join(" · ")}</p>}
         <div className="shop-card-foot">
           <strong>{priceText(p)}</strong>
           {p.variants && p.variants.length > 1 ? (
