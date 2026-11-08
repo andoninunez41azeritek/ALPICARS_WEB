@@ -55,7 +55,8 @@ export async function POST(req) {
 
   const subtotal = items.reduce((s, it) => s + it.price * it.qty, 0);
   const shipping = subtotal >= shop.freeShippingFrom ? 0 : shop.shipping;
-  const origin = req.headers.get("origin") || new URL(req.url).origin;
+  // Las direcciones de vuelta salen siempre de la propia web, nunca de lo que diga el navegador
+  const origin = new URL(req.url).origin;
   const fullName = (it) => (it.label ? `${it.p.name} (${it.label})` : it.p.name);
   const summary = items.map((it) => `${it.qty} x ${fullName(it)}`).join("; ").slice(0, 480);
 
