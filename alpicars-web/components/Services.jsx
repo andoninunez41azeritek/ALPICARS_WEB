@@ -75,20 +75,24 @@ export default function Services() {
       {/* Móvil: un bloque por servicio */}
       <div className="plans-stack">
         {s.plans.map((p) => (
-          <article key={p.id} className={`plan${p.recommended ? " is-rec" : ""} reveal`}>            <h3>{p.name}</h3>
+          <article key={p.id} className={`plan${p.recommended ? " is-rec" : ""} reveal`}>
+            <h3>{p.name}</h3>
             <p className="plan-price">
               {price(p)} {p.suffix && <small>{p.suffix}</small>}
             </p>
             <p>{p.text}</p>
-            <dl>
-              {s.rows.map((row, i) => (
-                <div key={row}>
-                  <dt>{row}</dt>
-                  <dd>{p.cells[i]}</dd>
-                </div>
-              ))}
-            </dl>
-            <p className="plan-note">{p.excludes}</p>
+            <details className="plan-more">
+              <summary>{s.seeIncluded}</summary>
+              <dl>
+                {s.rows.map((row, i) => (
+                  <div key={row}>
+                    <dt>{row}</dt>
+                    <dd>{p.cells[i]}</dd>
+                  </div>
+                ))}
+              </dl>
+              <p className="plan-note">{p.excludes}</p>
+            </details>
             <a href="#presupuesto" className="btn btn-accent btn-block" onClick={choose(p)}>
               {s.choose}
             </a>

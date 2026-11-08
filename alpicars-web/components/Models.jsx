@@ -10,6 +10,7 @@ export default function Models() {
   const { t, setPresetCar } = useSite();
   const m = t.models;
   const [tab, setTab] = useState("de");
+  const [open, setOpen] = useState({});
   const list = m[tab];
 
   return (
@@ -41,7 +42,7 @@ export default function Models() {
                 )}
                 <div className="model-body">
                   <h3>{car.name}</h3>
-                  <div className="model-cols">
+                  <div className={`model-cols${open[car.name] ? " is-open" : ""}`} id={`model-${i}`}>
                     <div>
                       <h4>{m.pros}</h4>
                       <ul>
@@ -59,6 +60,15 @@ export default function Models() {
                       </ul>
                     </div>
                   </div>
+                  <button
+                    type="button"
+                    className="model-toggle"
+                    aria-expanded={Boolean(open[car.name])}
+                    aria-controls={`model-${i}`}
+                    onClick={() => setOpen((o) => ({ ...o, [car.name]: !o[car.name] }))}
+                  >
+                    {open[car.name] ? m.less : m.more}
+                  </button>
                   <a className="text-link" href="#presupuesto" onClick={() => setPresetCar(car.name)}>
                     {m.ask}
                     <ArrowIcon />

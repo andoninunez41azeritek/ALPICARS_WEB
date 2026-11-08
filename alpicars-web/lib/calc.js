@@ -24,6 +24,7 @@
 
 import config from "../content/config";
 import map from "./mapData";
+import { getRoute, postal } from "./destinations";
 
 // Anexo IV de la Orden HAC/1501/2025: porcentaje del valor de tablas según los años de uso
 export const AGES = [
@@ -86,8 +87,9 @@ const n = (v) => Math.max(0, Number(v) || 0);
 
 export function calculate(input) {
   const i = { ...DEFAULT_INPUT, ...input };
-  const route = map.routes[i.dest] || map.routes.madrid;
-  const region = REGION[i.dest] || REGION.madrid;
+  const route = getRoute(i.dest) || map.routes.madrid;
+  const prov = postal[i.dest];
+  const region = REGION[i.dest] || (prov ? { key: prov.rate, label: prov.region } : REGION.madrid);
   const ageIdx = Math.min(AGES.length - 1, Math.max(0, Number(i.age) || 0));
   const co2Idx = Math.min(CO2.length - 1, Math.max(0, Number(i.co2) || 0));
   const rate = RATES[region.key][co2Idx];
@@ -175,7 +177,7 @@ export function fromQuery(search) {
     age: Math.min(AGES.length - 1, Math.max(0, num("a", DEFAULT_INPUT.age))),
     co2: Math.min(CO2.length - 1, Math.max(0, num("c", DEFAULT_INPUT.co2))),
     eur1: p.get("e") !== "0",
-    dest: map.routes[p.get("d")] ? p.get("d") : DEFAULT_INPUT.dest,
+    dest: getRoute(p.get("d")) ? p.get("d") : DEFAULT_INPUT.dest,
     isNew: p.get("nw") === "1",
     tableValue: num("tv", 0),
   };

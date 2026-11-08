@@ -2,10 +2,17 @@
 
 import { useMemo, useState } from "react";
 import map from "../lib/mapData";
+import { postal } from "../lib/destinations";
+
 import { AGES, CO2, calculate, toQuery } from "../lib/calc";
 import { useSite } from "./SiteProvider";
 import { ArrowIcon } from "./Icons";
 import { track } from "../lib/track";
+
+// Provincias con entrega por carretera (o barco a Baleares), ordenadas por nombre
+const PROVINCES = Object.entries(postal)
+  .filter(([, p]) => p.d)
+  .sort((a, b) => (a[1].province || a[1].label).localeCompare(b[1].province || b[1].label, "es"));
 
 // Calculadora de ahorro al importar. El cálculo está en lib/calc.js (lo comparte con el informe PDF).
 
@@ -93,7 +100,7 @@ export default function Calculator() {
                 <select value={age} onChange={(e) => setAge(Number(e.target.value))}>
                   {AGES.map((a, i) => (
                     <option key={a.label} value={i}>
-                      {a.label}
+                      {c.ages?.[i] || a.label}
                     </option>
                   ))}
                 </select>
@@ -101,11 +108,21 @@ export default function Calculator() {
               <label>
                 <span>{c.dest}</span>
                 <select value={dest} onChange={(e) => setDest(e.target.value)}>
-                  {Object.entries(map.routes).map(([k, rt]) => (
-                    <option key={k} value={k}>
-                      {rt.label}
-                    </option>
-                  ))}
+                  <optgroup label={c.destMain}>
+                    {Object.entries(map.routes).map(([k, rt]) => (
+                      <option key={k} value={k}>
+                        {rt.label}
+                      </option>
+                    ))}
+                  </optgroup>
+                  <optgroup label={c.destProvinces}>
+                    {PROVINCES.map(([k, p]) => (
+                      <option key={k} value={k}>
+                        {p.province || p.label}
+                        {p.province && p.province !== p.capital ? ` (${p.capital})` : ""}
+                      </option>
+                    ))}
+                  </optgroup>
                 </select>
               </label>
             </div>
@@ -114,7 +131,7 @@ export default function Calculator() {
               <select value={co2} onChange={(e) => setCo2(Number(e.target.value))}>
                 {CO2.map((x, i) => (
                   <option key={x.label} value={i}>
-                    {x.label}
+                    {c.co2Labels?.[i] || x.label}
                   </option>
                 ))}
               </select>

@@ -7,7 +7,7 @@ import { WhatsAppIcon } from "./Icons";
 export default function Faq() {
   const { t } = useSite();
   const f = t.faq;
-  const wa = `https://wa.me/${config.whatsappNumber}?text=${encodeURIComponent(config.whatsappText)}`;
+  const wa = `https://wa.me/${config.whatsappNumber}?text=${encodeURIComponent(t.whatsappText || config.whatsappText)}`;
 
   // Datos estructurados para que Google pueda mostrar las preguntas en los resultados
   const jsonLd = {

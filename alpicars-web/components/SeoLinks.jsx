@@ -2,17 +2,20 @@
 
 import guides from "../content/guides";
 import cities from "../content/cities";
+import { useSite } from "./SiteProvider";
 
 // Enlaces internos desde la página de inicio a las guías y a las páginas de ciudad
 // (ayudan a Google y a la IA a encontrar y entender todo el contenido).
 export default function SeoLinks() {
+  const { t } = useSite();
+  const l = t.seoLinks;
   return (
     <section className="section seo-links" aria-labelledby="seo-links-title">
       <div className="panel">
-        <h2 id="seo-links-title" className="reveal">Todo lo que necesitas saber antes de importar</h2>
+        <h2 id="seo-links-title" className="reveal">{l.title}</h2>
         <div className="seo-links-grid">
           <div>
-            <h3>Guías 2026</h3>
+            <h3>{l.guides}</h3>
             <ul>
               {guides.map((g) => (
                 <li key={g.slug}>
@@ -22,7 +25,7 @@ export default function SeoLinks() {
             </ul>
           </div>
           <div>
-            <h3>Te lo entregamos en</h3>
+            <h3>{l.cities}</h3>
             <ul className="seo-links-cities">
               {cities.map((c) => (
                 <li key={c.slug}>

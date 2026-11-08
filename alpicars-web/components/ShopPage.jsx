@@ -57,10 +57,16 @@ function saveCart(cart) {
   }
 }
 
-export function ShopShell({ children, cartCount = 0, onCart }) {
+const BackIcon = () => <Icon d="M15 18l-6-6 6-6" />;
+
+export function ShopShell({ children, cartCount = 0, onCart, back = { href: "/", label: "Volver a AlpiCars" } }) {
   return (
     <div className="shop">
       <header className="shop-header">
+        <a className="shop-back-btn" href={back.href} aria-label={back.label}>
+          <BackIcon />
+          <span>{back.label}</span>
+        </a>
         <a className="shop-logo" href="/tienda" aria-label="Tienda AlpiCars">
           <img src="/logo-horizontal-white.png" alt="AlpiCars" width="945" height="172" />
           <span>Tienda</span>
@@ -391,7 +397,7 @@ export default function ShopPage({ productId = null }) {
   };
 
   return (
-    <ShopShell cartCount={count} onCart={() => setOpen(true)}>
+    <ShopShell cartCount={count} onCart={() => setOpen(true)} back={product ? { href: "/tienda", label: "Tienda" } : { href: "/", label: "Inicio" }}>
       {product ? (
         <ProductDetail p={product} onAdd={add} onBuy={buyNow} />
       ) : (
@@ -512,7 +518,7 @@ export function ShopThanks() {
     if (sid) setCode(orderCode(sid));
   }, []);
   return (
-    <ShopShell>
+    <ShopShell back={{ href: "/tienda", label: "Tienda" }}>
       <section className="shop-hero">
         <h1>¡Gracias por tu pedido!</h1>
         {code && (
@@ -532,7 +538,7 @@ export function ShopThanks() {
 
 export function ShopTerms() {
   return (
-    <ShopShell>
+    <ShopShell back={{ href: "/tienda", label: "Tienda" }}>
       <section className="shop-terms">
         <LegalBody doc={tiendaCondiciones(shop, eur)} />
       </section>

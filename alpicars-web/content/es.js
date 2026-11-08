@@ -1,5 +1,6 @@
-// Todos los textos de la web en español.
-// Para añadir otro idioma: copia este archivo como en.js, de.js, eu.js, it.js o fr.js y traduce los valores.
+// Todos los textos de la web en español (idioma base).
+// Las traducciones están en en.js, de.js, fr.js, it.js y eu.js: solo llevan los textos; lo demás
+// (precios, enlaces, identificadores) se toma de aquí. Si cambias un texto aquí, cámbialo también allí.
 
 const es = {
   nav: [
@@ -9,6 +10,8 @@ const es = {
     { href: "#mas-solicitados", label: "Los más solicitados" },
     { href: "#faq", label: "FAQ" },
   ],
+  whatsappText: "Buenos días. Les escribo desde la web de AlpiCars: me gustaría recibir información y un presupuesto para importar un vehículo. Gracias.",
+
   header: {
     cta: "Pide presupuesto",
     login: "Acceder",
@@ -17,6 +20,7 @@ const es = {
     currencyLabel: "Moneda",
     languageLabel: "Idioma",
     languageSoon: "Próximamente en este idioma. De momento verás la web en español.",
+    whatsappAria: "Escríbenos por WhatsApp",
     menu: "Menú",
     menuClose: "Cerrar menú",
   },
@@ -51,6 +55,7 @@ const es = {
   },
 
   marquee: "Ingeniería alemana, precisión suiza, garaje español",
+  mapLabels: { de: "Alemania", ch: "Suiza", fr: "Francia", es: "España", pt: "Portugal", it: "Italia" },
 
   route: {
     title: "De Alemania y Suiza a tu puerta",
@@ -58,6 +63,15 @@ const es = {
       "No dependemos de agencias de transporte: un conductor de nuestro equipo trae tu coche rodando, con seguro a todo riesgo durante todo el trayecto.",
     photoNote: "Autopista en Suiza. Nuestros conductores traen cada coche rodando hasta España.",
     pick: "¿Dónde te lo entregamos?",
+    cpLabel: "Escribe tu código postal",
+    cpPlaceholder: "Ej.: 28001",
+    cpButton: "Ver ruta",
+    cpOr: "o elige una ciudad:",
+    cpError: "Escribe un código postal español de 5 cifras.",
+    cpFromBasel: "por carretera desde Basilea",
+    cpRegion: "Impuesto de matriculación",
+    cpIsland: "Incluye el barco desde Barcelona (gastos aparte, te los detallamos en el presupuesto).",
+    cpSpecial: "Llegamos también, en barco y con trámites de aduana propios. Te preparamos un presupuesto a medida.",
     distance: "por carretera desde Basilea, donde se juntan todas nuestras rutas",
     hudReady: "Listo para salir de Basilea",
     hudOnWay: "En camino a",
@@ -137,7 +151,7 @@ const es = {
         name: "Revisión presencial",
         short: "Presencial",
         price: 650,
-        suffix: "+ extras",
+        suffix: "+ gastos",
         text: "Vamos a ver el coche en Suiza o Alemania antes de que pagues nada: diagnosis OBD, chasis, pintura y prueba en carretera.",
         cells: ["Incluida", "Incluido", "Incluida, con informe en foto y vídeo", "En persona", "Módulo opcional", "Módulo opcional"],
         excludes: "Coche extra en la zona: 99 € hasta 20 km, 149 € hasta 40 km, 229 € hasta 100 km.",
@@ -170,6 +184,7 @@ const es = {
     forWhom: "Para quién",
     notes: "A tener en cuenta",
     recTag: "Nos ocupamos de todo",
+    seeIncluded: "Ver qué incluye",
   },
 
   calc: {
@@ -183,8 +198,12 @@ const es = {
     priceOriginHintDE: "Precio final, con IVA alemán incluido",
     age: "Antigüedad",
     co2: "Emisiones de CO₂",
+    ages: ["Menos de 1 año", "Entre 1 y 2 años", "Entre 2 y 3 años", "Entre 3 y 4 años", "Entre 4 y 5 años", "Entre 5 y 6 años", "Entre 6 y 7 años", "Entre 7 y 8 años", "Entre 8 y 9 años", "Entre 9 y 10 años", "Entre 10 y 11 años", "Entre 11 y 12 años", "Más de 12 años"],
+    co2Labels: ["Hasta 120 g/km (eléctricos, híbridos enchufables y muchos híbridos)", "De 121 a 159 g/km", "De 160 a 199 g/km", "200 g/km o más"],
     eur1: "Fabricado en la UE o en Suiza (certificado EUR.1, sin arancel)",
     dest: "Entrega en",
+    destMain: "Ciudades principales",
+    destProvinces: "Por provincia",
     resultSave: "Te ahorras aproximadamente",
     resultNoSave: "En este caso no compensa importar",
     resultNoSaveText: "Te lo diríamos igual antes de empezar. Prueba con otro modelo o pide que lo revisemos.",
@@ -224,6 +243,8 @@ const es = {
     pros: "A favor",
     cons: "En qué nos fijamos",
     ask: "Quiero uno de estos",
+    more: "Ver por qué lo traemos",
+    less: "Ver menos",
     de: [
       {
         name: "Volkswagen Golf y Tiguan",
@@ -356,6 +377,12 @@ const es = {
     ],
   },
 
+  seoLinks: {
+    title: "Todo lo que necesitas saber antes de importar",
+    guides: "Guías 2026",
+    cities: "Te lo entregamos en",
+  },
+
   lead: {
     title: "Pide tu presupuesto cerrado",
     text: "Cuéntanos qué coche buscas y te enviamos el precio final, con el coche matriculado en tu puerta. Sin compromiso.",
@@ -435,8 +462,8 @@ const es = {
       shareCalc: "¿Te han pasado este PDF? Escanea el código y calcula gratis cuánto te ahorras con tu coche.",
       qrTest: "Haz tu test gratis",
       qrCalc: "Calcula tu ahorro",
-      waTest: "Hola AlpiCars, he hecho el test y me recomendáis: {model}. Me gustaría un presupuesto.",
-      waCalc: "Hola AlpiCars, he hecho el cálculo de importación y me gustaría un presupuesto cerrado.",
+      waTest: "Buenos días. He realizado el test en la web de AlpiCars y me recomiendan: {model}. Me gustaría recibir un presupuesto para este vehículo. Gracias.",
+      waCalc: "Buenos días. He realizado el cálculo de importación en la web de AlpiCars y me gustaría recibir un presupuesto cerrado. Gracias.",
     },
   },
 
@@ -514,6 +541,7 @@ const es = {
     shop: "Tienda",
     guides: "Guías de importación",
     cities: "Importar a tu ciudad",
+    creditsTitle: "Créditos de las fotografías",
     credits: "Fotografías de Wikimedia Commons, con licencia libre:",
     mapCredit: "Mapa: Natural Earth.",
     photoTitles: {

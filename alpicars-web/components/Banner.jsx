@@ -4,7 +4,7 @@ import Image from "next/image";
 import config from "../content/config";
 import photos from "../content/photos";
 import { useSite } from "./SiteProvider";
-import { ArrowIcon, ExternalIcon } from "./Icons";
+import { ArrowIcon } from "./Icons";
 
 // Los tres bloques principales, en el centro: servicios (grande), test (pequeño arriba) y tienda (pequeño abajo)
 export default function Banner() {
@@ -56,14 +56,14 @@ export default function Banner() {
         </button>
       </div>
 
-      <a className="tile tile-shop reveal" style={{ "--d": "200ms" }} href={config.shopUrl} target="_blank" rel="noopener noreferrer">
+      <a className="tile tile-shop reveal" style={{ "--d": "200ms" }} href={config.shopUrl}>
         <Image className="tile-img" src={photos.detalle.src} alt={photos.detalle.alt} sizes="(max-width: 760px) 50vw, 30vw" />
         <span className="shop-copy">
           <span className="tile-title">{b.shop.title}</span>
           <span className="tile-text">{b.shop.text}</span>
           <span className="tile-link">
             {b.shop.cta}
-            <ExternalIcon />
+            <ArrowIcon />
           </span>
         </span>
       </a>

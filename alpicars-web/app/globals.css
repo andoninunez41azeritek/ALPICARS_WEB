@@ -3310,46 +3310,32 @@ g.bd-dest {
   background: var(--panel-2);
 }
 
-/* Alpes con las letras de AlpiCars */
+/* Alpes del pie: tres cordilleras con nieve */
 .alps {
-  width: var(--wrap);
+  width: 100%;
   margin: 0 auto;
+  overflow: hidden;
 }
 .alps-svg {
+  display: block;
   width: 100%;
-  height: auto;
-  overflow: visible;
+  height: clamp(150px, 26vw, 420px);
 }
-.alps-back {
-  fill: rgba(244, 246, 249, 0.035);
-}
-.alps-navy .alps-rock {
-  fill: var(--navy-3);
-}
-.alps-red .alps-rock {
-  fill: var(--red);
-}
-.alps-snow {
-  fill: var(--snow);
-}
-.alps-letter {
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 118px;
-  fill: var(--white);
-  text-anchor: middle;
-}
-.alps-peak {
+.alps-layer {
   transform-box: fill-box;
   transform-origin: bottom center;
 }
-.motion .alps .alps-peak {
+.alps {
+  /* cielo de fondo: tapa el mapa para que las montañas se vean limpias */
+  background: linear-gradient(to bottom, rgba(15, 34, 56, 0) 0%, rgba(15, 34, 56, 0.85) 45%, #0f2238 70%);
+}
+.motion .alps .alps-layer {
   opacity: 0;
-  transform: translateY(18%);
-  transition: transform 0.9s var(--ease), opacity 0.9s var(--ease);
+  transform: translateY(12%);
+  transition: transform 1.1s var(--ease), opacity 1.1s var(--ease);
   transition-delay: var(--d, 0ms);
 }
-.motion .alps.is-in .alps-peak {
+.motion .alps.is-in .alps-layer {
   opacity: 1;
   transform: none;
 }
@@ -3422,7 +3408,7 @@ g.bd-dest {
   }
   .alps {
     width: auto;
-    margin: 0 var(--margin);
+    margin: 0;
   }
 }
 
@@ -5114,4 +5100,355 @@ a {
   border-radius: 50%;
   border: 1px solid rgba(255, 255, 255, 0.35);
   display: inline-block;
+}
+
+/* ---------- Buscador por código postal (¿Dónde te lo entregamos?) ---------- */
+.cp-search {
+  margin-bottom: 14px;
+}
+.cp-form label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: var(--step-small);
+  color: var(--ink-soft);
+}
+.cp-row {
+  display: flex;
+  gap: 8px;
+}
+.cp-row input {
+  flex: 1;
+  min-width: 0;
+  min-height: 48px;
+  padding: 0 16px;
+  border-radius: 999px;
+  border: 1px solid var(--edge);
+  background: rgba(255, 255, 255, 0.96);
+  color: #0f2238;
+  font: inherit;
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  font-variant-numeric: tabular-nums;
+}
+.cp-row input::placeholder {
+  color: #7b8796;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+.cp-row .btn {
+  min-height: 48px;
+  white-space: nowrap;
+}
+.cp-error {
+  margin: 8px 0 0;
+  color: #ffb4b6;
+  font-size: var(--step-small);
+}
+.cp-result {
+  margin-top: 12px;
+  padding: 14px 16px;
+  border-radius: var(--radius-s);
+  background: var(--panel-2);
+  border: 1px solid var(--edge);
+  animation: nudge-in 0.3s var(--ease) both;
+}
+.cp-place {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+}
+.cp-pin {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--red);
+  box-shadow: 0 0 0 5px rgba(200, 22, 29, 0.25);
+  flex: none;
+}
+.cp-km {
+  margin: 8px 0 0;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.6rem;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+}
+.cp-km span {
+  font-size: var(--step-small);
+  font-weight: 500;
+  color: var(--ink-soft);
+  letter-spacing: 0;
+}
+.cp-meta,
+.cp-note {
+  margin: 4px 0 0;
+  font-size: var(--step-small);
+  color: var(--ink-soft);
+}
+.cp-note {
+  color: var(--ink);
+}
+.cp-or {
+  margin: 10px 0 8px;
+  font-size: var(--step-small);
+  color: var(--ink-faint);
+}
+
+/* ---------- Tienda: botón de volver ---------- */
+.shop-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 40px;
+  padding: 0 14px 0 10px;
+  border-radius: 999px;
+  border: 1px solid var(--edge);
+  color: var(--ink);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: var(--step-small);
+  flex: none;
+}
+.shop-back-btn:hover {
+  background: var(--panel-2);
+}
+.shop-back-btn svg {
+  width: 18px;
+  height: 18px;
+}
+.shop-logo {
+  margin-right: auto;
+}
+
+/* ---------- Desplegables nuevos ---------- */
+.plan-more summary,
+.ft-credits summary {
+  cursor: pointer;
+  list-style: none;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+}
+.plan-more summary::-webkit-details-marker,
+.ft-credits summary::-webkit-details-marker {
+  display: none;
+}
+.plan-more summary::after,
+.ft-credits summary::after {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: rotate(45deg) translateY(-2px);
+  transition: transform 0.2s var(--ease);
+}
+.plan-more[open] summary::after,
+.ft-credits[open] summary::after {
+  transform: rotate(-135deg) translateY(-2px);
+}
+.plan-more {
+  margin: 10px 0 14px;
+}
+.ft-credits summary {
+  color: var(--ink-soft);
+  font-size: var(--step-small);
+}
+.model-toggle {
+  display: none;
+}
+
+/* ---------- Móvil: menos cosas a la vez y más aire ---------- */
+@media (max-width: 760px) {
+  :root {
+    --section: 56px;
+  }
+  .section h2 {
+    font-size: clamp(1.75rem, 7.5vw, 2.2rem);
+  }
+  .lead {
+    font-size: 1.02rem;
+    margin-top: 12px;
+  }
+  .panel {
+    padding-left: 18px !important;
+    padding-right: 18px !important;
+  }
+
+  /* Mapa de fondo: sin nombres de ciudades encima del texto (solo Basilea y el destino) */
+  .bd-city .bd-label,
+  .bd-label-soft,
+  .bd-country {
+    display: none;
+  }
+  /* El contador de km solo estorba en el móvil */
+  .hud {
+    display: none !important;
+  }
+
+  /* Portada */
+  .hero {
+    padding-top: 150px;
+    padding-bottom: 56px;
+  }
+  .hero-inner {
+    background: rgba(15, 34, 56, 0.94) !important;
+  }
+  .hero-points {
+    margin-top: 18px;
+  }
+  .hero-points li {
+    font-size: 0.92rem;
+  }
+
+  /* Bloque de servicios de la portada: solo nombre y precio */
+  .ts-text {
+    display: none;
+  }
+  .ts-list a {
+    padding-top: 14px !important;
+    padding-bottom: 14px !important;
+  }
+
+  /* Test: el "15" detrás del título, sin taparlo */
+  .quiz-big {
+    font-size: 5.5rem;
+    top: auto;
+    bottom: 64px;
+    right: 14px;
+    opacity: 0.35;
+    z-index: 0;
+  }
+  .tile-quiz > *:not(.quiz-big) {
+    position: relative;
+    z-index: 1;
+  }
+  .tile-quiz .tile-title {
+    padding-right: 0;
+  }
+
+  /* Pasos: más compactos */
+  .steps li p {
+    font-size: 0.95rem;
+  }
+  .km-num {
+    font-size: 1.4rem;
+  }
+
+  /* Servicios: una columna */
+  .plans-stack {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  .plan {
+    padding: 20px;
+  }
+  .plan h3 {
+    font-size: 1.25rem;
+  }
+  .plan-price {
+    font-size: 1.8rem;
+  }
+
+  /* Modelos: el primer motivo y el resto al pulsar */
+  .model-cols:not(.is-open) > div:nth-child(2),
+  .model-cols:not(.is-open) li:nth-child(n + 2) {
+    display: none;
+  }
+  .model-toggle {
+    display: inline-flex;
+    align-items: center;
+    min-height: 40px;
+    margin: 6px 16px 0 0;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--ink-soft);
+    font: inherit;
+    font-size: var(--step-small);
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    cursor: pointer;
+  }
+
+  /* Guías y ciudades: listas más apretadas */
+  .seo-links li a {
+    padding: 10px 0 !important;
+    font-size: 0.95rem;
+  }
+
+  /* Aviso del test: una tira pequeña, sin texto largo */
+  .nudge {
+    left: 10px;
+    right: 82px;
+    bottom: 14px;
+    width: auto;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 40px 10px 14px;
+  }
+  .nudge-text {
+    display: none;
+  }
+  .nudge-title {
+    margin: 0;
+    font-size: 0.92rem;
+    line-height: 1.25;
+    flex: 1;
+  }
+  .nudge .btn {
+    flex: none;
+    min-height: 38px;
+    padding: 0 12px;
+  }
+  .nudge-x {
+    top: 50%;
+    right: 4px;
+    transform: translateY(-50%);
+  }
+
+  /* Pie */
+  .site-footer {
+    padding-bottom: 96px;
+  }
+  .ft-links a,
+  .ft-link-btn {
+    padding: 8px 0 !important;
+  }
+
+  /* Tienda: volver siempre a mano */
+  .shop-back-btn span {
+    display: none;
+  }
+  .shop-back-btn {
+    width: 40px;
+    padding: 0;
+    justify-content: center;
+  }
+  .shop-header {
+    gap: 10px;
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+}
+@media (max-width: 380px) {
+  .cp-row {
+    flex-direction: column;
+  }
+}
+
+/* Los fieldset tienen un ancho mínimo propio que en móvil ensanchaba la página */
+.route-pick { min-width: 0; }
+.cp-row input { min-width: 0; flex: 1 1 auto; }
+html, body { overflow-x: clip; }
+@media (max-width: 760px) {
+  .lang-list { right: auto; left: 0; width: min(240px, calc(100vw - 32px)); }
 }

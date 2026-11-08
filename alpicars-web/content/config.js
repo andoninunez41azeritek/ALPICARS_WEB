@@ -13,7 +13,8 @@ const config = {
 
   // PENDIENTE: número real de WhatsApp en formato internacional, sin "+" ni espacios
   whatsappNumber: "34600000000",
-  whatsappText: "Hola AlpiCars, me gustaría información para importar un coche.",
+  // Mensaje que se escribe solo al abrir WhatsApp (el de cada idioma está en content/<idioma>.js → whatsappText)
+  whatsappText: "Buenos días. Les escribo desde la web de AlpiCars: me gustaría recibir información y un presupuesto para importar un vehículo. Gracias.",
 
   // Email de contacto público (el del aviso legal de AlpiCars)
   email: "contact@alpicars.com",

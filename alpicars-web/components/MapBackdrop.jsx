@@ -2,6 +2,7 @@
 
 import { useEffect, useLayoutEffect, useRef } from "react";
 import map from "../lib/mapData";
+import { getRoute } from "../lib/destinations";
 import { useSite } from "./SiteProvider";
 import { CarTopIcon } from "./Icons";
 
@@ -20,7 +21,7 @@ const fmt = (n) => new Intl.NumberFormat("es-ES").format(n).replace(/^(\d)(\d{3}
 
 export default function MapBackdrop() {
   const { dest, t } = useSite();
-  const route = map.routes[dest];
+  const route = getRoute(dest) || map.routes.madrid;
   const r = t.route;
   const svgRef = useRef(null);
   const measureRef = useRef(null);
@@ -116,7 +117,7 @@ export default function MapBackdrop() {
         ))}
         {Object.entries(map.labels).map(([k, [x, y]]) => (
           <text key={k} x={x} y={y} className={`bd-country bd-country-${k}`}>
-            {{ de: "Alemania", ch: "Suiza", fr: "Francia", es: "España", pt: "Portugal", it: "Italia" }[k]}
+            {(t.mapLabels || {})[k]}
           </text>
         ))}
 

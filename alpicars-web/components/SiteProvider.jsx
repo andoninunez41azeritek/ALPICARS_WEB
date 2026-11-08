@@ -3,11 +3,27 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
 import config from "../content/config";
 import es from "../content/es";
-import map from "../lib/mapData";
+import en from "../content/en";
+import de from "../content/de";
+import fr from "../content/fr";
+import it from "../content/it";
+import eu from "../content/eu";
+import { isDest } from "../lib/destinations";
 import { captureSessionFromUrl, db, getSession, hasSupabase } from "../lib/supabase";
 
-// Cuando existan más traducciones, impórtalas y añádelas aquí: { es, en, de, ... }
-const dictionaries = { es };
+// Cada traducción solo trae los textos: lo que no traduce (precios, enlaces, ids) se toma del español,
+// y si falta algún texto se ve en español en lugar de romperse.
+function merge(base, tr) {
+  if (tr === undefined || tr === null) return base;
+  if (Array.isArray(base)) return base.map((b, i) => merge(b, tr[i]));
+  if (base && typeof base === "object") {
+    const out = { ...base };
+    for (const k of Object.keys(tr)) out[k] = k in base ? merge(base[k], tr[k]) : tr[k];
+    return out;
+  }
+  return tr;
+}
+const dictionaries = { es, en: merge(es, en), de: merge(es, de), fr: merge(es, fr), it: merge(es, it), eu: merge(es, eu) };
 
 const SiteContext = createContext(null);
 
@@ -77,7 +93,7 @@ export function SiteProvider({ children }) {
     // Enlaces como /?destino=barcelona#calculadora (páginas de ciudad) eligen la ciudad de entrega
     try {
       const d = new URLSearchParams(window.location.search).get("destino");
-      if (d && map.routes[d]) setDest(d);
+      if (d && isDest(d)) setDest(d);
     } catch {
       /* nada */
     }
@@ -88,6 +104,10 @@ export function SiteProvider({ children }) {
     setLangState(code);
     store("alpicars-lang", code);
   }, []);
+  // Idioma de la página para lectores de pantalla y traductores del navegador
+  useEffect(() => {
+    document.documentElement.lang = lang;
+  }, [lang]);
   const setCurrency = useCallback((code) => {
     setCurrencyState(code);
     store("alpicars-currency", code);

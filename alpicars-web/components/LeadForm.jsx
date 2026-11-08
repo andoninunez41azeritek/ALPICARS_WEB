@@ -62,7 +62,7 @@ export default function LeadForm() {
     setSent("mail");
   };
 
-  const wa = `https://wa.me/${config.whatsappNumber}?text=${encodeURIComponent(config.whatsappText)}`;
+  const wa = `https://wa.me/${config.whatsappNumber}?text=${encodeURIComponent(t.whatsappText || config.whatsappText)}`;
 
   return (
     <section className="cta" id="presupuesto" aria-labelledby="lead-title">

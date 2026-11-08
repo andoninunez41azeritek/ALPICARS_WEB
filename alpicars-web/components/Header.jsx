@@ -6,7 +6,7 @@ import { useSite } from "./SiteProvider";
 import { ChevronIcon, UserIcon, WhatsAppIcon } from "./Icons";
 import LoginDialog from "./LoginDialog";
 
-const waLink = `https://wa.me/${config.whatsappNumber}?text=${encodeURIComponent(config.whatsappText)}`;
+const waHref = (t) => `https://wa.me/${config.whatsappNumber}?text=${encodeURIComponent(t.whatsappText || config.whatsappText)}`;
 
 function LanguageMenu() {
   const { lang, setLang, t, hasTranslation } = useSite();
@@ -129,7 +129,7 @@ export default function Header() {
           <div className="hdr-tools">
             <LanguageMenu />
             <CurrencySwitch />
-            <a className="wa-btn" href={waLink} target="_blank" rel="noopener noreferrer">
+            <a className="wa-btn" href={waHref(t)} target="_blank" rel="noopener noreferrer">
               <WhatsAppIcon />
               <span>{t.header.whatsapp}</span>
             </a>
@@ -189,7 +189,7 @@ export default function Header() {
             </li>
           ))}
         </ul>
-        <a className="wa-btn wa-round" href={waLink} target="_blank" rel="noopener noreferrer" tabIndex={compact ? 0 : -1} aria-label="WhatsApp">
+        <a className="wa-btn wa-round" href={waHref(t)} target="_blank" rel="noopener noreferrer" tabIndex={compact ? 0 : -1} aria-label="WhatsApp">
           <WhatsAppIcon />
         </a>
         <a className="btn btn-accent" href="#presupuesto" tabIndex={compact ? 0 : -1}>
