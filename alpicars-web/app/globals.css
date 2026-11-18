@@ -5452,3 +5452,7 @@ html, body { overflow-x: clip; }
 @media (max-width: 760px) {
   .lang-list { right: auto; left: 0; width: min(240px, calc(100vw - 32px)); }
 }
+
+/* Contraste suficiente (accesibilidad) en las notas de la calculadora */
+.calc-note,
+.calc-detail { color: var(--ink-soft); }

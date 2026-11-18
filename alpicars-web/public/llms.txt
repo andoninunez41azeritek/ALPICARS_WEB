@@ -15,29 +15,31 @@
 - Entrega: toda la península; Baleares, Canarias, Ceuta y Melilla con gastos extra.
 - Pagos por fases: señal, pago del coche al vendedor tras la revisión y liquidación final con el coche en España.
 - Garantía europea en todos los coches.
-- Idiomas del equipo: español y alemán.
+- Idiomas del equipo: español y alemán. La web también está disponible en inglés, alemán, francés, italiano y euskera.
+- Buscador por código postal en la web: indica la provincia, la distancia por carretera desde Basilea y el impuesto de matriculación que aplica.
+- Titulares: Mohamed El hachimi y Peio Berasategui (Zúrich, Suiza).
 
 ## Páginas
 
-- [Inicio](/): servicios, proceso, calculadora de ahorro, modelos más solicitados y preguntas frecuentes.
-- [Servicios y precios](/#servicios)
-- [Calculadora de ahorro](/#calculadora)
-- [Preguntas frecuentes](/#faq)
-- [Pedir presupuesto](/#presupuesto)
+- [Inicio](https://alpicars.com/): servicios, proceso, calculadora de ahorro, modelos más solicitados y preguntas frecuentes.
+- [Servicios y precios](https://alpicars.com/#servicios)
+- [Calculadora de ahorro](https://alpicars.com/#calculadora)
+- [Preguntas frecuentes](https://alpicars.com/#faq)
+- [Pedir presupuesto](https://alpicars.com/#presupuesto)
 
 ## Guías (normativa de 2026)
 
-- [Cómo importar un coche de Alemania a España](/guias/importar-coche-alemania): IVA según coche nuevo o usado, pasos y costes.
-- [Cómo importar un coche de Suiza a España](/guias/importar-coche-suiza): aduana, arancel del 10 % o 0 % con origen UE/Suiza, IVA de importación del 21 %.
-- [Impuesto de matriculación de un coche importado](/guias/impuesto-matriculacion-coche-importado): tipos por CO2 y comunidad, tablas de Hacienda, porcentajes por antigüedad y fórmula.
-- [Cuánto cuesta importar un coche a España](/guias/cuanto-cuesta-importar-un-coche): todos los gastos con un ejemplo.
-- [Riesgos al comprar un coche en Alemania o Suiza](/guias/riesgos-comprar-coche-alemania): kilometraje, daños ocultos, IVA y estafas, con lista de comprobaciones.
-- [Comprar un coche en Suiza y traerlo a España](/guias/comprar-coche-en-suiza): por qué Suiza, portales, términos de los anuncios, qué revisar e impuestos.
-- [Dónde buscar un coche en Alemania y en Suiza](/guias/donde-buscar-coche-alemania-suiza): portales, términos alemanes de los anuncios y concesionario o particular.
+- [Cómo importar un coche de Alemania a España](https://alpicars.com/guias/importar-coche-alemania): IVA según coche nuevo o usado, pasos y costes.
+- [Cómo importar un coche de Suiza a España](https://alpicars.com/guias/importar-coche-suiza): aduana, arancel del 10 % o 0 % con origen UE/Suiza, IVA de importación del 21 %.
+- [Impuesto de matriculación de un coche importado](https://alpicars.com/guias/impuesto-matriculacion-coche-importado): tipos por CO2 y comunidad, tablas de Hacienda, porcentajes por antigüedad y fórmula.
+- [Cuánto cuesta importar un coche a España](https://alpicars.com/guias/cuanto-cuesta-importar-un-coche): todos los gastos con un ejemplo.
+- [Riesgos al comprar un coche en Alemania o Suiza](https://alpicars.com/guias/riesgos-comprar-coche-alemania): kilometraje, daños ocultos, IVA y estafas, con lista de comprobaciones.
+- [Comprar un coche en Suiza y traerlo a España](https://alpicars.com/guias/comprar-coche-en-suiza): por qué Suiza, portales, términos de los anuncios, qué revisar e impuestos.
+- [Dónde buscar un coche en Alemania y en Suiza](https://alpicars.com/guias/donde-buscar-coche-alemania-suiza): portales, términos alemanes de los anuncios y concesionario o particular.
 
 ## Entrega por ciudad
 
-- [Madrid](/importar-coche/madrid), [Barcelona](/importar-coche/barcelona), [Bilbao](/importar-coche/bilbao), [Valencia](/importar-coche/valencia), [Sevilla](/importar-coche/sevilla), [Málaga](/importar-coche/malaga): distancia desde Basilea, impuesto de matriculación de cada comunidad y ejemplo de coste.
+- [Madrid](https://alpicars.com/importar-coche/madrid), [Barcelona](https://alpicars.com/importar-coche/barcelona), [Bilbao](https://alpicars.com/importar-coche/bilbao), [Valencia](https://alpicars.com/importar-coche/valencia), [Sevilla](https://alpicars.com/importar-coche/sevilla), [Málaga](https://alpicars.com/importar-coche/malaga): distancia desde Basilea, impuesto de matriculación de cada comunidad y ejemplo de coste.
 
 ## Cifras clave 2026
 
@@ -46,3 +48,14 @@
 - Tasa DGT de matriculación: 97,80 EUR.
 - Desde Suiza: arancel 10 % (0 % con origen preferencial UE/Suiza) e IVA de importación 21 %.
 - Desde Alemania: coche usado sin IVA en España; coche nuevo (6 meses o menos, o 6.000 km o menos) paga 21 % de IVA en España.
+
+## Tienda
+
+- [Tienda AlpiCars](https://alpicars.com/tienda): productos de detailing y accesorios para el coche, con envío a toda España y pago seguro con Stripe.
+
+## Contacto
+
+- Email: contact@alpicars.com
+- Presupuesto gratis y sin compromiso: https://alpicars.com/#presupuesto
+
+Última actualización: noviembre de 2026.

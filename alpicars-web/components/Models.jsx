@@ -30,7 +30,8 @@ export default function Models() {
           </div>
         </div>
 
-        <ul className="model-list" id="models-panel" role="tabpanel">
+        <div id="models-panel" role="tabpanel">
+        <ul className="model-list">
           {list.map((car, i) => {
             const photo = photos[car.photo];
             return (
@@ -78,6 +79,7 @@ export default function Models() {
             );
           })}
         </ul>
+        </div>
       </div>
     </section>
   );

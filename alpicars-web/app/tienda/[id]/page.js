@@ -12,7 +12,7 @@ export async function generateMetadata({ params }) {
   const { id } = await params;
   const p = products.find((x) => x.id === id);
   if (!p) return {};
-  const title = `${p.name} · Tienda AlpiCars`;
+  const title = `${p.name} · Tienda AlpiCars`.length > 60 ? `${p.name} | AlpiCars` : `${p.name} · Tienda AlpiCars`;
   return {
     title: { absolute: title },
     description: `${p.short} ${shop.deliveryTime}. Envío a toda España.`.slice(0, 160),

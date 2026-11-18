@@ -15,7 +15,7 @@ export async function generateMetadata({ params }) {
     title: { absolute: g.metaTitle },
     description: g.description,
     alternates: { canonical: `/guias/${g.slug}` },
-    openGraph: { title: g.metaTitle, description: g.description, url: `/guias/${g.slug}`, type: "article", locale: "es_ES" },
+    openGraph: { title: g.metaTitle, description: g.description, url: `/guias/${g.slug}`, type: "article", locale: "es_ES", images: [{ url: "/og.png", width: 1200, height: 630, alt: "AlpiCars" }] },
   };
 }
 

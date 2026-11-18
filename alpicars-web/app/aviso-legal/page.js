@@ -4,7 +4,7 @@ import { avisoLegal } from "../../content/legal";
 // Texto en content/legal.js
 export const metadata = {
   title: "Aviso legal",
-  description: "Titulares, contacto y condiciones de uso de la web de AlpiCars.",
+  description: "Aviso legal de AlpiCars: titulares de la web, datos de contacto, condiciones de uso y propiedad intelectual del sitio alpicars.com.",
   robots: { index: false, follow: true },
 };
 

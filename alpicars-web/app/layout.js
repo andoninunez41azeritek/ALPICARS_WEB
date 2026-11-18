@@ -55,9 +55,11 @@ const jsonLd = {
       slogan: config.slogan,
       description: es.about.lead,
       email: config.email,
-      knowsLanguage: ["es", "de", "en"],
+      knowsLanguage: ["es", "de", "en", "fr", "it", "eu"],
       sameAs: config.sameAs,
       foundingLocation: { "@type": "Country", name: "Suiza" },
+      address: { "@type": "PostalAddress", addressLocality: "Zúrich", addressCountry: "CH" },
+      founder: config.company.owners.map((name) => ({ "@type": "Person", name })),
       areaServed: [
         { "@type": "Country", name: "España" },
         ...["Madrid", "Barcelona", "Bilbao", "Valencia", "Sevilla", "Málaga"].map((name) => ({ "@type": "City", name })),

@@ -16,7 +16,7 @@ export async function generateMetadata({ params }) {
     title: { absolute: title },
     description,
     alternates: { canonical: `/importar-coche/${c.slug}` },
-    openGraph: { title, description, url: `/importar-coche/${c.slug}`, locale: "es_ES", type: "website" },
+    openGraph: { title, description, url: `/importar-coche/${c.slug}`, locale: "es_ES", type: "website", images: [{ url: "/og.png", width: 1200, height: 630, alt: "AlpiCars" }] },
   };
 }
 

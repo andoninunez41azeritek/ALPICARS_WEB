@@ -4,7 +4,7 @@ import { cookies } from "../../content/legal";
 // Texto en content/legal.js
 export const metadata = {
   title: "Política de cookies",
-  description: "Qué cookies usa la web de AlpiCars y cómo configurarlas.",
+  description: "Política de cookies de AlpiCars: qué cookies usa la web, para qué sirven y cómo aceptarlas, rechazarlas o configurarlas.",
   robots: { index: false, follow: true },
 };
 
