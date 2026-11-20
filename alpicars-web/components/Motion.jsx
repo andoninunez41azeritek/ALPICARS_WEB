@@ -38,11 +38,30 @@ export default function Motion() {
 
     const watch = () => document.querySelectorAll(".reveal:not(.is-in), .alps:not(.is-in)").forEach((el) => io.observe(el));
     watch();
+    // Red de seguridad: si se salta de golpe (enlace a una sección, scroll muy rápido), todo lo que ya
+    // está en pantalla o por encima se muestra, para que nunca quede nada invisible
+    let raf = 0;
+    const sweep = () => {
+      raf = 0;
+      document.querySelectorAll(".reveal:not(.is-in), .alps:not(.is-in)").forEach((el) => {
+        if (el.getBoundingClientRect().top < window.innerHeight) {
+          el.classList.add("is-in");
+          io.unobserve(el);
+        }
+      });
+    };
+    const onScroll = () => {
+      if (!raf) raf = requestAnimationFrame(sweep);
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("hashchange", onScroll);
     const mo = new MutationObserver(watch);
     mo.observe(document.body, { childList: true, subtree: true });
 
     return () => {
       document.removeEventListener("click", onClick);
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("hashchange", onScroll);
       io.disconnect();
       mo.disconnect();
     };

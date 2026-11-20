@@ -7,9 +7,8 @@ import { ArrowIcon, WhatsAppIcon } from "./Icons";
 import { origin, originLines, track } from "../lib/track";
 import { saveLead } from "../lib/supabase";
 
-// Formulario de presupuesto.
-// De momento abre el correo del visitante con la solicitud rellenada (funciona sin servidor).
-// TODO (fase 2): guardar el lead en Supabase y avisar por email/WhatsApp al equipo.
+// Formulario de presupuesto: guarda la solicitud en la base de datos (panel /panel) y el equipo recibe un email.
+// Si la base de datos no responde, abre el correo del visitante con la solicitud ya escrita.
 
 export default function LeadForm() {
   const { t, presetService, presetCar } = useSite();
@@ -17,6 +16,7 @@ export default function LeadForm() {
   const [service, setService] = useState("");
   const [car, setCar] = useState("");
   const [sent, setSent] = useState(false);
+  const [sending, setSending] = useState(false);
 
   useEffect(() => {
     if (presetService) setService(presetService);
@@ -28,7 +28,10 @@ export default function LeadForm() {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    const data = new FormData(e.currentTarget);
+    if (sending) return; // evita enviar la misma solicitud varias veces
+    const form = e.currentTarget;
+    const data = new FormData(form);
+    setSending(true);
     const o = origin();
     // 1) Se guarda en la base de datos (panel del equipo en /panel)
     const saved = await saveLead({
@@ -42,8 +45,12 @@ export default function LeadForm() {
       ref: o.recomendado_por || null,
       page: window.location.href.slice(0, 500),
     });
+    setSending(false);
     if (saved) {
       track("lead_submit", { service: data.get("service") || "sin decidir" });
+      form.reset();
+      setCar("");
+      setService("");
       setSent("db");
       return;
     }
@@ -71,7 +78,23 @@ export default function LeadForm() {
           <h2 id="lead-title" className="reveal">{l.title}</h2>
           <p className="reveal" style={{ "--d": "60ms" }}>{l.text}</p>
         </div>
-        <form className="form form-dark reveal" style={{ "--d": "120ms" }} onSubmit={onSubmit}>
+        {sent === "db" ? (
+          <div className="form form-dark lead-done" role="status">
+            <span className="lead-done-icon" aria-hidden="true">✓</span>
+            <h3>{l.sentTitle}</h3>
+            <p>{l.sentDb}</p>
+            <div className="form-actions">
+              <button type="button" className="btn btn-ghost" onClick={() => setSent(false)}>
+                {l.again}
+              </button>
+              <a className="wa-btn wa-big" href={wa} target="_blank" rel="noopener noreferrer">
+                <WhatsAppIcon />
+                {l.whatsapp}
+              </a>
+            </div>
+          </div>
+        ) : (
+        <form className="form form-dark reveal" style={{ "--d": "120ms" }} onSubmit={onSubmit} aria-busy={sending}>
           <label>
             <span>{l.fields.name}</span>
             <input name="name" autoComplete="name" required />
@@ -96,17 +119,18 @@ export default function LeadForm() {
             <input name="car" value={car} onChange={(e) => setCar(e.target.value)} placeholder={l.fields.carPlaceholder} />
           </label>
           <div className="form-actions">
-            <button className="btn btn-accent btn-big" type="submit">
-              {l.submit}
-              <ArrowIcon />
+            <button className="btn btn-accent btn-big" type="submit" disabled={sending}>
+              {sending ? l.sending : l.submit}
+              {!sending && <ArrowIcon />}
             </button>
             <a className="wa-btn wa-big" href={wa} target="_blank" rel="noopener noreferrer">
               <WhatsAppIcon />
               {l.whatsapp}
             </a>
           </div>
-          <p className="form-note" role="status">{sent === "db" ? l.sentDb : sent ? l.sent : l.privacy}</p>
+          <p className="form-note" role="status">{sent ? l.sent : l.privacy}</p>
         </form>
+        )}
       </div>
     </section>
   );

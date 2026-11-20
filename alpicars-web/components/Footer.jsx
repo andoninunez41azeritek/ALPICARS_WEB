@@ -119,6 +119,14 @@ function Alps() {
               <polygon points={l.snow} fill="#0f2238" opacity="0.18" transform="translate(26 0)" />
             </g>
           )}
+          {/* El nombre grabado en la cordillera cercana, apenas visible */}
+          {l.id === "near" && (
+            <g clipPath="url(#alps-clip-near)" aria-hidden="true">
+              <text x={W / 2} y={H - 22} textAnchor="middle" className="alps-word">
+                ALPICARS
+              </text>
+            </g>
+          )}
         </g>
       ))}
     </svg>
@@ -151,7 +159,7 @@ export default function Footer() {
           </p>
         </div>
         <ul className="ft-links">
-          {t.nav.map((n) => (
+          {t.nav.filter((n) => !n.shop).map((n) => (
             <li key={n.href}>
               <a href={`/${n.href}`}>{n.label}</a>
             </li>

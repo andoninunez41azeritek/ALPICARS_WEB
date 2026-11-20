@@ -8,6 +8,7 @@ const eu = {
     { label: "Kalkulagailua" },
     { label: "Eskatuenak" },
     { label: "Ohiko galderak" },
+    { label: "Denda" },
   ],
   header: {
     cta: "Eskatu aurrekontua",
@@ -271,6 +272,10 @@ const eu = {
     privacy: "Bidaltzean, onartzen duzu zurekin harremanetan jartzea zure aurrekontua prestatzeko.",
     sent: "Zure posta elektronikoa ireki da, eskaera bidaltzeko prest.",
     sentDb: "Jasota! Laster idatziko dizugu zure aurrekontuarekin. Nahiago baduzu, idatzi iezaguzu orain WhatsAppez.",
+    sending: "Bidaltzen…",
+    sentTitle: "Eskaera bidalita",
+    again: "Bidali beste eskaera bat",
+    error: "Ezin izan da bidali. Saiatu berriro edo idatzi iezaguzu WhatsAppez.",
   },
 
   quiz: {

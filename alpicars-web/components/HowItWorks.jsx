@@ -48,6 +48,7 @@ function PostalSearch() {
             onChange={(e) => {
               setCode(e.target.value.replace(/\D/g, "").slice(0, 5));
               setError("");
+              setFound(null);
             }}
           />
           <button type="submit" className="btn btn-accent">{r.cpButton}</button>

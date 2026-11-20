@@ -8,6 +8,7 @@ const fr = {
     { label: "Calculateur" },
     { label: "Les plus demandés" },
     { label: "FAQ" },
+    { label: "Boutique" },
   ],
   header: {
     cta: "Demander un devis",
@@ -271,6 +272,10 @@ const fr = {
     privacy: "En envoyant, vous acceptez que nous vous contactions pour préparer votre devis.",
     sent: "Votre messagerie s'est ouverte avec la demande prête à envoyer.",
     sentDb: "Bien reçu ! Nous vous écrivons très vite avec votre devis. Si vous préférez, écrivez-nous dès maintenant sur WhatsApp.",
+    sending: "Envoi…",
+    sentTitle: "Demande envoyée",
+    again: "Envoyer une autre demande",
+    error: "L'envoi a échoué. Réessayez ou écrivez-nous sur WhatsApp.",
   },
 
   quiz: {

@@ -9,6 +9,7 @@ const es = {
     { href: "#calculadora", label: "Calculadora" },
     { href: "#mas-solicitados", label: "Los más solicitados" },
     { href: "#faq", label: "FAQ" },
+    { href: "tienda", label: "Tienda", shop: true },
   ],
   whatsappText: "Buenos días. Les escribo desde la web de AlpiCars: me gustaría recibir información y un presupuesto para importar un vehículo. Gracias.",
 
@@ -399,6 +400,10 @@ const es = {
     privacy: "Al enviar aceptas que te contactemos para preparar tu presupuesto.",
     sent: "Se ha abierto tu correo con la solicitud lista para enviar.",
     sentDb: "¡Recibido! Te escribimos en breve con tu presupuesto. Si lo prefieres, escríbenos ya por WhatsApp.",
+    sending: "Enviando…",
+    sentTitle: "Solicitud enviada",
+    again: "Enviar otra solicitud",
+    error: "No se ha podido enviar. Inténtalo de nuevo o escríbenos por WhatsApp.",
   },
 
   quiz: {

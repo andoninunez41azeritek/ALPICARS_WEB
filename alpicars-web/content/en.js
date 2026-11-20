@@ -8,6 +8,7 @@ const en = {
     { label: "Calculator" },
     { label: "Most requested" },
     { label: "FAQ" },
+    { label: "Shop" },
   ],
   header: {
     cta: "Get a quote",
@@ -271,6 +272,10 @@ const en = {
     privacy: "By sending you agree that we may contact you to prepare your quote.",
     sent: "Your email has opened with the request ready to send.",
     sentDb: "Received! We will write to you shortly with your quote. If you prefer, message us now on WhatsApp.",
+    sending: "Sending…",
+    sentTitle: "Request sent",
+    again: "Send another request",
+    error: "It couldn't be sent. Please try again or message us on WhatsApp.",
   },
 
   quiz: {

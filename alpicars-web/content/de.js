@@ -8,6 +8,7 @@ const de = {
     { label: "Rechner" },
     { label: "Am gefragtesten" },
     { label: "FAQ" },
+    { label: "Shop" },
   ],
   header: {
     cta: "Angebot anfragen",
@@ -271,6 +272,10 @@ const de = {
     privacy: "Mit dem Absenden stimmen Sie zu, dass wir Sie zur Erstellung Ihres Angebots kontaktieren.",
     sent: "Ihr E-Mail-Programm wurde mit der fertigen Anfrage geöffnet.",
     sentDb: "Erhalten! Wir melden uns in Kürze mit Ihrem Angebot. Wenn Sie möchten, schreiben Sie uns gleich auf WhatsApp.",
+    sending: "Wird gesendet…",
+    sentTitle: "Anfrage gesendet",
+    again: "Weitere Anfrage senden",
+    error: "Das Senden hat nicht geklappt. Bitte erneut versuchen oder per WhatsApp schreiben.",
   },
 
   quiz: {

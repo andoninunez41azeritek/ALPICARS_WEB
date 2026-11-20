@@ -150,7 +150,7 @@ export default function Header() {
           <ul>
             {t.nav.map((n) => (
               <li key={n.href}>
-                <a href={`/${n.href}`}>{n.label}</a>
+                <a href={`/${n.href}`} className={n.shop ? "nav-shop" : undefined}>{n.label}</a>
               </li>
             ))}
           </ul>
@@ -163,7 +163,7 @@ export default function Header() {
             <ul>
               {t.nav.map((n) => (
                 <li key={n.href}>
-                  <a href={`/${n.href}`} onClick={closeMenu}>
+                  <a href={`/${n.href}`} className={n.shop ? "nav-shop" : undefined} onClick={closeMenu}>
                     {n.label}
                   </a>
                 </li>
@@ -183,7 +183,7 @@ export default function Header() {
         <ul>
           {t.nav.map((n) => (
             <li key={n.href}>
-              <a href={`/${n.href}`} tabIndex={compact ? 0 : -1}>
+              <a href={`/${n.href}`} className={n.shop ? "nav-shop" : undefined} tabIndex={compact ? 0 : -1}>
                 {n.label}
               </a>
             </li>

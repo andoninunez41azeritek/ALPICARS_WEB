@@ -8,6 +8,7 @@ const it = {
     { label: "Calcolatore" },
     { label: "I più richiesti" },
     { label: "FAQ" },
+    { label: "Negozio" },
   ],
   header: {
     cta: "Richiedi un preventivo",
@@ -271,6 +272,10 @@ const it = {
     privacy: "Inviando accetti che ti contattiamo per preparare il tuo preventivo.",
     sent: "Si è aperta la tua e-mail con la richiesta pronta da inviare.",
     sentDb: "Ricevuto! Ti scriviamo a breve con il tuo preventivo. Se preferisci, scrivici subito su WhatsApp.",
+    sending: "Invio…",
+    sentTitle: "Richiesta inviata",
+    again: "Invia un’altra richiesta",
+    error: "Invio non riuscito. Riprova o scrivici su WhatsApp.",
   },
 
   quiz: {
