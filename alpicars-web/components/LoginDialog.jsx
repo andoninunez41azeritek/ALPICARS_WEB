@@ -9,14 +9,11 @@ import { track } from "../lib/track";
 // Acceso y registro de clientes (Supabase Auth: email y contraseña; Google si está activado en config).
 // Registrarse da acceso a las ofertas exclusivas, a los informes guardados y al enlace para recomendar.
 
-const ERRORS = {
-  "Invalid login credentials": "El email o la contraseña no son correctos.",
-  "Email not confirmed": "Confirma tu email: te hemos enviado un enlace al registrarte.",
-  "User already registered": "Ya hay una cuenta con ese email. Entra con tu contraseña.",
-};
+const ERRORS = { "Invalid login credentials": "errCreds", "Email not confirmed": "errConfirm", "User already registered": "errExists" };
 
 export default function LoginDialog() {
-  const { loginOpen, setLoginOpen, loginMode, setLoginMode } = useSite();
+  const { loginOpen, setLoginOpen, loginMode, setLoginMode, t } = useSite();
+  const L = t.login;
   const ref = useRef(null);
   const [busy, setBusy] = useState(false);
   const [msg, setMsg] = useState("");
@@ -58,30 +55,30 @@ export default function LoginDialog() {
           referredBy,
         });
         track("signup");
-        if (needsConfirm) setDone("¡Cuenta creada! Te hemos enviado un email para confirmarla. Ábrelo y entrarás directamente a tu área.");
+        if (needsConfirm) setDone(L.created);
         else window.location.href = "/cuenta";
       } else if (mode === "reset") {
         await sendPasswordReset(f.email);
-        setDone("Si el email está registrado, te llegará un enlace para crear una contraseña nueva.");
+        setDone(L.resetSent);
       } else {
         await signIn(f.email, f.password);
         track("login");
         window.location.href = "/cuenta";
       }
     } catch (err) {
-      setMsg(ERRORS[err.message] || "No se ha podido completar. Revisa los datos e inténtalo de nuevo.");
+      setMsg(L[ERRORS[err.message]] || L.errGeneric);
     } finally {
       setBusy(false);
     }
   };
 
-  const title = mode === "signup" ? "Crea tu cuenta" : mode === "reset" ? "Recuperar contraseña" : "Accede a tu cuenta";
+  const title = mode === "signup" ? L.titleSignup : mode === "reset" ? L.titleReset : L.titleLogin;
 
   return (
     <dialog ref={ref} className="dlg dlg-login" onClose={close} aria-labelledby="login-title">
       <div className="dlg-head">
         <h2 id="login-title">{title}</h2>
-        <button type="button" className="dlg-x" onClick={close} aria-label="Cerrar">
+        <button type="button" className="dlg-x" onClick={close} aria-label={L.close}>
           <span />
           <span />
         </button>
@@ -89,7 +86,7 @@ export default function LoginDialog() {
 
       {!hasSupabase ? (
         <p className="dlg-msg" role="status">
-          El área de clientes estará disponible muy pronto. Mientras tanto, escríbenos por WhatsApp o pide tu presupuesto.
+          {L.soon}
         </p>
       ) : done ? (
         <p className="dlg-msg" role="status">{done}</p>
@@ -97,13 +94,13 @@ export default function LoginDialog() {
         <>
           {mode !== "reset" && (
             <>
-              <p className="login-perk">Con tu cuenta tienes ofertas exclusivas, tus informes guardados y tu enlace para recomendarnos.</p>
+              <p className="login-perk">{L.perk}</p>
               <div className="seg" role="tablist">
                 <button type="button" role="tab" aria-selected={mode === "login"} onClick={() => setLoginMode("login")}>
-                  Acceder
+                  {L.tabLogin}
                 </button>
                 <button type="button" role="tab" aria-selected={mode === "signup"} onClick={() => setLoginMode("signup")}>
-                  Registrarme
+                  {L.tabSignup}
                 </button>
               </div>
             </>
@@ -111,55 +108,55 @@ export default function LoginDialog() {
           <form className="form" onSubmit={onSubmit}>
             {mode === "signup" && (
               <label>
-                <span>Nombre</span>
+                <span>{L.name}</span>
                 <input name="name" autoComplete="name" required maxLength={120} />
               </label>
             )}
             <label>
-              <span>Email</span>
+              <span>{L.email}</span>
               <input type="email" name="email" autoComplete="email" required />
             </label>
             {mode === "signup" && (
               <label>
-                <span>Teléfono (opcional)</span>
+                <span>{L.phone}</span>
                 <input type="tel" name="phone" autoComplete="tel" maxLength={30} />
               </label>
             )}
             {mode !== "reset" && (
               <label>
-                <span>Contraseña</span>
+                <span>{L.password}</span>
                 <input type="password" name="password" autoComplete={mode === "login" ? "current-password" : "new-password"} required minLength={8} />
               </label>
             )}
             {mode === "signup" && (
               <>
                 <label className="check">
-                  <input type="checkbox" name="marketing" defaultChecked />
-                  <span>Quiero recibir ofertas exclusivas y avisos de coches que encajen conmigo.</span>
+                  <input type="checkbox" name="marketing" />
+                  <span>{L.marketing}</span>
                 </label>
                 <label className="check">
                   <input type="checkbox" required />
                   <span>
-                    Acepto la <a href="/privacidad" target="_blank" rel="noopener noreferrer">política de privacidad</a>.
+                    {L.privacyPre} <a href="/privacidad" target="_blank" rel="noopener noreferrer">{L.privacyLink}</a>.
                   </span>
                 </label>
               </>
             )}
             <button className="btn btn-accent btn-block" type="submit" disabled={busy}>
-              {busy ? "Un momento…" : mode === "login" ? "Acceder" : mode === "signup" ? "Crear cuenta" : "Enviar enlace"}
+              {busy ? L.wait : mode === "login" ? L.submitLogin : mode === "signup" ? L.submitSignup : L.submitReset}
             </button>
             {msg && <p className="form-error" role="alert">{msg}</p>}
           </form>
           {config.googleLogin && mode !== "reset" && (
             <button type="button" className="btn btn-ghost btn-block login-google" onClick={signInWithGoogle}>
-              Continuar con Google
+              {L.google}
             </button>
           )}
           <p className="login-alt">
             {mode === "reset" ? (
-              <button type="button" className="link-btn" onClick={() => setLoginMode("login")}>Volver a acceder</button>
+              <button type="button" className="link-btn" onClick={() => setLoginMode("login")}>{L.back}</button>
             ) : (
-              <button type="button" className="link-btn" onClick={() => setLoginMode("reset")}>¿Has olvidado la contraseña?</button>
+              <button type="button" className="link-btn" onClick={() => setLoginMode("reset")}>{L.forgot}</button>
             )}
           </p>
         </>

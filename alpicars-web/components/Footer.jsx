@@ -148,7 +148,7 @@ export default function Footer() {
       <div className="ft-grid">
         <div className="ft-contact">
           <h2>{f.contact}</h2>
-          <p className="ft-slogan">{config.slogan}</p>
+          <p className="ft-slogan">{t.marquee}</p>
           <p>
             <a href={`mailto:${config.email}`}>{config.email}</a>
           </p>
