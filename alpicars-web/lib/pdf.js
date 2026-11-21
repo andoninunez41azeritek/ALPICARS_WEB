@@ -29,7 +29,7 @@ const LINE = rgb(0.87, 0.89, 0.92);
 const SNOW = rgb(0.957, 0.965, 0.976);
 const WHITE = rgb(1, 1, 1);
 
-export async function buildPdf(blocks, { title = "AlpiCars", url = "" } = {}) {
+export async function buildPdf(blocks, { title = "AlpiCars", url = "", slogan: sloganText = config.slogan } = {}) {
   const doc = await PDFDocument.create();
   doc.setTitle(title);
   doc.setAuthor("AlpiCars");
@@ -89,7 +89,7 @@ export async function buildPdf(blocks, { title = "AlpiCars", url = "" } = {}) {
     } else {
       page.drawText("ALPICARS", { x: M, y: top - 14, size: 14, font: bold, color: NAVY });
     }
-    const slogan = clean(config.slogan);
+    const slogan = clean(sloganText);
     page.drawText(slogan, { x: A4[0] - M - width(slogan, 8.5), y: top - 12, size: 8.5, font, color: SOFT });
     page.drawRectangle({ x: M, y: top - 26, width: W, height: 1.6, color: RED });
     y = top - 52;

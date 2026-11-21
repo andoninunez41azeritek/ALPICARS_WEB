@@ -209,32 +209,39 @@ const it = {
     less: "Mostra meno",
     de: [
       {
+        name: "Volkswagen Golf e Tiguan",
         pros: ["Rivendita molto facile in Spagna grazie a una domanda altissima.", "Offerta enorme in Germania, con allestimenti R-Line, GTI e R.", "Storico facile da verificare e ricambi economici."],
         cons: ["Molte arrivano da noleggio o flotte: scartiamo quelle con interni molto usurati o chilometraggio dubbio."],
       },
       {
+        name: "BMW Serie 3 Touring, X3 e X5",
         pros: ["Le versioni Touring e xDrive sono molto richieste in Spagna e scarseggiano.", "Diesel 6 cilindri (330d, X5 30d) molto apprezzati per l'affidabilità."],
         cons: ["Controlliamo la catena di distribuzione e i sistemi EGR e AdBlue.", "Le versioni diesel grandi non ibride pagano di più all'immatricolazione."],
       },
       {
+        name: "Audi A4, A6 Avant e Q5",
         pros: ["La trazione quattro e l'allestimento S-Line mantengono molto bene il valore in Spagna.", "Interni che invecchiano in modo eccezionale."],
         cons: ["Verifichiamo che sia stato fatto il cambio olio del cambio S-Tronic.", "Controlliamo le sospensioni pneumatiche, frequenti su A6 e Q5."],
       },
       {
+        name: "Mercedes Classe C, Classe E e GLC AMG Line",
         pros: ["Alto valore percepito e buona svalutazione iniziale in Germania.", "Le ibride plug-in arrivano con etichetta CERO in Spagna."],
         cons: ["Eseguiamo una diagnosi ufficiale Star Diagnosis per scoprire guasti elettronici nascosti.", "Ricambi originali più cari che in VAG o BMW."],
       },
     ],
     ch: [
       {
+        name: "Porsche 911, Macan e Cayenne",
         pros: ["Stato impeccabile: in Svizzera si percorrono pochi km e la manutenzione si fa in concessionaria.", "Molta più qualità per il prezzo rispetto all'usato in Spagna.", "Storico e manutenzione facili da ricostruire."],
         cons: ["Più imposte all'importazione dalla Svizzera (IVA, immatricolazione e dazi se non si applica l'EUR.1): te le indichiamo prima dell'acquisto."],
       },
       {
+        name: "BMW M e Audi RS",
         pros: ["Configurazioni full optional, quasi introvabili in Spagna.", "Auto molto curate, in garage e ben mantenute."],
         cons: ["Misuriamo freni carboceramici e trasmissione con calibro e diagnosi in caso di uso intensivo."],
       },
       {
+        name: "Mercedes-AMG e Range Rover Sport",
         pros: ["Trazione integrale e dotazione invernale svizzera di serie.", "Molto cercate da clienti che vogliono un'auto esclusiva."],
         cons: ["Sulle AMG controlliamo il sottoscocca per il sale delle strade alpine.", "Sulle Range Rover teniamo d'occhio svalutazione e sistemi elettrici e pneumatici."],
       },

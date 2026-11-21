@@ -209,32 +209,39 @@ const en = {
     less: "Show less",
     de: [
       {
+        name: "Volkswagen Golf and Tiguan",
         pros: ["Very easy to resell in Spain thanks to huge demand.", "Huge supply in Germany, with R-Line, GTI and R trims.", "History easy to verify and affordable parts."],
         cons: ["Many come from rental or fleets: we discard those with heavy interior wear or doubtful mileage."],
       },
       {
+        name: "BMW 3 Series Touring, X3 and X5",
         pros: ["Touring and xDrive versions are in high demand in Spain with little supply.", "6-cylinder diesels (330d, X5 30d) highly valued for their reliability."],
         cons: ["We check the timing chain and the EGR and AdBlue systems.", "Large diesel versions without hybridisation pay more at registration."],
       },
       {
+        name: "Audi A4, A6 Avant and Q5",
         pros: ["Quattro drive and S-Line trim hold their value very well in Spain.", "Interiors that age exceptionally well."],
         cons: ["We check that the S-Tronic gearbox has had its oil change.", "We check the air suspension common on the A6 and Q5."],
       },
       {
+        name: "Mercedes C-Class, E-Class and GLC AMG Line",
         pros: ["High perceived value and good early depreciation in Germany.", "Plug-in hybrid versions arrive with the CERO (zero emissions) label in Spain."],
         cons: ["We run official Star Diagnosis to detect hidden electronic faults.", "Original parts are more expensive than VAG or BMW."],
       },
     ],
     ch: [
       {
+        name: "Porsche 911, Macan and Cayenne",
         pros: ["Immaculate condition: in Switzerland mileages are low and servicing is done at official dealers.", "Much more quality for the price than used stock in Spain.", "History and maintenance easy to trace."],
         cons: ["Higher taxes when importing from Switzerland (VAT, registration and duty if EUR.1 does not apply): we itemise them before buying."],
       },
       {
+        name: "BMW M and Audi RS",
         pros: ["Fully loaded specs, almost impossible to find in Spain.", "Very well kept cars, garaged and well maintained."],
         cons: ["We measure carbon-ceramic brakes and the drivetrain with a gauge and diagnosis in case of hard use."],
       },
       {
+        name: "Mercedes-AMG and Range Rover Sport",
         pros: ["All-wheel drive and Swiss winter equipment as standard.", "Highly sought after by clients who want an exclusive car."],
         cons: ["On AMGs we check the underbody for salt from Alpine roads.", "On Range Rovers we watch depreciation and the electrical and air suspension systems."],
       },

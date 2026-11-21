@@ -74,7 +74,7 @@ export default function ShareBar({ shareText, source, makeDoc, kind }) {
   const makePdf = async () => {
     const { buildPdf, downloadPdf, sharePdf } = await import("../lib/pdf");
     const d = makeDoc();
-    const bytes = await buildPdf(d.blocks, { title: d.title, url: url() });
+    const bytes = await buildPdf(d.blocks, { title: d.title, url: url(), slogan: t.marquee ? `${t.marquee}.` : undefined });
     return { bytes, fileName: d.fileName, downloadPdf, sharePdf };
   };
 

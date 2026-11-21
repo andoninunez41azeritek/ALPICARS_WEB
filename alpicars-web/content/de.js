@@ -209,32 +209,39 @@ const de = {
     less: "Weniger anzeigen",
     de: [
       {
+        name: "Volkswagen Golf und Tiguan",
         pros: ["In Spanien dank enormer Nachfrage sehr leicht wiederzuverkaufen.", "Riesiges Angebot in Deutschland, mit R-Line, GTI und R.", "Historie leicht überprüfbar, günstige Ersatzteile."],
         cons: ["Viele stammen aus Vermietung oder Flotten: Wir sortieren alle mit starkem Innenraumverschleiß oder zweifelhaftem Kilometerstand aus."],
       },
       {
+        name: "BMW 3er Touring, X3 und X5",
         pros: ["Touring- und xDrive-Versionen sind in Spanien stark gefragt und kaum erhältlich.", "Sechszylinder-Diesel (330d, X5 30d), sehr geschätzt für ihre Zuverlässigkeit."],
         cons: ["Wir prüfen Steuerkette sowie AGR- und AdBlue-System.", "Große Dieselversionen ohne Hybridisierung zahlen bei der Zulassung mehr."],
       },
       {
+        name: "Audi A4, A6 Avant und Q5",
         pros: ["Quattro-Antrieb und S-Line-Ausstattung behalten in Spanien sehr gut ihren Wert.", "Innenräume, die außergewöhnlich gut altern."],
         cons: ["Wir prüfen, ob beim S-Tronic-Getriebe der Ölwechsel gemacht wurde.", "Wir prüfen die beim A6 und Q5 übliche Luftfederung."],
       },
       {
+        name: "Mercedes C-Klasse, E-Klasse und GLC AMG Line",
         pros: ["Hoher wahrgenommener Wert und gute Anfangsabschreibung in Deutschland.", "Plug-in-Hybride erhalten in Spanien die Umweltplakette CERO."],
         cons: ["Wir führen eine offizielle Star-Diagnose durch, um versteckte Elektronikfehler zu finden.", "Originalteile teurer als bei VAG oder BMW."],
       },
     ],
     ch: [
       {
+        name: "Porsche 911, Macan und Cayenne",
         pros: ["Tadelloser Zustand: In der Schweiz sind die Laufleistungen niedrig und die Wartung erfolgt beim Vertragshändler.", "Viel mehr Qualität fürs Geld als der Gebrauchtwagenbestand in Spanien.", "Historie und Wartung leicht nachvollziehbar."],
         cons: ["Höhere Steuern beim Import aus der Schweiz (MwSt., Zulassung und Zoll, falls EUR.1 nicht greift): Wir schlüsseln sie vor dem Kauf auf."],
       },
       {
+        name: "BMW M und Audi RS",
         pros: ["Vollausstattungen, die in Spanien kaum zu finden sind.", "Sehr gepflegte Fahrzeuge, in der Garage abgestellt und gut gewartet."],
         cons: ["Wir messen Keramikbremsen und Antriebsstrang mit Messgerät und Diagnose, falls das Auto hart gefahren wurde."],
       },
       {
+        name: "Mercedes-AMG und Range Rover Sport",
         pros: ["Allradantrieb und Schweizer Winterausstattung serienmäßig.", "Sehr gefragt bei Kunden, die ein exklusives Auto suchen."],
         cons: ["Bei AMG prüfen wir den Unterboden auf Salz von den Alpenstraßen.", "Beim Range Rover achten wir auf Wertverlust sowie Elektrik und Luftfederung."],
       },

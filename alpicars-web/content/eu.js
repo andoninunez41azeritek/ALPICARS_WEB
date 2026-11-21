@@ -209,32 +209,39 @@ const eu = {
     less: "Ikusi gutxiago",
     de: [
       {
+        name: "Volkswagen Golf eta Tiguan",
         pros: ["Espainian oso erraz saltzen da berriro, eskari handia duelako.", "Eskaintza izugarria Alemanian, R-Line, GTI eta R akaberekin.", "Historia egiaztatzeko erraza eta ordezko pieza merkeak."],
         cons: ["Asko alokairu-enpresetatik edo flotetatik datoz: barnealde oso higatua edo kilometro zalantzagarriak dituztenak baztertzen ditugu."],
       },
       {
+        name: "BMW 3 Seriea Touring, X3 eta X5",
         pros: ["Touring eta xDrive bertsioak oso eskatuak dira Espainian, eta urriak.", "6 zilindroko dieselak (330d, X5 30d) oso estimatuak dira fidagarriak direlako."],
         cons: ["Banaketa-katea eta EGR eta AdBlue sistemak egiaztatzen ditugu.", "Hibridoak ez diren diesel bertsio handiek gehiago ordaintzen dute matrikulatzean."],
       },
       {
+        name: "Audi A4, A6 Avant eta Q5",
         pros: ["Quattro trakzioak eta S-Line akaberak oso ondo mantentzen dute balioa Espainian.", "Barnealdeak ezin hobeto zahartzen dira."],
         cons: ["S-Tronic aldagailuaren olio-aldaketa egin dela egiaztatzen dugu.", "A6 eta Q5 modeloetan ohikoa den esekidura pneumatikoa aztertzen dugu."],
       },
       {
+        name: "Mercedes C Klasea, E Klasea eta GLC AMG Line",
         pros: ["Balio hautemangarri handia eta hasierako balio-galera ona Alemanian.", "Hibrido entxufagarriak CERO etiketarekin iristen dira Espainiara."],
         cons: ["Star Diagnosis diagnosi ofiziala egiten dugu ezkutuko akats elektronikoak aurkitzeko.", "Jatorrizko piezak VAG edo BMWkoak baino garestiagoak dira."],
       },
     ],
     ch: [
       {
+        name: "Porsche 911, Macan eta Cayenne",
         pros: ["Egoera ezin hobea: Suitzan kilometro gutxi egiten dira eta mantentzea kontzesionarioan egiten da.", "Prezioaren truke, Espainiako bigarren eskuko stockak baino kalitate askoz handiagoa.", "Historia eta mantentzea erraz jarraitzen dira."],
         cons: ["Suitzatik inportatzeak zerga gehiago ditu (BEZa, matrikulazioa eta, EUR.1 aplikatzen ez bada, aduana-zergak): erosi aurretik zehazten dizkizugu."],
       },
       {
+        name: "BMW M eta Audi RS",
         pros: ["Ekipamendu osoko konfigurazioak, Espainian ia aurkitu ezinak.", "Oso zainduak, garajean gordeak eta ondo mantenduak."],
         cons: ["Erabilera intentsiboa izan badute, balazta karbono-zeramikoak eta transmisioa kalibrearekin eta diagnosiarekin neurtzen ditugu."],
       },
       {
+        name: "Mercedes-AMG eta Range Rover Sport",
         pros: ["Lau gurpileko trakzioa eta Suitzako neguko ekipamendua seriean.", "Auto esklusibo bat nahi duten bezeroek asko bilatzen dituzte."],
         cons: ["AMGetan azpialdea aztertzen dugu, Alpeetako errepideetako gatzagatik.", "Range Roverretan balio-galera eta sistema elektriko eta pneumatikoak zaintzen ditugu."],
       },
