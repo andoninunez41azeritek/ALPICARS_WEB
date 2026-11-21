@@ -1,11 +1,10 @@
 // Idioma de la tienda: el mismo que el visitante eligió en la web (se guarda en el navegador).
-import { useEffect, useState } from "react";
 import shopTexts from "../content/shop-i18n";
 import productTexts from "../content/products-i18n";
 
 export const LANGS = ["es", "en", "de", "fr", "it", "eu"];
 const KEY = "alpicars-lang";
-const EVENT = "alpicars-lang";
+export const LANG_EVENT = "alpicars-lang";
 
 export function readLang() {
   try {
@@ -22,26 +21,7 @@ export function setLang(l) {
   } catch {
     /* sin almacenamiento */
   }
-  window.dispatchEvent(new Event(EVENT));
-}
-
-// Devuelve el idioma actual y se actualiza si cambia (en esta pestaña o en otra)
-export function useShopLang() {
-  const [lang, setL] = useState("es");
-  useEffect(() => {
-    const sync = () => setL(readLang());
-    sync();
-    window.addEventListener(EVENT, sync);
-    window.addEventListener("storage", sync);
-    return () => {
-      window.removeEventListener(EVENT, sync);
-      window.removeEventListener("storage", sync);
-    };
-  }, []);
-  useEffect(() => {
-    document.documentElement.lang = lang;
-  }, [lang]);
-  return lang;
+  window.dispatchEvent(new Event(LANG_EVENT));
 }
 
 export const shopT = (lang) => shopTexts[lang] || shopTexts.es;

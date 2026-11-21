@@ -8,7 +8,8 @@ import { rememberOrigin, track } from "../lib/track";
 import { orderCode } from "../lib/orderCode";
 import { LegalBody } from "./LegalDoc";
 import { tiendaCondiciones } from "../content/legal";
-import { LANGS, fill, localLabel, localizeProduct, money, setLang, shopT, useShopLang } from "../lib/shopI18n";
+import { LANGS, fill, localLabel, localizeProduct, money, setLang, shopT } from "../lib/shopI18n";
+import useShopLang from "../lib/useShopLang";
 
 // Tienda AlpiCars: productos de detailing y accesorios.
 // Va aparte de la web principal (con su propia cabecera) para no mezclarla con el servicio de importación.
