@@ -377,6 +377,8 @@ const de = {
   },
 
   report: {
+    more: "mehr",
+    presetCar: "Auto zum Import ({origin}) für etwa {car} (in Spanien kostet es {es})",
     kicker: "Kostenbericht",
     title: "Was der Import Ihres Autos kostet",
     intro: "Vergleich zwischen dem Kauf in Spanien und dem Import mit AlpiCars, mit allen Kosten im Detail.",
@@ -426,6 +428,43 @@ const de = {
     errConfirm: "Bitte bestätigen Sie Ihre E-Mail: Wir haben Ihnen bei der Registrierung einen Link geschickt.",
     errExists: "Mit dieser E-Mail gibt es bereits ein Konto. Melden Sie sich mit Ihrem Passwort an.",
     errGeneric: "Das hat nicht geklappt. Prüfen Sie die Angaben und versuchen Sie es erneut.",
+  },
+
+  rec: {
+    "models": {
+      "m1": "Porsche 911, BMW M oder Audi RS aus der Schweiz",
+      "m2": "Volkswagen Golf GTI oder Golf R aus Deutschland",
+      "m3": "Volkswagen Tiguan",
+      "m4": "Mercedes GLC Plug-in-Hybrid",
+      "m5": "BMW X3 oder Audi Q5",
+      "m6": "Porsche Macan oder Cayenne aus der Schweiz",
+      "m7": "BMW X5 30d",
+      "m8": "Volkswagen Golf Variant",
+      "m9": "Mercedes C- oder E-Klasse Plug-in-Hybrid",
+      "m10": "BMW 3er Touring 330d",
+      "m11": "Audi A4 oder A6 Avant",
+      "m12": "Volkswagen Golf"
+    },
+    "why": {
+      "w1": "In der Schweiz gibt es voll ausgestattete Autos mit wenig Kilometern, in der Garage gepflegt.",
+      "w2": "Sportlich, praktisch und günstig im Unterhalt: die Wahl mit dem größten Angebot in Deutschland.",
+      "w3": "Ein SUV mit riesigem Angebot in Deutschland und in Spanien sehr leicht wiederzuverkaufen.",
+      "w4": "Kommt mit der Plakette CERO, und in Deutschland gibt es viele AMG-Line-Modelle.",
+      "w5": "Allradantrieb, umfangreiche Ausstattung und sehr hoher Wiederverkaufswert in Spanien.",
+      "w6": "Geringe Laufleistung und Wartung beim Vertragshändler.",
+      "w7": "Der gefragteste Sechszylinder-Diesel dank Zuverlässigkeit und Drehmoment.",
+      "w8": "Platz für die Familie, moderater Verbrauch und günstige Ersatzteile.",
+      "w9": "Plakette CERO und ein sehr hoher wahrgenommener Wert.",
+      "w10": "Ideal für viele Kilometer: zuverlässiger Diesel und großer Kofferraum.",
+      "w11": "quattro-Antrieb und S-Line-Ausstattung, die ihren Wert sehr gut halten.",
+      "w12": "Leicht zu parken, leicht wiederzuverkaufen und mit dem größten Angebot in Deutschland."
+    },
+    "green": "Wir suchen Ihnen Versionen mit der Plakette ECO oder CERO.",
+    "origin": "Empfohlene Herkunft",
+    "service": "Service",
+    "from": "Ab {p}",
+    "de": "Deutschland",
+    "ch": "Schweiz"
   },
 
   footer: {

@@ -24,28 +24,32 @@ function Result() {
 
   useEffect(() => {
     if (!res) return;
-    setPresetService(res.service);
-    setPresetCar(res.model);
-  }, [res?.model, res?.service]); // eslint-disable-line react-hooks/exhaustive-deps
+    setPresetService(t.services.plans.find((p) => p.id === res.service)?.name || "");
+    setPresetCar(t.rec.models[res.model]);
+  }, [res?.model, res?.service, t]); // eslint-disable-line react-hooks/exhaustive-deps
 
   if (!res) return <div className="report-loading">{q.loading}</div>;
 
-  const plan = t.services.plans.find((p) => p.name === res.service);
+  const rc = t.rec;
+  const model = rc.models[res.model];
+  const why = rc.why[res.why];
+  const plan = t.services.plans.find((p) => p.id === res.service);
   const guide = t.models[res.guide[0]][res.guide[1]];
-  const originLabel = res.origin === "ch" ? "Suiza" : "Alemania";
+  const originLabel = rc[res.origin];
+  const fromLabel = plan?.price != null ? rc.from.replace("{p}", formatPrice(plan.price)) : "";
   const priceOf = (p) => (p.price == null ? t.services.onRequest : `${formatPrice(p.price)}${p.suffix ? ` ${p.suffix}` : ""}`);
 
   // Contenido del PDF (el mismo que ves en la página)
   const makeDoc = () => ({
-    title: `${r.title}: ${res.model}`,
+    title: `${r.title}: ${model}`,
     fileName: `AlpiCars-coche-ideal.pdf`,
     blocks: [
       {
         type: "hero",
         kicker: r.kicker,
         title: r.title,
-        big: res.model,
-        lines: [res.why, ...(res.green ? ["Te buscaremos versiones con etiqueta ECO o CERO."] : []), `Origen recomendado: ${originLabel} · Servicio: ${res.service}${plan?.price != null ? ` · Desde ${formatPrice(plan.price)}` : ""}`],
+        big: model,
+        lines: [why, ...(res.green ? [rc.green] : []), `${rc.origin}: ${originLabel} · ${rc.service}: ${plan?.name || ""}${fromLabel ? ` · ${fromLabel}` : ""}`],
       },
       { type: "h2", text: r.guideTitle },
       { type: "h3", text: guide.name },
@@ -53,13 +57,13 @@ function Result() {
       { type: "h2", text: r.serviceTitle },
       ...(plan ? [{ type: "table", rows: [[plan.name, `${plan.text} ${plan.excludes || ""}`.trim(), priceOf(plan), true]] }] : []),
       { type: "h3", text: r.allServices },
-      { type: "table", rows: t.services.plans.map((p) => [p.name, p.text, priceOf(p), p.name === res.service]) },
+      { type: "table", rows: t.services.plans.map((p) => [p.name, p.text, priceOf(p), p.id === res.service]) },
       { type: "h2", text: r.stepsTitle },
       { type: "steps", items: t.route.steps.map((st) => ({ title: st.title, text: `${st.text}${st.note ? ` ${st.note}` : ""}` })) },
       { type: "h2", text: r.yourAnswers },
       { type: "qa", items: q.questions.map((qq) => [qq.q, qq.a[answers[qq.key]]]) },
       { type: "p", text: r.note, small: true },
-      contactBlock(t.share.pdfContact, "test", t.share.pdfContact.waTest.replace("{model}", res.model)),
+      contactBlock(t.share.pdfContact, "test", t.share.pdfContact.waTest.replace("{model}", model)),
     ],
   });
 
@@ -67,15 +71,15 @@ function Result() {
     <>
       <section className="report-hero">
         <h1>{r.title}</h1>
-        <p className="report-model">{res.model}</p>
-        <p className="report-lead">{res.why}</p>
-        {res.green && <p className="report-lead">Te buscaremos versiones con etiqueta ECO o CERO.</p>}
+        <p className="report-model">{model}</p>
+        <p className="report-lead">{why}</p>
+        {res.green && <p className="report-lead">{rc.green}</p>}
         <ul className="report-pills">
-          <li>Origen recomendado: {originLabel}</li>
-          <li>Servicio: {res.service}</li>
-          {plan?.price != null && <li>Desde {formatPrice(plan.price)}</li>}
+          <li>{rc.origin}: {originLabel}</li>
+          <li>{rc.service}: {plan?.name}</li>
+          {fromLabel && <li>{fromLabel}</li>}
         </ul>
-        <ShareBar shareText={`${r.shareText} ${res.model}.`} source="Test ¿Qué coche es para ti?" makeDoc={makeDoc} kind="test" />
+        <ShareBar shareText={`${r.shareText} ${model}.`} source="Test ¿Qué coche es para ti?" makeDoc={makeDoc} kind="test" />
       </section>
 
       <section className="panel report-panel">
@@ -120,7 +124,7 @@ function Result() {
         <table className="report-table">
           <tbody>
             {t.services.plans.map((p) => (
-              <tr key={p.id} className={p.name === res.service ? "is-hl" : undefined}>
+              <tr key={p.id} className={p.id === res.service ? "is-hl" : undefined}>
                 <th scope="row">{p.name}</th>
                 <td>{p.text}</td>
                 <td className="r">

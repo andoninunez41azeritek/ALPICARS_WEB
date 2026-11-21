@@ -1,7 +1,7 @@
 "use client";
 
 import config from "../content/config";
-import { SiteProvider } from "./SiteProvider";
+import { SiteProvider, useSite } from "./SiteProvider";
 import Header from "./Header";
 import Footer from "./Footer";
 import FloatingWhatsApp from "./FloatingWhatsApp";
@@ -13,19 +13,21 @@ import Motion from "./Motion";
 // para que el PDF compartido lleve siempre el contacto de AlpiCars.
 
 export function DocBrand() {
+  const { t } = useSite();
   return (
     <div className="doc-brand print-only">
       <img src="/logo-horizontal.png" alt="AlpiCars" width="945" height="172" />
-      <span>{config.slogan}</span>
+      <span>{t.marquee}</span>
     </div>
   );
 }
 
 export function DocContact() {
+  const { t } = useSite();
   const site = config.siteUrl.replace(/^https?:\/\//, "");
   return (
     <div className="doc-contact print-only">
-      <strong>AlpiCars</strong> · Importación de coches desde Suiza y Alemania · {site} · {config.email} · WhatsApp +{config.whatsappNumber}
+      <strong>AlpiCars</strong> · {t.hero.title} · {site} · {config.email} · WhatsApp +{config.whatsappNumber}
     </div>
   );
 }

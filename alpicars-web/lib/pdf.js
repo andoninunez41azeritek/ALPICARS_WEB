@@ -42,7 +42,7 @@ export async function buildPdf(blocks, { title = "AlpiCars", url = "" } = {}) {
   const clean = (s) =>
     String(s ?? "")
       .replace(/₂/g, "2")
-      .replace(/≈/g, "aprox.")
+      .replace(/≈/g, "~")
       .replace(/→/g, "->")
       .replace(/ | /g, " ")
       .split("")

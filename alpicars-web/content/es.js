@@ -511,6 +511,8 @@ const es = {
   },
 
   report: {
+    more: "más",
+    presetCar: "Importar desde {origin} un coche de unos {car} (en España cuesta {es})",
     kicker: "Informe de costes",
     title: "Cuánto cuesta importar tu coche",
     intro: "Comparativa entre comprar el coche en España o traerlo con AlpiCars, con todos los gastos desglosados.",
@@ -560,6 +562,43 @@ const es = {
     errConfirm: "Confirma tu email: te hemos enviado un enlace al registrarte.",
     errExists: "Ya hay una cuenta con ese email. Entra con tu contraseña.",
     errGeneric: "No se ha podido completar. Revisa los datos e inténtalo de nuevo.",
+  },
+
+  rec: {
+    "models": {
+      "m1": "Porsche 911, BMW M o Audi RS desde Suiza",
+      "m2": "Volkswagen Golf GTI o Golf R desde Alemania",
+      "m3": "Volkswagen Tiguan",
+      "m4": "Mercedes GLC híbrido enchufable",
+      "m5": "BMW X3 o Audi Q5",
+      "m6": "Porsche Macan o Cayenne desde Suiza",
+      "m7": "BMW X5 30d",
+      "m8": "Volkswagen Golf Variant",
+      "m9": "Mercedes Clase C o E híbrido enchufable",
+      "m10": "BMW Serie 3 Touring 330d",
+      "m11": "Audi A4 o A6 Avant",
+      "m12": "Volkswagen Golf"
+    },
+    "why": {
+      "w1": "En Suiza hay unidades con todos los extras, pocos kilómetros y guardadas en garaje.",
+      "w2": "Deportivo, práctico y con recambios económicos: la opción con más oferta en Alemania.",
+      "w3": "Un SUV con muchísima oferta en Alemania y muy fácil de revender en España.",
+      "w4": "Llega con etiqueta CERO y en Alemania hay muchas unidades AMG Line.",
+      "w5": "Tracción total, gran equipamiento y valor de reventa muy alto en España.",
+      "w6": "Kilometrajes bajos y mantenimiento en concesionario oficial.",
+      "w7": "El diésel de 6 cilindros más buscado por fiabilidad y par motor.",
+      "w8": "Espacio familiar, consumo contenido y repuestos económicos.",
+      "w9": "Etiqueta CERO y un valor percibido altísimo.",
+      "w10": "Perfecto para muchos kilómetros: diésel fiable y mucho maletero.",
+      "w11": "Acabado quattro y S-Line, que mantienen muy bien su valor.",
+      "w12": "Fácil de aparcar, fácil de revender y con la mayor oferta de Alemania."
+    },
+    "green": "Te buscaremos versiones con etiqueta ECO o CERO.",
+    "origin": "Origen recomendado",
+    "service": "Servicio",
+    "from": "Desde {p}",
+    "de": "Alemania",
+    "ch": "Suiza"
   },
 
   footer: {

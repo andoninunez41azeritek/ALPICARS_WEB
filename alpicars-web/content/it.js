@@ -377,6 +377,8 @@ const it = {
   },
 
   report: {
+    more: "in più",
+    presetCar: "Importare dalla {origin} un'auto da circa {car} (in Spagna costa {es})",
     kicker: "Report dei costi",
     title: "Quanto costa importare la tua auto",
     intro: "Confronto tra comprare l'auto in Spagna o importarla con AlpiCars, con tutti i costi dettagliati.",
@@ -426,6 +428,43 @@ const it = {
     errConfirm: "Conferma la tua e-mail: ti abbiamo inviato un link al momento della registrazione.",
     errExists: "Esiste già un account con questa e-mail. Accedi con la tua password.",
     errGeneric: "Impossibile completare. Controlla i dati e riprova.",
+  },
+
+  rec: {
+    "models": {
+      "m1": "Porsche 911, BMW M o Audi RS dalla Svizzera",
+      "m2": "Volkswagen Golf GTI o Golf R dalla Germania",
+      "m3": "Volkswagen Tiguan",
+      "m4": "Mercedes GLC ibrida plug-in",
+      "m5": "BMW X3 o Audi Q5",
+      "m6": "Porsche Macan o Cayenne dalla Svizzera",
+      "m7": "BMW X5 30d",
+      "m8": "Volkswagen Golf Variant",
+      "m9": "Mercedes Classe C o E ibrida plug-in",
+      "m10": "BMW Serie 3 Touring 330d",
+      "m11": "Audi A4 o A6 Avant",
+      "m12": "Volkswagen Golf"
+    },
+    "why": {
+      "w1": "In Svizzera ci sono auto full optional, con pochi km e tenute in garage.",
+      "w2": "Sportiva, pratica e con ricambi economici: l'opzione con più offerta in Germania.",
+      "w3": "Un SUV con un'offerta enorme in Germania e facilissimo da rivendere in Spagna.",
+      "w4": "Arriva con l'etichetta CERO e in Germania ci sono molti esemplari AMG Line.",
+      "w5": "Trazione integrale, ricca dotazione e valore di rivendita molto alto in Spagna.",
+      "w6": "Chilometraggi bassi e manutenzione presso concessionari ufficiali.",
+      "w7": "Il diesel 6 cilindri più cercato per affidabilità e coppia.",
+      "w8": "Spazio per la famiglia, consumi contenuti e ricambi economici.",
+      "w9": "Etichetta CERO e un valore percepito altissimo.",
+      "w10": "Perfetta per molti chilometri: diesel affidabile e bagagliaio grande.",
+      "w11": "Trazione quattro e allestimento S-Line, che mantengono molto bene il valore.",
+      "w12": "Facile da parcheggiare, facile da rivendere e con la maggiore offerta della Germania."
+    },
+    "green": "Cercheremo versioni con etichetta ECO o CERO.",
+    "origin": "Origine consigliata",
+    "service": "Servizio",
+    "from": "Da {p}",
+    "de": "Germania",
+    "ch": "Svizzera"
   },
 
   footer: {

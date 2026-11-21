@@ -377,6 +377,8 @@ const eu = {
   },
 
   report: {
+    more: "gehiago",
+    presetCar: "{origin}tik {car} inguruko auto bat inportatu (Espainian {es} balio du)",
     kicker: "Kostuen txostena",
     title: "Zenbat kostatzen da zure autoa inportatzea",
     intro: "Autoa Espainian erostearen eta AlpiCarsekin inportatzearen arteko alderaketa, gastu guztiak zehaztuta.",
@@ -426,6 +428,43 @@ const eu = {
     errConfirm: "Berretsi zure posta elektronikoa: erregistratzean esteka bat bidali dizugu.",
     errExists: "Badago kontu bat helbide horrekin. Sartu zure pasahitzarekin.",
     errGeneric: "Ezin izan da osatu. Egiaztatu datuak eta saiatu berriro.",
+  },
+
+  rec: {
+    "models": {
+      "m1": "Porsche 911, BMW M edo Audi RS Suitzatik",
+      "m2": "Volkswagen Golf GTI edo Golf R Alemaniatik",
+      "m3": "Volkswagen Tiguan",
+      "m4": "Mercedes GLC hibrido entxufagarria",
+      "m5": "BMW X3 edo Audi Q5",
+      "m6": "Porsche Macan edo Cayenne Suitzatik",
+      "m7": "BMW X5 30d",
+      "m8": "Volkswagen Golf Variant",
+      "m9": "Mercedes C edo E Klasea, hibrido entxufagarria",
+      "m10": "BMW 3 Seriea Touring 330d",
+      "m11": "Audi A4 edo A6 Avant",
+      "m12": "Volkswagen Golf"
+    },
+    "why": {
+      "w1": "Suitzan ekipamendu osoko autoak daude, kilometro gutxirekin eta garajean gordeak.",
+      "w2": "Kirolaria, praktikoa eta ordezko pieza merkeekin: Alemanian eskaintza handiena duen aukera.",
+      "w3": "Alemanian eskaintza izugarria duen SUVa, Espainian berriro saltzeko oso erraza.",
+      "w4": "CERO etiketarekin dator, eta Alemanian AMG Line unitate asko daude.",
+      "w5": "Lau gurpileko trakzioa, ekipamendu handia eta Espainian birsalmenta-balio oso altua.",
+      "w6": "Kilometro gutxi eta mantentzea kontzesionario ofizialean.",
+      "w7": "Fidagarritasunagatik eta momentu-indarragatik gehien bilatzen den 6 zilindroko diesela.",
+      "w8": "Familiarentzako lekua, kontsumo neurritsua eta ordezko pieza merkeak.",
+      "w9": "CERO etiketa eta oso balio hautemangarri altua.",
+      "w10": "Kilometro askotarako ezin hobea: diesel fidagarria eta maletategi handia.",
+      "w11": "Quattro trakzioa eta S-Line akabera, oso ondo mantentzen dutenak balioa.",
+      "w12": "Aparkatzeko erraza, berriro saltzeko erraza eta Alemaniako eskaintza handienarekin."
+    },
+    "green": "ECO edo CERO etiketa duten bertsioak bilatuko dizkizugu.",
+    "origin": "Gomendatutako jatorria",
+    "service": "Zerbitzua",
+    "from": "{p}-tik aurrera",
+    "de": "Alemania",
+    "ch": "Suitza"
   },
 
   footer: {

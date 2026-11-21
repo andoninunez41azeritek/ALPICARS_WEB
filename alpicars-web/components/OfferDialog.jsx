@@ -116,7 +116,7 @@ export default function OfferDialog({ open, onClose, source, pendingReport }) {
               </span>
             </label>
             <button type="submit" className="btn btn-accent btn-block" disabled={busy}>
-              {busy ? "Un momento…" : o.submit}
+              {busy ? t.login.wait : o.submit}
               <ArrowIcon />
             </button>
             {err && <p className="form-error" role="alert">{err}</p>}

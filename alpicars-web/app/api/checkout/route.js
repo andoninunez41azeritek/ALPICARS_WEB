@@ -7,6 +7,7 @@
 //   STRIPE_SECRET_KEY=sk_test_...   (pruebas)   ·   sk_live_...   (cobros reales, cuando AlpiCars esté dada de alta)
 
 import products, { shop, getVariant, resolveLine } from "../../../content/products";
+import { localizeProduct, localLabel } from "../../../lib/shopI18n";
 
 const cents = (eur) => Math.round(eur * 100);
 
@@ -57,12 +58,20 @@ export async function POST(req) {
   const shipping = subtotal >= shop.freeShippingFrom ? 0 : shop.shipping;
   // Las direcciones de vuelta salen siempre de la propia web, nunca de lo que diga el navegador
   const origin = new URL(req.url).origin;
+  // Idioma del cliente: la página de pago de Stripe y los nombres de los productos salen en su idioma
+  const lang = ["es", "en", "de", "fr", "it", "eu"].includes(body.lang) ? body.lang : "es";
+  const stripeLocale = { es: "es", en: "en", de: "de", fr: "fr", it: "it", eu: "es" }[lang];
+  const shownName = (it) => {
+    const lp = localizeProduct(it.p, lang);
+    const lab = lang === "es" ? it.label : localLabel(lp, getVariant(it.p, it.sku));
+    return lab ? `${lp.name} (${lab})` : lp.name;
+  };
   const fullName = (it) => (it.label ? `${it.p.name} (${it.label})` : it.p.name);
   const summary = items.map((it) => `${it.qty} x ${fullName(it)}`).join("; ").slice(0, 480);
 
   const f = new URLSearchParams();
   f.set("mode", "payment");
-  f.set("locale", "es");
+  f.set("locale", stripeLocale);
   f.set("success_url", `${origin}/tienda/gracias?pedido={CHECKOUT_SESSION_ID}`);
   f.set("cancel_url", `${origin}/tienda?pago=cancelado`);
   f.set("customer_email", customer.email);
@@ -70,7 +79,7 @@ export async function POST(req) {
     f.set(`line_items[${i}][quantity]`, String(it.qty));
     f.set(`line_items[${i}][price_data][currency]`, "eur");
     f.set(`line_items[${i}][price_data][unit_amount]`, String(cents(it.price)));
-    f.set(`line_items[${i}][price_data][product_data][name]`, fullName(it).slice(0, 250));
+    f.set(`line_items[${i}][price_data][product_data][name]`, shownName(it).slice(0, 250));
   });
   f.set("shipping_options[0][shipping_rate_data][type]", "fixed_amount");
   f.set("shipping_options[0][shipping_rate_data][display_name]", shipping === 0 ? "Envío gratuito" : "Envío a domicilio");

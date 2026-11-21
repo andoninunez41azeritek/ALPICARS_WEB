@@ -377,6 +377,8 @@ const en = {
   },
 
   report: {
+    more: "more",
+    presetCar: "Import from {origin} a car of about {car} (it costs {es} in Spain)",
     kicker: "Cost report",
     title: "How much it costs to import your car",
     intro: "Comparison between buying the car in Spain or bringing it with AlpiCars, with every cost itemised.",
@@ -426,6 +428,43 @@ const en = {
     errConfirm: "Please confirm your email: we sent you a link when you signed up.",
     errExists: "There is already an account with that email. Sign in with your password.",
     errGeneric: "It could not be completed. Check the details and try again.",
+  },
+
+  rec: {
+    "models": {
+      "m1": "Porsche 911, BMW M or Audi RS from Switzerland",
+      "m2": "Volkswagen Golf GTI or Golf R from Germany",
+      "m3": "Volkswagen Tiguan",
+      "m4": "Mercedes GLC plug-in hybrid",
+      "m5": "BMW X3 or Audi Q5",
+      "m6": "Porsche Macan or Cayenne from Switzerland",
+      "m7": "BMW X5 30d",
+      "m8": "Volkswagen Golf Variant",
+      "m9": "Mercedes C- or E-Class plug-in hybrid",
+      "m10": "BMW 3 Series Touring 330d",
+      "m11": "Audi A4 or A6 Avant",
+      "m12": "Volkswagen Golf"
+    },
+    "why": {
+      "w1": "In Switzerland there are fully loaded cars with low mileage, kept in a garage.",
+      "w2": "Sporty, practical and cheap to maintain: the option with the widest choice in Germany.",
+      "w3": "An SUV with a huge offer in Germany and very easy to resell in Spain.",
+      "w4": "It arrives with the CERO label and Germany has plenty of AMG Line units.",
+      "w5": "All-wheel drive, rich equipment and a very high resale value in Spain.",
+      "w6": "Low mileage and servicing at official dealers.",
+      "w7": "The most sought-after 6-cylinder diesel for reliability and torque.",
+      "w8": "Family space, moderate consumption and cheap spare parts.",
+      "w9": "CERO label and a very high perceived value.",
+      "w10": "Perfect for high mileage: a reliable diesel and a big boot.",
+      "w11": "quattro drive and S-Line trim, which hold their value very well.",
+      "w12": "Easy to park, easy to resell and the widest choice in Germany."
+    },
+    "green": "We will look for versions with the ECO or CERO label.",
+    "origin": "Recommended origin",
+    "service": "Service",
+    "from": "From {p}",
+    "de": "Germany",
+    "ch": "Switzerland"
   },
 
   footer: {

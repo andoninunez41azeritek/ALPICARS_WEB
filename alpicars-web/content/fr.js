@@ -377,6 +377,8 @@ const fr = {
   },
 
   report: {
+    more: "de plus",
+    presetCar: "Voiture à importer ({origin}) d'environ {car} (elle coûte {es} en Espagne)",
     kicker: "Rapport de coûts",
     title: "Combien coûte l'importation de votre voiture",
     intro: "Comparaison entre acheter la voiture en Espagne ou l'importer avec AlpiCars, avec tous les frais détaillés.",
@@ -426,6 +428,43 @@ const fr = {
     errConfirm: "Confirmez votre e-mail : nous vous avons envoyé un lien lors de l'inscription.",
     errExists: "Un compte existe déjà avec cet e-mail. Connectez-vous avec votre mot de passe.",
     errGeneric: "Impossible de terminer. Vérifiez les données et réessayez.",
+  },
+
+  rec: {
+    "models": {
+      "m1": "Porsche 911, BMW M ou Audi RS de Suisse",
+      "m2": "Volkswagen Golf GTI ou Golf R d'Allemagne",
+      "m3": "Volkswagen Tiguan",
+      "m4": "Mercedes GLC hybride rechargeable",
+      "m5": "BMW X3 ou Audi Q5",
+      "m6": "Porsche Macan ou Cayenne de Suisse",
+      "m7": "BMW X5 30d",
+      "m8": "Volkswagen Golf Variant",
+      "m9": "Mercedes Classe C ou E hybride rechargeable",
+      "m10": "BMW Série 3 Touring 330d",
+      "m11": "Audi A4 ou A6 Avant",
+      "m12": "Volkswagen Golf"
+    },
+    "why": {
+      "w1": "En Suisse, on trouve des voitures full options, peu kilométrées et gardées au garage.",
+      "w2": "Sportive, pratique et pièces bon marché : l'option avec le plus d'offre en Allemagne.",
+      "w3": "Un SUV avec une offre énorme en Allemagne et très facile à revendre en Espagne.",
+      "w4": "Elle arrive avec l'étiquette CERO et l'Allemagne compte beaucoup de versions AMG Line.",
+      "w5": "Transmission intégrale, gros équipement et valeur de revente très élevée en Espagne.",
+      "w6": "Kilométrages faibles et entretien chez le concessionnaire officiel.",
+      "w7": "Le diesel 6 cylindres le plus recherché pour sa fiabilité et son couple.",
+      "w8": "Espace familial, consommation modérée et pièces bon marché.",
+      "w9": "Étiquette CERO et une valeur perçue très élevée.",
+      "w10": "Parfaite pour beaucoup de kilomètres : diesel fiable et grand coffre.",
+      "w11": "Transmission quattro et finition S-Line, qui gardent très bien leur valeur.",
+      "w12": "Facile à garer, facile à revendre et la plus grande offre d'Allemagne."
+    },
+    "green": "Nous chercherons des versions avec l'étiquette ECO ou CERO.",
+    "origin": "Origine recommandée",
+    "service": "Service",
+    "from": "À partir de {p}",
+    "de": "Allemagne",
+    "ch": "Suisse"
   },
 
   footer: {

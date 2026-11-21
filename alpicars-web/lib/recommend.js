@@ -15,7 +15,8 @@ export function decodeAnswers(questions, code) {
   return a;
 }
 
-// Devuelve el coche recomendado, el motivo, el servicio y qué ficha de "Los más solicitados" encaja
+// Devuelve claves (no textos): el coche (t.rec.models), el motivo (t.rec.why), el id del servicio y la ficha de "Los más solicitados".
+// Los textos de cada idioma están en content/<idioma>.js → rec
 export function recommend(a) {
   const budget = a.budget ?? 1; // 0 <15k, 1 15-25k, 2 25-45k, 3 >45k
   const body = a.body ?? 1;
@@ -29,59 +30,60 @@ export function recommend(a) {
 
   if (body === 3 || (sporty && budget === 3)) {
     if (budget === 3) {
-      model = "Porsche 911, BMW M o Audi RS desde Suiza";
-      why = "En Suiza hay unidades con todos los extras, pocos kilómetros y guardadas en garaje.";
+      model = "m1";
+      why = "w1";
       guide = ["ch", 1];
       origin = "ch";
     } else {
-      model = "Volkswagen Golf GTI o Golf R desde Alemania";
-      why = "Deportivo, práctico y con recambios económicos: la opción con más oferta en Alemania.";
+      model = "m2";
+      why = "w2";
       guide = ["de", 0];
     }
   } else if (body === 2 || a.space === 2 || a.space === 3) {
     if (budget <= 1) {
-      model = "Volkswagen Tiguan";
-      why = "Un SUV con muchísima oferta en Alemania y muy fácil de revender en España.";
+      model = "m3";
+      why = "w3";
       guide = ["de", 0];
     } else if (budget === 2) {
-      model = green ? "Mercedes GLC híbrido enchufable" : "BMW X3 o Audi Q5";
-      why = green ? "Llega con etiqueta CERO y en Alemania hay muchas unidades AMG Line." : "Tracción total, gran equipamiento y valor de reventa muy alto en España.";
+      model = green ? "m4" : "m5";
+      why = green ? "w4" : "w5";
       guide = green ? ["de", 3] : ["de", 1];
     } else if (premiumOnly || a.origin === 1) {
-      model = "Porsche Macan o Cayenne desde Suiza";
-      why = "Kilometrajes bajos y mantenimiento en concesionario oficial.";
+      model = "m6";
+      why = "w6";
       guide = ["ch", 0];
       origin = "ch";
     } else {
-      model = "BMW X5 30d";
-      why = "El diésel de 6 cilindros más buscado por fiabilidad y par motor.";
+      model = "m7";
+      why = "w7";
       guide = ["de", 1];
     }
   } else if (body === 1) {
     if (budget <= 1) {
-      model = "Volkswagen Golf Variant";
-      why = "Espacio familiar, consumo contenido y repuestos económicos.";
+      model = "m8";
+      why = "w8";
       guide = ["de", 0];
     } else if (green) {
-      model = "Mercedes Clase C o E híbrido enchufable";
-      why = "Etiqueta CERO y un valor percibido altísimo.";
+      model = "m9";
+      why = "w9";
       guide = ["de", 3];
     } else if (a.km === 2) {
-      model = "BMW Serie 3 Touring 330d";
-      why = "Perfecto para muchos kilómetros: diésel fiable y mucho maletero.";
+      model = "m10";
+      why = "w10";
       guide = ["de", 1];
     } else {
-      model = "Audi A4 o A6 Avant";
-      why = "Acabado quattro y S-Line, que mantienen muy bien su valor.";
+      model = "m11";
+      why = "w11";
       guide = ["de", 2];
     }
   } else {
-    model = "Volkswagen Golf";
-    why = "Fácil de aparcar, fácil de revender y con la mayor oferta de Alemania.";
+    model = "m12";
+    why = "w12";
     guide = ["de", 0];
   }
 
   if (a.origin === 1 && origin !== "ch") origin = "ch";
-  const service = a.service === 1 ? "Revisión presencial" : a.service === 2 ? "Asesoramiento telemático" : "Llave en mano";
+  // servicio = id del plan en content/<idioma>.js (services.plans)
+  const service = a.service === 1 ? "presencial" : a.service === 2 ? "telematico" : "llave";
   return { model, why, service, green, guide, origin };
 }

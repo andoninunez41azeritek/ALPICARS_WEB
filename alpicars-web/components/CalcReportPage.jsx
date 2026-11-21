@@ -23,16 +23,16 @@ function Report() {
 
   useEffect(() => {
     if (!input || !r) return;
-    setPresetService("Llave en mano");
-    setPresetCar(`Importar desde ${input.origin === "ch" ? "Suiza" : "Alemania"} un coche de unos ${formatPrice(r.car)} (en España cuesta ${formatPrice(input.priceEs)})`);
-  }, [input]); // eslint-disable-line react-hooks/exhaustive-deps
+    setPresetService(t.services.plans.find((p) => p.id === "llave")?.name || "");
+    setPresetCar(rp.presetCar.replace("{origin}", c.origins[input.origin]).replace("{car}", formatPrice(r.car)).replace("{es}", formatPrice(input.priceEs)));
+  }, [input, t]); // eslint-disable-line react-hooks/exhaustive-deps
 
   if (!r) return <div className="report-loading">…</div>;
 
   const rows = r.rows;
   const pct = (x) => `${(x * 100).toLocaleString("es-ES", { maximumFractionDigits: 2 })} %`;
   const save = r.save > 0;
-  const originLabel = input.origin === "ch" ? "Suiza" : "Alemania";
+  const originLabel = c.origins[input.origin];
   const regDetail = (k) =>
     k === "reg" && r.rate > 0
       ? `${c.regDetail.replace("{base}", formatPrice(r.regBase)).replace("{rate}", pct(r.rate)).replace("{region}", r.regionLabel)}${r.estimatedValue ? ` · ${c.estimated}` : ""}`
@@ -63,9 +63,9 @@ function Report() {
           [rp.priceEs, formatPrice(input.priceEs)],
           [rp.priceOrigin, formatPrice(input.priceOrigin)],
           ...(!input.isNew && input.tableValue > 0 ? [[rp.tableValue, formatPrice(input.tableValue)]] : []),
-          [rp.age, AGES[input.age].label],
-          [rp.co2, CO2[input.co2].short],
-          [rp.dest, `${r.destLabel} (aprox. ${r.km} km)`],
+          [rp.age, c.ages?.[input.age] || AGES[input.age].label],
+          [rp.co2, c.co2Labels?.[input.co2] || CO2[input.co2].short],
+          [rp.dest, `${r.destLabel} (~ ${r.km} km)`],
           [rp.region, r.regionLabel],
           ...(input.origin === "ch" ? [[rp.eur1, input.eur1 ? rp.yes : rp.no]] : []),
         ],
@@ -83,7 +83,7 @@ function Report() {
         <p className="report-lead">{rp.intro}</p>
         <div className={`report-save${save ? " is-save" : ""}`}>
           <span>{save ? c.resultSave : c.resultNoSave}</span>
-          <strong>{save ? formatPrice(r.save) : `${formatPrice(Math.abs(r.save))} más`}</strong>
+          <strong>{save ? formatPrice(r.save) : `${formatPrice(Math.abs(r.save))} ${rp.more}`}</strong>
         </div>
         <ShareBar
           shareText={save ? `${rp.shareText} ${formatPrice(r.save)}.` : rp.shareText}
@@ -130,14 +130,14 @@ function Report() {
       <section className="panel report-panel">
         <h2>{rp.inputs}</h2>
         <dl className="report-answers report-inputs">
-          <div><dt>{rp.origin}</dt><dd>{input.origin === "ch" ? "Suiza" : "Alemania"}</dd></div>
+          <div><dt>{rp.origin}</dt><dd>{originLabel}</dd></div>
           <div><dt>{rp.priceEs}</dt><dd>{formatPrice(input.priceEs)}</dd></div>
           <div><dt>{rp.priceOrigin}</dt><dd>{formatPrice(input.priceOrigin)}</dd></div>
           <div><dt>{rp.state}</dt><dd>{input.isNew ? c.states.new : c.states.used}</dd></div>
           {!input.isNew && input.tableValue > 0 && <div><dt>{rp.tableValue}</dt><dd>{formatPrice(input.tableValue)}</dd></div>}
           <div><dt>{rp.region}</dt><dd>{r.regionLabel}</dd></div>
-          <div><dt>{rp.age}</dt><dd>{AGES[input.age].label}</dd></div>
-          <div><dt>{rp.co2}</dt><dd>{CO2[input.co2].short}</dd></div>
+          <div><dt>{rp.age}</dt><dd>{c.ages?.[input.age] || AGES[input.age].label}</dd></div>
+          <div><dt>{rp.co2}</dt><dd>{c.co2Labels?.[input.co2] || CO2[input.co2].short}</dd></div>
           <div><dt>{rp.dest}</dt><dd>{r.destLabel} (≈ {r.km} km)</dd></div>
           {input.origin === "ch" && <div><dt>{rp.eur1}</dt><dd>{input.eur1 ? rp.yes : rp.no}</dd></div>}
         </dl>

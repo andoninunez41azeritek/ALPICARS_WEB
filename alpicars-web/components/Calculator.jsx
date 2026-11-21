@@ -35,8 +35,8 @@ export default function Calculator() {
   const pct = (x) => `${(x * 100).toLocaleString("es-ES", { maximumFractionDigits: 2 })} %`;
 
   const ask = () => {
-    setPresetService("Llave en mano");
-    setPresetCar(`Importar desde ${origin === "ch" ? "Suiza" : "Alemania"} un coche de unos ${formatPrice(r.car)} (en España cuesta ${formatPrice(Number(priceEs) || 0)})`);
+    setPresetService(t.services.plans.find((p) => p.id === "llave")?.name || "");
+    setPresetCar(t.report.presetCar.replace("{origin}", c.origins[origin]).replace("{car}", formatPrice(r.car)).replace("{es}", formatPrice(Number(priceEs) || 0)));
   };
 
   return (
@@ -53,8 +53,8 @@ export default function Calculator() {
               <span className="field-label">{c.origin}</span>
               <div className="seg" role="radiogroup" aria-label={c.origin}>
                 {[
-                  ["de", "Alemania"],
-                  ["ch", "Suiza"],
+                  ["de", c.origins.de],
+                  ["ch", c.origins.ch],
                 ].map(([k, l]) => (
                   <button key={k} type="button" role="radio" aria-checked={origin === k} onClick={() => setOrigin(k)}>
                     {l}
